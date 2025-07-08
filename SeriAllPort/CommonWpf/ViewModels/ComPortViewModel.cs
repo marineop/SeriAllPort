@@ -1,0 +1,189 @@
+﻿using CommonWpf.Communication;
+using CommonWpf.Communication.PhysicalInterfaces;
+using CommonWpf.EventHandlers;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.IO.Ports;
+using System.Windows.Input;
+
+namespace CommonWpf.ViewModels
+{
+    public class ComPortViewModel : ViewModel, ISerial
+    {
+        public event ErrorEventHandler Error
+        {
+            add
+            {
+                _comPort.Error += value;
+            }
+            remove
+            {
+                _comPort.Error -= value;
+            }
+        }
+        public event ConnectionStateChangedEventHandler ConnectionStateChanged
+        {
+            add
+            {
+                _comPort.ConnectionStateChanged += value;
+            }
+            remove
+            {
+                _comPort.ConnectionStateChanged -= value;
+            }
+        }
+        public event BytesReceivedEventHandler BytesReceived
+        {
+            add
+            {
+                _comPort.BytesReceived += value;
+            }
+            remove
+            {
+                _comPort.BytesReceived -= value;
+            }
+        }
+
+        private ComPort _comPort = new ComPort();
+        public ComPort ComPort
+        {
+            get => _comPort;
+            private set
+            {
+                if (_comPort != value)
+                {
+                    _comPort = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public IShowDialog? ShowDialog { get; set; }
+
+        public ICommand RefreshPortListCommand { get; set; }
+        public ICommand SettingsCommand { get; set; }
+        public ICommand ConnectCommand { get; set; }
+
+        public string Name => ((ISerial)_comPort).Name;
+
+        private ObservableCollection<string> _PortNameList = new ObservableCollection<string>();
+        public ObservableCollection<string> PortNameList
+        {
+            get => _PortNameList;
+            set
+            {
+                if (_PortNameList != value)
+                {
+                    _PortNameList = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public List<int> BaudRateList { get; private set; } = new List<int>()
+        {
+            300,
+            600,
+            1200,
+            1800,
+            2400,
+            4800,
+            9600,
+            19200,
+            28800,
+            38400,
+            57600,
+            76800,
+            115200,
+            230400,
+            460800,
+            576000,
+            921600
+        };
+
+        public List<int> DataBitsList { get; private set; } = new List<int>() { 5, 6, 7, 8 };
+
+        private ConnectionState _ConnectionState;
+
+        public ConnectionState ConnectionState
+        {
+            get => _ConnectionState;
+            set
+            {
+                if (_ConnectionState != value)
+                {
+                    _ConnectionState = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public ComPortViewModel()
+        {
+            RefreshPortListCommand = new SimpleCommand((parameter) => RefreshPortList());
+            SettingsCommand = new SimpleCommand((parameter) => OpenDetailedSettingsWindow());
+            ConnectCommand = new SimpleCommand((parameter) => Connect());
+
+            RefreshPortList();
+            if (ComPort.Settings.PortName == string.Empty && PortNameList.Count > 0)
+            {
+                ComPort.Settings.PortName = PortNameList[0];
+            }
+
+            ComPort.ConnectionStateChanged += (o, c) => { ConnectionState = c.ConnectionState; };
+        }
+
+        public void RefreshPortList()
+        {
+            PortNameList = new ObservableCollection<string>(SerialPort.GetPortNames());
+        }
+
+        public void TrySetPortName(string portName)
+        {
+            if (PortNameList.Contains(portName))
+            {
+                ComPort.Settings.PortName = portName;
+            }
+        }
+
+        public void OpenDetailedSettingsWindow()
+        {
+            if (ShowDialog != null)
+            {
+                ComPortViewModel newInstance = new ComPortViewModel();
+                newInstance.ComPort.Settings = ComPort.Settings.Clone();
+                bool ok = ShowDialog.ShowDialog(newInstance);
+                if (ok)
+                {
+                    ComPort.Settings = newInstance.ComPort.Settings;
+                }
+            }
+            else
+            {
+                throw new Exception("ShowDialog not configued.");
+            }
+        }
+
+        public void Connect()
+        {
+            if (ComPort.ConnectionState == ConnectionState.Disconnected)
+            {
+                ComPort.Connect();
+            }
+            else if (ComPort.ConnectionState == ConnectionState.Connected)
+            {
+                ComPort.Disconnect();
+            }
+        }
+
+        public void SendBytes(byte[] bytes)
+        {
+            _comPort.SendBytes(bytes);
+        }
+
+        public void SendBytes(byte[] bytes, int offset, int length)
+        {
+            _comPort.SendBytes(bytes, offset, length);
+        }
+    }
+}

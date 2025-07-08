@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="CommonWpf.Views.ConnectionStateControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CommonWpf.Views"
+             xmlns:con="clr-namespace:CommonWpf.Converters"
+             mc:Ignorable="d" 
+             Width="100" Height="24"
+             Margin="3"
+             >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <d:ResourceDictionary Source="/CommonWpf;component/Resources/SimpleStyleDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <con:ConnectionStateToColorConverter x:Key="ConToColor"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Border CornerRadius="4"
+            d:Background="LightGray"
+            Background="{Binding ConnectionState, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource ConToColor}}"
+            >
+        <TextBlock HorizontalAlignment="Center" 
+                   d:Text="N/A" Text="{Binding ConnectionState, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                   />
+    </Border>
+</UserControl>
