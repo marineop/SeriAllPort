@@ -1,0 +1,19 @@
+﻿<Window x:Class="SeriAllPort.Views.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SeriAllPort.Views"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner"
+        mc:Ignorable="d"
+        Title="About SeriAllPort"
+        Height="200" Width="400">
+    <Grid>
+        <Button x:Name="uxOk" Content="OK" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" Click="uxOk_Click" />
+        <TextBox 
+            Text="This application is released under the MIT License.&#xA;&#xA;Copyright © 2025 Simon Chang&#xA;This software is provided “as is”, without warranty of any kind.&#xA;&#xD;&#xA;https://github.com/marineop/SeriAllPort"
+            IsReadOnly="True" BorderThickness="0" Margin="0,31,0,0" TextWrapping="Wrap" Width="351" Height="94" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+    </Grid>
+</Window>

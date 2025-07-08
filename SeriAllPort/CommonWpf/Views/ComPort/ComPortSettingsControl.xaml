@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="CommonWpf.Views.ComPort.ComPortSettingsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CommonWpf.Views.ComPort"
+             xmlns:cwe="clr-namespace:CommonWpf.Extensions"
+             xmlns:sip="clr-namespace:System.IO.Ports;assembly=System.IO.Ports"
+             xmlns:view="clr-namespace:CommonWpf.Views"
+             
+             mc:Ignorable="d"
+             >
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <d:ResourceDictionary Source="/CommonWpf;component/Resources/SimpleStyleDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="Port"/>
+        <ComboBox Grid.Column="1"
+                  IsEditable="True"
+                  Text="{Binding ComPort.Settings.PortName}"
+                  ItemsSource="{Binding PortNameList}"
+                  cwe:ComboBoxExtension.DropDownOpenedCommand="{Binding RefreshPortListCommand}"
+                  />
+
+        <TextBlock Text="Baud Rate" Grid.Row="1"/>
+        <ComboBox Grid.Row="1" Grid.Column="1"
+                  IsEditable="True"
+                  Text="{Binding ComPort.Settings.BaudRate}"
+                  ItemsSource="{Binding BaudRateList}"
+                  />
+
+        <TextBlock Text="Parity" Grid.Row="2"/>
+        <ComboBox Grid.Row="2" Grid.Column="1"
+                  SelectedValue="{Binding ComPort.Settings.Parity}"
+                  ItemsSource="{Binding Source={cwe:EnumAll {x:Type sip:Parity}}}" DisplayMemberPath="Description" SelectedValuePath="Value"
+                  />
+
+        <TextBlock Text="Data Bits" Grid.Row="3"/>
+        <ComboBox Grid.Row="3" Grid.Column="1"
+                  SelectedItem="{Binding ComPort.Settings.DataBits}"
+                  ItemsSource="{Binding DataBitsList}"
+                  />
+
+        <TextBlock Text="Stop Bits" Grid.Row="4"/>
+        <ComboBox Grid.Row="4" Grid.Column="1"
+                  SelectedValue="{Binding ComPort.Settings.StopBits}"
+                  ItemsSource="{Binding Source={cwe:EnumAll {x:Type sip:StopBits}}}" DisplayMemberPath="Description" SelectedValuePath="Value"
+                  />
+    </Grid>
+</UserControl>
