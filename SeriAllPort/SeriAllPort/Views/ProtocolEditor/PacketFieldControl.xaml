@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="SeriAllPort.Views.ProtocolEditor.PacketFieldControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SeriAllPort.Views.ProtocolEditor"
+             xmlns:con="clr-namespace:CommonWpf.Converters;assembly=CommonWpf"
+             xmlns:pro="clr-namespace:SeriAllPort.ViewModels.Protocols"
+             
+             mc:Ignorable="d" 
+             d:DesignHeight="60" d:DesignWidth="600"
+             d:Background="White"
+             >
+    <UserControl.Resources>
+        <con:BytesToHexStringConverter x:Key="b2s"/>
+        <con:BoolInverseConverter x:Key="boolInverse"/>
+    </UserControl.Resources>
+    <Border BorderBrush="LightGray" BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Text="Type"/>
+            <TextBlock Grid.Row="1" Text="{Binding TypeName}" MinWidth="80"/>
+
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="Name"/>
+            <TextBox Grid.Row="1" Grid.Column="1" 
+                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <!--<TextBlock Grid.Row="0" Grid.Column="2" Text="Length"/>-->
+            <CheckBox Grid.Row="0" Grid.Column="2"
+                      Content="Variable Length"
+                      IsChecked="{Binding IsFixedLength, Converter={StaticResource boolInverse}}"/>
+            <TextBox Grid.Row="1" Grid.Column="2" Width="auto" HorizontalAlignment="Stretch"
+                     IsEnabled="{Binding IsFixedLength}"
+                     Text="{Binding FixedLength, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"/>
+
+            <TextBlock Grid.Row="0" Grid.Column="3" Text="Raw Bytes"/>
+            <TextBox Grid.Row="1" Grid.Column="3"
+                     FontFamily="Consolas"
+                     MinWidth="150"
+                     Width="auto"
+                     IsEnabled="{Binding IsFixedLength}"
+                     Text="{Binding Data, Converter={StaticResource b2s}, ValidatesOnExceptions=True}"/>
+
+            <ContentControl Grid.Column="4" Grid.RowSpan="2" DataContext="{Binding}"/>
+        </Grid>
+    </Border>
+</UserControl>
+    

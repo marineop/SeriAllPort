@@ -32,7 +32,7 @@ namespace CommonWpf.ViewModels
                 _comPort.ConnectionStateChanged -= value;
             }
         }
-        public event BytesReceivedEventHandler BytesReceived
+        public event EventHandler? BytesReceived
         {
             add
             {
@@ -61,12 +61,15 @@ namespace CommonWpf.ViewModels
         public IShowDialog? ShowDialog { get; set; }
 
         public ICommand RefreshPortListCommand { get; set; }
+
         public ICommand SettingsCommand { get; set; }
+
         public ICommand ConnectCommand { get; set; }
 
         public string Name => ((ISerial)_comPort).Name;
 
         private ObservableCollection<string> _PortNameList = new ObservableCollection<string>();
+
         public ObservableCollection<string> PortNameList
         {
             get => _PortNameList;
@@ -152,7 +155,7 @@ namespace CommonWpf.ViewModels
             {
                 ComPortViewModel newInstance = new ComPortViewModel();
                 newInstance.ComPort.Settings = ComPort.Settings.Clone();
-                bool ok = ShowDialog.ShowDialog(newInstance);
+                bool ok = ShowDialog.ShowDialog(newInstance, "Serial Port Settings");
                 if (ok)
                 {
                     ComPort.Settings = newInstance.ComPort.Settings;
@@ -174,6 +177,11 @@ namespace CommonWpf.ViewModels
             {
                 ComPort.Disconnect();
             }
+        }
+
+        public int ReadBytes(byte[] bytes, int offset, int capacity)
+        {
+            return ComPort.ReadBytes(bytes, offset, capacity);
         }
 
         public void SendBytes(byte[] bytes)

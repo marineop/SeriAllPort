@@ -24,7 +24,20 @@ namespace CommonWpf.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException("Invalid Conversion");
+            try
+            {
+                if (value is string hexBytesInString)
+                {
+                    byte[] answer = hexBytesInString.HexStringToBytes();
+
+                    return answer;
+                }
+            }
+            catch
+            {
+            }
+
+            return null;
         }
     }
 }

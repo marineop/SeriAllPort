@@ -35,13 +35,13 @@ namespace SeriAllPort.ViewModels.SendRawData
 
         public SendRawDataViewModel()
         {
-            SendFormats = new ObservableCollection<ITextToBytes>()
-            {
+            _SendFormats =
+            [
                 new SendFormatBytes(),
                 new SendFormatString()
-            };
+            ];
 
-            SendFormat = SendFormats[0];
+            _SendFormat = SendFormats[0];
         }
     }
 }

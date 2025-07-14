@@ -2,6 +2,6 @@
 {
     public interface IShowDialog
     {
-        bool ShowDialog(object dataContext);
+        bool ShowDialog(object dataContext, string title);
     }
 }

@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:profile="clr-namespace:SeriAllPort.ViewModels.Profiles"
+                    xmlns:protocol="clr-namespace:SeriAllPort.ViewModels.Protocols"
+                    xmlns:ProfileEditor="clr-namespace:SeriAllPort.Views.ProfileEditor"
+                    xmlns:ProtocolEditor="clr-namespace:SeriAllPort.Views.ProtocolEditor"
+                    xmlns:packetField="clr-namespace:CommonWpf.Communication.Prococol.PacketFields;assembly=CommonWpf"
+                    >
+
+    <DataTemplate DataType="{x:Type profile:ProfileEditorViewModel}">
+        <ProfileEditor:ProfileEditorControl/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type protocol:ProtocolEditorViewModel}">
+        <ProtocolEditor:ProtocolEditorControl/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type packetField:PacketField}">
+        <ProtocolEditor:PacketFieldControl/>
+    </DataTemplate>
+
+</ResourceDictionary>

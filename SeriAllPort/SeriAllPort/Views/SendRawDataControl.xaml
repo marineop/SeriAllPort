@@ -42,14 +42,15 @@
         </Grid.ColumnDefinitions>
         <TextBlock Text="Send Raw" Grid.Column="0"/>
         <ComboBox Grid.Column="1" Width="80"
-                  ItemsSource="{Binding SendFormats}" DisplayMemberPath="Name"
-                  SelectedItem="{Binding SendFormat}"/>
+                  ItemsSource="{Binding CurrentProfile.SendFormats}" 
+                  SelectedIndex="{Binding CurrentProfile.SendFormatIndex}"
+                  DisplayMemberPath="Name"
+                  />
 
-        <ContentControl Grid.Column="2" Content="{Binding SendFormat}"/>
+        <ContentControl Grid.Column="2" Content="{Binding CurrentProfile.SendFormat}"/>
         <Button Grid.Column="3" Content="Send" 
                 Command="{Binding SendRawDataCommand}"
-                IsEnabled="{Binding Serial.CurrentInterface.ConnectionState, Converter={StaticResource c2e}}"
-                
+                IsEnabled="{Binding Serial.ConnectionState, Converter={StaticResource c2e}}"
                 />
     </Grid>
 </UserControl>

@@ -9,12 +9,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Icon\Down.png" />
+    <None Remove="Resources\Icon\Up.png" />
+    <None Remove="Resources\Up.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.IO.Ports" Version="9.0.6" />
     <PackageReference Include="System.Text.Json" Version="9.0.6" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CommonWpf\CommonWpf.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Converters\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Icon\Down.png" />
+    <Resource Include="Resources\Icon\Up.png" />
   </ItemGroup>
 
 </Project>

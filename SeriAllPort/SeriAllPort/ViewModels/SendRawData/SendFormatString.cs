@@ -1,10 +1,12 @@
 ﻿using CommonWpf;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace SeriAllPort.ViewModels.SendRawData
 {
     public class SendFormatString : ViewModel, ITextToBytes
     {
+        [JsonIgnore]
         public string Name => "Text";
 
         private string? _Text;

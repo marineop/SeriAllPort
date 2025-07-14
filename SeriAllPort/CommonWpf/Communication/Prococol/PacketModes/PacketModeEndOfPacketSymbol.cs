@@ -1,0 +1,276 @@
+﻿using CommonWpf.Communication.Prococol.EventTypes;
+using CommonWpf.Communication.Prococol.PacketFields;
+
+namespace CommonWpf.Communication.Prococol.PacketModes
+{
+    public class PacketModeEndOfPacketSymbol : PacketMode
+    {
+        // build
+        private EndOfPacketSymbol? _eop;
+        private readonly int _eopIndex = -1;
+        private int _byteCountAfterEop;
+
+        public override string Name => "End of Packet Symbol";
+
+        public PacketModeEndOfPacketSymbol()
+             : base()
+        {
+            PacketField data = new PacketField();
+            data.Name = "Data";
+            data.IsFixedLength = false;
+            data.FixedLength = 0;
+            Fields.Add(data);
+
+            EndOfPacketSymbol eop = new EndOfPacketSymbol();
+            eop.Name = "EOP";
+            eop.IsFixedLength = true;
+            eop.Data = [(byte)'\r', (byte)'\n'];
+            eop.FixedLength = 2;
+            Fields.Add(eop);
+        }
+
+        public override void ValidateInternal()
+        {
+            int eopCount = 0;
+
+            _byteCountAfterEop = 0;
+            int eopIndex = -1;
+            int preambleIndex = -1;
+
+            for (int i = 0; i < Fields.Count; ++i)
+            {
+                PacketField field = Fields[i];
+                if (field is EndOfPacketSymbol)
+                {
+                    if (!field.IsFixedLength)
+                    {
+                        throw new Exception("EOP must be fixed length.");
+                    }
+
+                    if (field.FixedLength <= 0)
+                    {
+                        throw new Exception("EOP length must be at least 1.");
+                    }
+
+                    ++eopCount;
+
+                    if (eopCount > 1)
+                    {
+                        throw new Exception("There can be at most 1 End of Packet Symbol.");
+                    }
+
+                    eopIndex = i;
+                    _eop = field as EndOfPacketSymbol;
+                }
+                else if (field is Preamble)
+                {
+                    preambleIndex = i;
+                }
+            }
+
+            if (eopIndex < 0)
+            {
+                throw new Exception("There must be 1 End of Packet Symbol.");
+            }
+
+            if (preambleIndex > 0 && preambleIndex > eopIndex)
+            {
+                throw new Exception("The Preamble field must be placed before the EOP field.");
+            }
+
+            for (int i = eopIndex + 1; i < Fields.Count; ++i)
+            {
+                if (!Fields[i].IsFixedLength)
+                {
+                    throw new Exception("Fields after End of Packet Symbol must be fixed length.");
+                }
+                else
+                {
+                    _byteCountAfterEop += Fields[i].FixedLength;
+                }
+            }
+        }
+
+        protected override void BytesReceivedInternal()
+        {
+            if (_eop == null)
+            {
+                throw new Exception("End of Packet symbol must not be null.");
+            }
+
+            Span<byte> eopPattern = _eop.Data;
+
+            int windowStartIndexNow = 0;
+            int parsedLength = 0;
+
+            while (windowStartIndexNow < _receiveBufferLength)
+            {
+                Span<byte> windowNow = new Span<byte>(_receiveBuffer, windowStartIndexNow, _receiveBufferLength - windowStartIndexNow);
+
+                if (_preamble != null)
+                {
+                    Span<byte> preamblePattern = _preamble.Data;
+                    int preambleIndex = windowNow.IndexOf(preamblePattern);
+                    if (preambleIndex < 0)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        if (preambleIndex > 0)
+                        {
+                            byte[] nonPacket = windowNow[..preambleIndex].ToArray();
+                            NonPacketBytesReceived nonPacketBytesEvent = new NonPacketBytesReceived(nonPacket);
+                            EventQueue.Enqueue(nonPacketBytesEvent);
+
+                            parsedLength += preambleIndex;
+                            windowStartIndexNow += preambleIndex;
+                            windowNow = windowNow[preambleIndex..];
+                        }
+                    }
+                }
+
+                int eopIndex = windowNow.IndexOf(eopPattern);
+                if (eopIndex < 0)
+                {
+                    break;
+                }
+                else
+                {
+                    int packetLength = eopIndex + _eop.FixedLength + _byteCountAfterEop;
+                    if (windowNow.Length < packetLength)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        var packetBytes = windowNow[..packetLength];
+
+                        // Parse fields
+                        bool fieldsValid = true;
+                        List<PacketField> parsedFields = new List<PacketField>();
+
+                        int indexNow = 0;
+                        for (int i = 0; i < Fields.Count; ++i)
+                        {
+                            PacketField newField = Fields[i].CreateClone();
+                            parsedFields.Add(newField);
+
+                            int fieldLength;
+                            if (newField.IsFixedLength)
+                            {
+                                fieldLength = newField.FixedLength;
+                            }
+                            else
+                            {
+                                if (i >= Fields.Count - 1)
+                                {
+                                    // last field must not be variable length
+                                    fieldsValid = false;
+                                    break;
+                                }
+                                else
+                                {
+                                    PacketField nextField = Fields[i + 1];
+                                    if (nextField == _eop)
+                                    {
+                                        fieldLength = eopIndex - indexNow;
+                                    }
+                                    else if (nextField.IsFixedLength)
+                                    {
+                                        Span<byte> nextFieldData = nextField.Data;
+                                        int nextFileRelativeIndex = packetBytes[indexNow..].IndexOf(nextFieldData);
+                                        if (nextFileRelativeIndex >= 0)
+                                        {
+                                            fieldLength = nextFileRelativeIndex;
+                                        }
+                                        else
+                                        {
+                                            // next fixed length field is not exist
+                                            fieldsValid = false;
+                                            break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // two consecutive variable length fields
+                                        fieldsValid = false;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if (indexNow + fieldLength <= packetBytes.Length)
+                            {
+                                newField.Data = packetBytes.Slice(indexNow, fieldLength).ToArray();
+
+                                if (newField.IsFixedLength && !newField.Data.SequenceEqual(Fields[i].Data))
+                                {
+                                    // fixed length field data must equal to actual data
+                                    fieldsValid = false;
+                                    break;
+                                }
+
+                                indexNow += fieldLength;
+                            }
+                            else
+                            {
+                                // Fields specify more bytes than actual packet bytes
+                                fieldsValid = false;
+                                break;
+                            }
+                        }
+
+                        if (indexNow != packetLength)
+                        {
+                            // more bytes in packet than fields specified
+                            fieldsValid = false;
+                        }
+
+                        if (fieldsValid)
+                        {
+                            PacketReceived packet = new PacketReceived(parsedFields, packetBytes.ToArray());
+                            EventQueue.Enqueue(packet);
+                        }
+                        else
+                        {
+                            NonPacketBytesReceived nonPacketBytesEvent = new NonPacketBytesReceived(packetBytes.ToArray());
+                            EventQueue.Enqueue(nonPacketBytesEvent);
+                        }
+
+                        parsedLength += packetLength;
+                        windowStartIndexNow += packetLength;
+                    }
+                }
+            }
+
+            if (parsedLength > 0)
+            {
+                int remainLength = _receiveBufferLength - parsedLength;
+                if (remainLength > 0)
+                {
+                    Buffer.BlockCopy(_receiveBuffer, parsedLength, _receiveBuffer, 0, remainLength);
+                }
+
+                _receiveBufferLength = remainLength;
+            }
+
+            if (EventQueue.Count > 0)
+            {
+                RaiseEvent();
+            }
+        }
+
+        protected override PacketMode CreateCloneInteranl()
+        {
+            PacketModeEndOfPacketSymbol packetModeEndOfPacketSymbol = new PacketModeEndOfPacketSymbol();
+            packetModeEndOfPacketSymbol.Fields.Clear();
+
+            return packetModeEndOfPacketSymbol;
+        }
+
+        protected override void TerminateInternal()
+        {
+        }
+    }
+}
