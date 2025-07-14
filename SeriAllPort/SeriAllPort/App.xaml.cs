@@ -3,6 +3,7 @@ using CommonWpf.FileHelper;
 using CommonWpf.Views;
 using SeriAllPort.ViewModels;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace SeriAllPort
 {
@@ -45,6 +46,28 @@ namespace SeriAllPort
         public App()
         {
             _mainViewModel = new MainViewModel(this, this, AppSettings);
+
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            this.DispatcherUnhandledException += App_DispatcherUnhandledException;
+            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+        }
+
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Exception? ex = e.ExceptionObject as Exception;
+            ShowError("AppDomain.CurrentDomain.UnhandledException", ex?.Message);
+        }
+
+        private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+            ShowError("DispatcherUnhandledException", e.Exception.ToString());
+        }
+
+        private void TaskScheduler_UnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
+        {
+            e.SetObserved();
+            ShowError("TaskScheduler.UnobservedTaskException", e.Exception.ToString());
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -83,7 +106,7 @@ namespace SeriAllPort
             return ok ?? false;
         }
 
-        public void ShowError(string title, string message)
+        public void ShowError(string? title, string? message)
         {
             MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
         }
