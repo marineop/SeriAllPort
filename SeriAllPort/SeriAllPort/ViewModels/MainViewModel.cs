@@ -55,11 +55,11 @@ namespace SeriAllPort.ViewModels
             get => _currentProfile;
             set
             {
-                if (_currentProfile != value)
+                if (_currentProfile != value && value != null)
                 {
                     _currentProfile = value;
 
-                    SetSelectedProfileAndProtocolWithId(_currentProfile.ProtocolId);
+                    SetSelectedProfileAndProtocolWithId(_currentProfile.Id);
 
                     OnPropertyChanged();
                 }
@@ -371,11 +371,20 @@ namespace SeriAllPort.ViewModels
 
         private void SetSelectedProfileAndProtocolWithId(Guid profileId)
         {
+            SetupCurrentProfileWithIdOrUseDefault(profileId);
+
+            SetUpProtocolOrUseDefault();
+
+            SetupSettingsAccrodingToCurrentProfile();
+        }
+
+        private void SetupCurrentProfileWithIdOrUseDefault(Guid guid)
+        {
             bool profileFound = false;
             Profile? defaultProfile = Profiles[0];
             foreach (Profile profile in Profiles)
             {
-                if (profile.Id == profileId)
+                if (profile.Id == guid)
                 {
                     _currentProfile = profile;
                     profileFound = true;
@@ -392,9 +401,10 @@ namespace SeriAllPort.ViewModels
             {
                 _currentProfile = defaultProfile;
             }
+        }
 
-            _comPortViewModel.ComPort.Settings = CurrentProfile.ComPortSettings;
-
+        private void SetUpProtocolOrUseDefault()
+        {
             bool protocolFound = false;
             Protocol? defaultProtocol = Protocols[0];
             foreach (Protocol protocol in Protocols)
@@ -418,6 +428,11 @@ namespace SeriAllPort.ViewModels
             }
         }
 
+        private void SetupSettingsAccrodingToCurrentProfile()
+        {
+            _comPortViewModel.ComPort.Settings = CurrentProfile.ComPortSettings;
+        }
+
         private void EditProfile()
         {
             ProfileEditorViewModel profileEditor = new ProfileEditorViewModel(
@@ -427,6 +442,9 @@ namespace SeriAllPort.ViewModels
             bool ok = ShowDialog.ShowDialog(profileEditor, "Profile Editor");
             if (ok)
             {
+                Profiles = profileEditor.Profiles;
+
+
                 if (profileEditor.SelectedProfile != null)
                 {
                     CurrentProfile = profileEditor.SelectedProfile;
@@ -435,16 +453,6 @@ namespace SeriAllPort.ViewModels
                 {
                     CurrentProfile = profileEditor.Profiles[0];
                 }
-
-                Profiles = profileEditor.Profiles;
-
-                Guid newSelectedProfileId = Guid.Empty;
-                if (profileEditor.SelectedProfile != null)
-                {
-                    newSelectedProfileId = profileEditor.SelectedProfile.Id;
-                }
-
-                SetSelectedProfileAndProtocolWithId(newSelectedProfileId);
 
                 try
                 {
