@@ -113,6 +113,7 @@ namespace SeriAllPort.ViewModels.Profiles
                 {
                     _SendFormatIndex = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(SendFormat));
                 }
             }
         }
