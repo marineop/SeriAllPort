@@ -22,7 +22,7 @@ namespace CommonWpf.Converters
             return answer;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             try
             {

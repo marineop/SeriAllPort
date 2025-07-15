@@ -147,9 +147,12 @@ namespace CommonWpf.Communication.Prococol.PacketModes
         {
             lock (_lock)
             {
-                _receiveBufferLength += Serial.ReadBytes(_receiveBuffer, _receiveBufferLength, _receiveBuffer.Length - _receiveBufferLength);
+                if (Serial != null)
+                {
+                    _receiveBufferLength += Serial.ReadBytes(_receiveBuffer, _receiveBufferLength, _receiveBuffer.Length - _receiveBufferLength);
 
-                BytesReceivedInternal();
+                    BytesReceivedInternal();
+                }
             }
         }
 

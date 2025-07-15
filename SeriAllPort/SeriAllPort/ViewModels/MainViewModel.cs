@@ -66,7 +66,7 @@ namespace SeriAllPort.ViewModels
             }
         }
 
-        private Profile _defaultProfile;
+        private Profile _defaultProfile = new Profile(string.Empty, Guid.Empty);
 
         private ObservableCollection<Protocol> _protocols = new ObservableCollection<Protocol>();
         public ObservableCollection<Protocol> Protocols
@@ -129,7 +129,7 @@ namespace SeriAllPort.ViewModels
             }
         }
 
-        private Protocol _defaultProtocol;
+        private Protocol _defaultProtocol = new Protocol(string.Empty, Guid.Empty, new PacketModeTimeout());
 
         private SerialViewModel _serial = new SerialViewModel();
         public SerialViewModel Serial
@@ -239,6 +239,9 @@ namespace SeriAllPort.ViewModels
 
             AddDefaultProtocols();
             AddDefaultProfiles();
+
+            _currentProfile = _defaultProfile;
+            _currentProtocol = _defaultProtocol;
 
             SetSelectedProfileAndProtocolWithId(_appSettings.ProfileId);
         }
@@ -355,6 +358,7 @@ namespace SeriAllPort.ViewModels
 
         private void SetupCurrentProfileWithIdOrUseDefault(Guid guid)
         {
+
             bool profileFound = false;
             foreach (Profile profile in Profiles)
             {
