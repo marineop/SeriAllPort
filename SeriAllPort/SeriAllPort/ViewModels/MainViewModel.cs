@@ -457,6 +457,8 @@ namespace SeriAllPort.ViewModels
             bool ok = ShowDialog.ShowDialog(profileEditor, "Profile Editor");
             if (ok)
             {
+                _defaultProfile = profileEditor.Profiles.First((x) => x.Id == Guid.Empty);
+
                 Profiles = profileEditor.Profiles;
 
                 if (profileEditor.SelectedProfile != null)
@@ -465,7 +467,7 @@ namespace SeriAllPort.ViewModels
                 }
                 else
                 {
-                    CurrentProfile = profileEditor.Profiles[0];
+                    CurrentProfile = _defaultProfile;
                 }
 
                 try
@@ -488,13 +490,15 @@ namespace SeriAllPort.ViewModels
             bool ok = ShowDialog.ShowDialog(protocolEditor, "Protocol Editor");
             if (ok)
             {
+                _defaultProtocol = protocolEditor.Protocols.First((x) => x.Id == Guid.Empty);
+
                 if (protocolEditor.SelectedProtocol != null)
                 {
                     CurrentProtocol = protocolEditor.SelectedProtocol;
                 }
                 else
                 {
-                    CurrentProtocol = protocolEditor.Protocols[0];
+                    CurrentProtocol = _defaultProtocol;
                 }
 
                 Protocols = protocolEditor.Protocols;
