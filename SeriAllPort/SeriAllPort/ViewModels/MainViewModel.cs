@@ -35,7 +35,7 @@ namespace SeriAllPort.ViewModels
             }
         }
 
-        private ObservableCollection<Profile> _profiles;
+        private ObservableCollection<Profile> _profiles = new ObservableCollection<Profile>();
         public ObservableCollection<Profile> Profiles
         {
             get => _profiles;
@@ -66,7 +66,9 @@ namespace SeriAllPort.ViewModels
             }
         }
 
-        private ObservableCollection<Protocol> _protocols;
+        private Profile _defaultProfile;
+
+        private ObservableCollection<Protocol> _protocols = new ObservableCollection<Protocol>();
         public ObservableCollection<Protocol> Protocols
         {
             get => _protocols;
@@ -126,6 +128,8 @@ namespace SeriAllPort.ViewModels
                 }
             }
         }
+
+        private Protocol _defaultProtocol;
 
         private SerialViewModel _serial = new SerialViewModel();
         public SerialViewModel Serial
@@ -225,17 +229,18 @@ namespace SeriAllPort.ViewModels
             try
             {
                 Protocols = AppDataFolderFileHelper.LoadFiles<Protocol>();
-                AddDefaultProtocols();
-
                 Profiles = AppDataFolderFileHelper.LoadFiles<Profile>();
-                AddDefaultProfiles();
 
-                SetSelectedProfileAndProtocolWithId(_appSettings.ProfileId);
             }
             catch (Exception ex)
             {
                 OnError(ex);
             }
+
+            AddDefaultProtocols();
+            AddDefaultProfiles();
+
+            SetSelectedProfileAndProtocolWithId(_appSettings.ProfileId);
         }
 
         private void Serial_Error(object sender, System.IO.ErrorEventArgs e)
@@ -327,45 +332,65 @@ namespace SeriAllPort.ViewModels
 
         private void AddDefaultProtocols()
         {
+            // Add common protocols
             if (Protocols.Count <= 0)
             {
-                List<Protocol> defaultProtocolList = new List<Protocol>();
-                // Default
                 Protocol newProtocol = new Protocol(
-                    "Default",
-                    Guid.Empty,
-                    new PacketModeTimeout());
-
-                newProtocol.CanNotDelete = true;
-                newProtocol.CanNotEditName = true;
-
-                defaultProtocolList.Add(newProtocol);
-
-                // CR LF
-                newProtocol = new Protocol(
                    "CR LF",
-                   AppDataFolderFileHelper.GenerateUnusedId(defaultProtocolList),
+                   AppDataFolderFileHelper.GenerateUnusedId(Protocols),
                    new PacketModeEndOfPacketSymbol());
 
-                defaultProtocolList.Add(newProtocol);
+                Protocols.Add(newProtocol);
+            }
 
-                Protocols = new ObservableCollection<Protocol>(defaultProtocolList);
+            // Add Default if not exist
+            bool defaultExist = false;
+            foreach (Protocol protocol in Protocols)
+            {
+                if (protocol.Id == Guid.Empty)
+                {
+                    defaultExist = true;
+                    _defaultProtocol = protocol;
+                    break;
+                }
+            }
+
+            if (!defaultExist)
+            {
+                _defaultProtocol = new Protocol(
+                "Default",
+                Guid.Empty,
+                new PacketModeTimeout());
+
+                _defaultProtocol.CanNotDelete = true;
+                _defaultProtocol.CanNotEditName = true;
+
+                Protocols.Add(_defaultProtocol);
             }
         }
 
         private void AddDefaultProfiles()
         {
-            if (Profiles.Count <= 0)
+            // Add Default if not exist
+            bool defaultExist = false;
+            foreach (Profile profile in Profiles)
             {
-                List<Profile> defaultList = new List<Profile>();
+                if (profile.Id == Guid.Empty)
+                {
+                    defaultExist = true;
+                    _defaultProfile = profile;
+                    break;
+                }
+            }
 
-                Profile defaultProfile = new Profile("Default", Guid.Empty);
-                defaultProfile.CanNotDelete = true;
-                defaultProfile.CanNotEditName = true;
+            if (!defaultExist)
+            {
+                _defaultProfile = new Profile("Default", Guid.Empty);
 
-                defaultList.Add(defaultProfile);
+                _defaultProfile.CanNotDelete = true;
+                _defaultProfile.CanNotEditName = true;
 
-                Profiles = new ObservableCollection<Profile>(defaultList);
+                Profiles.Add(_defaultProfile);
             }
         }
 
@@ -381,7 +406,6 @@ namespace SeriAllPort.ViewModels
         private void SetupCurrentProfileWithIdOrUseDefault(Guid guid)
         {
             bool profileFound = false;
-            Profile? defaultProfile = Profiles[0];
             foreach (Profile profile in Profiles)
             {
                 if (profile.Id == guid)
@@ -391,22 +415,17 @@ namespace SeriAllPort.ViewModels
 
                     break;
                 }
-                else if (profile.Id == Guid.Empty)
-                {
-                    defaultProfile = profile;
-                }
             }
 
             if (!profileFound)
             {
-                _currentProfile = defaultProfile;
+                _currentProfile = _defaultProfile;
             }
         }
 
         private void SetUpProtocolOrUseDefault()
         {
             bool protocolFound = false;
-            Protocol? defaultProtocol = Protocols[0];
             foreach (Protocol protocol in Protocols)
             {
                 if (protocol.Id == CurrentProfile.ProtocolId)
@@ -416,15 +435,11 @@ namespace SeriAllPort.ViewModels
 
                     break;
                 }
-                else if (protocol.Id == Guid.Empty)
-                {
-                    defaultProtocol = protocol;
-                }
             }
 
             if (!protocolFound)
             {
-                CurrentProtocol = defaultProtocol;
+                CurrentProtocol = _defaultProtocol;
             }
         }
 
@@ -443,7 +458,6 @@ namespace SeriAllPort.ViewModels
             if (ok)
             {
                 Profiles = profileEditor.Profiles;
-
 
                 if (profileEditor.SelectedProfile != null)
                 {
