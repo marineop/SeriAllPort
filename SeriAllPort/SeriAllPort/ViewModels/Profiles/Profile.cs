@@ -156,7 +156,7 @@ namespace SeriAllPort.ViewModels.Profiles
             SendFormats =
             [
                 new SendFormatBytes(),
-                new SendFormatString()
+                new SendFormatText()
             ];
         }
 

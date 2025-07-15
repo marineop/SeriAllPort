@@ -27,6 +27,38 @@ namespace CommonWpf.Communication.Prococol.PacketModes
             Fields.Add(packetField);
         }
 
+        protected override void BytesReceivedInternal()
+        {
+            _timer.Stop();
+            _timer.Start();
+        }
+
+        protected override void ValidateInternal()
+        {
+            _timer.Interval = TimeoutMs;
+
+            foreach (PacketField field in Fields)
+            {
+                if (field is EndOfPacketSymbol)
+                {
+                    throw new Exception("Timeout mode can not have EOP field.");
+                }
+            }
+        }
+
+        protected override void TerminateInternal()
+        {
+            _timer.Stop();
+        }
+
+        protected override PacketMode CreateCloneInteranl()
+        {
+            PacketModeTimeout newMode = new PacketModeTimeout();
+            newMode.Fields.Clear();
+
+            return newMode;
+        }
+
         private void _timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
             lock (_lock)
@@ -167,38 +199,6 @@ namespace CommonWpf.Communication.Prococol.PacketModes
                     RaiseEvent();
                 }
             }
-        }
-
-        protected override void BytesReceivedInternal()
-        {
-            _timer.Stop();
-            _timer.Start();
-        }
-
-        public override void ValidateInternal()
-        {
-            _timer.Interval = TimeoutMs;
-
-            foreach (PacketField field in Fields)
-            {
-                if (field is EndOfPacketSymbol)
-                {
-                    throw new Exception("Timeout mode can not have EOP field.");
-                }
-            }
-        }
-
-        protected override PacketMode CreateCloneInteranl()
-        {
-            PacketModeTimeout newMode = new PacketModeTimeout();
-            newMode.Fields.Clear();
-
-            return newMode;
-        }
-
-        protected override void TerminateInternal()
-        {
-            _timer.Stop();
         }
     }
 }

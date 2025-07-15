@@ -3,7 +3,7 @@
 namespace SeriAllPort.ViewModels.SendRawData
 {
     [JsonDerivedType(typeof(SendFormatBytes), typeDiscriminator: "Bytes")]
-    [JsonDerivedType(typeof(SendFormatString), typeDiscriminator: "Text")]
+    [JsonDerivedType(typeof(SendFormatText), typeDiscriminator: "Text")]
     public interface ITextToBytes
     {
         byte[] GetBytes();

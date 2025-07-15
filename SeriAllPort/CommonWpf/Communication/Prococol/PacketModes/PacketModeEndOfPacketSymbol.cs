@@ -5,9 +5,7 @@ namespace CommonWpf.Communication.Prococol.PacketModes
 {
     public class PacketModeEndOfPacketSymbol : PacketMode
     {
-        // build
         private EndOfPacketSymbol? _eop;
-        private readonly int _eopIndex = -1;
         private int _byteCountAfterEop;
 
         public override string Name => "End of Packet Symbol";
@@ -29,7 +27,7 @@ namespace CommonWpf.Communication.Prococol.PacketModes
             Fields.Add(eop);
         }
 
-        public override void ValidateInternal()
+        protected override void ValidateInternal()
         {
             int eopCount = 0;
 
@@ -267,16 +265,16 @@ namespace CommonWpf.Communication.Prococol.PacketModes
             }
         }
 
+        protected override void TerminateInternal()
+        {
+        }
+
         protected override PacketMode CreateCloneInteranl()
         {
             PacketModeEndOfPacketSymbol packetModeEndOfPacketSymbol = new PacketModeEndOfPacketSymbol();
             packetModeEndOfPacketSymbol.Fields.Clear();
 
             return packetModeEndOfPacketSymbol;
-        }
-
-        protected override void TerminateInternal()
-        {
         }
     }
 }

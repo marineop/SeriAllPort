@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace SeriAllPort.ViewModels.SendRawData
 {
-    public class SendFormatString : ViewModel, ITextToBytes
+    public class SendFormatText : ViewModel, ITextToBytes
     {
         [JsonIgnore]
         public string Name => "Text";

@@ -243,72 +243,22 @@ namespace SeriAllPort.ViewModels
             SetSelectedProfileAndProtocolWithId(_appSettings.ProfileId);
         }
 
-        private void Serial_Error(object sender, System.IO.ErrorEventArgs e)
+        public void SendBytes()
         {
-            OnError(e.GetException());
-        }
-
-        private void Serial_ConnectionStateChanged(object? sender, CommonWpf.EventHandlers.ConnectionStateChangedEventArgs e)
-        {
-            SerialIsDisconnected = (e.ConnectionState == ConnectionState.Disconnected);
-            if (e.ConnectionState == ConnectionState.Disconnected)
+            try
             {
-                CurrentProtocol.PacketMode.Terminate();
-            }
-        }
+                byte[] bytes = CurrentProfile.SendFormats[CurrentProfile.SendFormatIndex].GetBytes();
 
-        private void Serial_BytesReceived(object? sender, EventArgs e)
-        {
-            CurrentProtocol.PacketMode.BytesReceived();
-        }
-
-        private void PacketMode_PacketReceived(object? sender, EventArgs e)
-        {
-            lock (_protocolEventLock)
-            {
-                while (true)
+                if (bytes.Length > 0)
                 {
-                    bool dequeueSuccess = CurrentProtocol.PacketMode.EventQueue.TryDequeue(out PacketEventType? eventNow);
-                    if (dequeueSuccess && eventNow != null)
-                    {
-                        StringBuilder sb = new StringBuilder();
-                        byte[] bytes = eventNow.Bytes;
+                    Serial.SendBytes(bytes);
 
-                        if (eventNow is PacketReceived)
-                        {
-                            sb.Append($"R.Packet: ");
-
-                            bool first = true;
-
-                            if (CurrentProfile.DisplayBytes)
-                            {
-                                sb.Append($"{bytes.BytesToString()}");
-
-                                first = false;
-                            }
-
-                            if (CurrentProfile.DisplayText)
-                            {
-                                string text = Encoding.UTF8.GetString(bytes);
-                                string cleaned = Regex.Replace(text, @"[^\u0020-\u007E]+", "");
-                                sb.Append($"{(first ? "" : "\r\n          ")}{cleaned}");
-
-                                first = false;
-                            }
-                        }
-                        else if (eventNow is NonPacketBytesReceived)
-                        {
-                            sb.Append($"R.Error : ");
-                            sb.Append($"{bytes.BytesToString()}");
-                        }
-
-                        LogViewModel.AppendLog($"{sb}");
-                    }
-                    else
-                    {
-                        break;
-                    }
+                    LogViewModel.AppendLog($"Send    : {bytes.BytesToString()}");
                 }
+            }
+            catch (Exception ex)
+            {
+                OnError(ex);
             }
         }
 
@@ -514,22 +464,72 @@ namespace SeriAllPort.ViewModels
             }
         }
 
-        public void SendBytes()
+        private void Serial_Error(object sender, System.IO.ErrorEventArgs e)
         {
-            try
+            OnError(e.GetException());
+        }
+
+        private void Serial_ConnectionStateChanged(object? sender, CommonWpf.EventHandlers.ConnectionStateChangedEventArgs e)
+        {
+            SerialIsDisconnected = (e.ConnectionState == ConnectionState.Disconnected);
+            if (e.ConnectionState == ConnectionState.Disconnected)
             {
-                byte[] bytes = CurrentProfile.SendFormats[CurrentProfile.SendFormatIndex].GetBytes();
-
-                if (bytes.Length > 0)
-                {
-                    Serial.SendBytes(bytes);
-
-                    LogViewModel.AppendLog($"Send    : {bytes.BytesToString()}");
-                }
+                CurrentProtocol.PacketMode.Terminate();
             }
-            catch (Exception ex)
+        }
+
+        private void Serial_BytesReceived(object? sender, EventArgs e)
+        {
+            CurrentProtocol.PacketMode.BytesReceived();
+        }
+
+        private void PacketMode_PacketReceived(object? sender, EventArgs e)
+        {
+            lock (_protocolEventLock)
             {
-                OnError(ex);
+                while (true)
+                {
+                    bool dequeueSuccess = CurrentProtocol.PacketMode.EventQueue.TryDequeue(out PacketEventType? eventNow);
+                    if (dequeueSuccess && eventNow != null)
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        byte[] bytes = eventNow.Bytes;
+
+                        if (eventNow is PacketReceived)
+                        {
+                            sb.Append($"R.Packet: ");
+
+                            bool first = true;
+
+                            if (CurrentProfile.DisplayBytes)
+                            {
+                                sb.Append($"{bytes.BytesToString()}");
+
+                                first = false;
+                            }
+
+                            if (CurrentProfile.DisplayText)
+                            {
+                                string text = Encoding.UTF8.GetString(bytes);
+                                string cleaned = Regex.Replace(text, @"[^\u0020-\u007E]+", "");
+                                sb.Append($"{(first ? "" : "\r\n          ")}{cleaned}");
+
+                                first = false;
+                            }
+                        }
+                        else if (eventNow is NonPacketBytesReceived)
+                        {
+                            sb.Append($"R.Error : ");
+                            sb.Append($"{bytes.BytesToString()}");
+                        }
+
+                        LogViewModel.AppendLog($"{sb}");
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
             }
         }
 

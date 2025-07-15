@@ -69,16 +69,14 @@ namespace CommonWpf.Communication.Prococol.PacketModes
             }
         }
 
-        protected PacketField? _preamble;
-
         [JsonIgnore]
         public abstract string Name { get; }
+
+        protected PacketField? _preamble;
 
         protected object _lock = new object();
         protected byte[] _receiveBuffer = new byte[4096];
         protected int _receiveBufferLength = 0;
-
-        public abstract void ValidateInternal();
 
         public void Validate()
         {
@@ -155,22 +153,17 @@ namespace CommonWpf.Communication.Prococol.PacketModes
             }
         }
 
-        protected abstract void BytesReceivedInternal();
-
-        protected void EnqueuEvent(PacketEventType eventType)
+        public void Terminate()
         {
-            EventQueue.Enqueue(eventType);
-        }
-
-        protected void RaiseEvent()
-        {
-            Task.Run(() =>
+            lock (_lock)
             {
-                PacketReceived?.Invoke(this, EventArgs.Empty);
-            });
+                TerminateInternal();
+
+                _receiveBufferLength = 0;
+            }
         }
 
-        internal PacketMode CreateClone()
+        public PacketMode CreateClone()
         {
             PacketMode newPacketMode = CreateCloneInteranl();
 
@@ -187,18 +180,25 @@ namespace CommonWpf.Communication.Prococol.PacketModes
             return newPacketMode;
         }
 
-        protected abstract PacketMode CreateCloneInteranl();
+        protected abstract void ValidateInternal();
 
-        public void Terminate()
-        {
-            lock (_lock)
-            {
-                TerminateInternal();
-
-                _receiveBufferLength = 0;
-            }
-        }
+        protected abstract void BytesReceivedInternal();
 
         protected abstract void TerminateInternal();
+
+        protected abstract PacketMode CreateCloneInteranl();
+
+        protected void EnqueuEvent(PacketEventType eventType)
+        {
+            EventQueue.Enqueue(eventType);
+        }
+
+        protected void RaiseEvent()
+        {
+            Task.Run(() =>
+            {
+                PacketReceived?.Invoke(this, EventArgs.Empty);
+            });
+        }
     }
 }

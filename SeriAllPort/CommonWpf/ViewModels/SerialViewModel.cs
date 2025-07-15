@@ -46,10 +46,6 @@ namespace CommonWpf.ViewModels
 
         #endregion
 
-        public SerialViewModel()
-        {
-        }
-
         private ISerial? _currentInterface;
         public ISerial? CurrentInterface
         {
@@ -93,6 +89,10 @@ namespace CommonWpf.ViewModels
                     OnPropertyChanged();
                 }
             }
+        }
+
+        public SerialViewModel()
+        {
         }
 
         private void RaiseConnectionStateChangedEvent(object sender, ErrorEventArgs e)

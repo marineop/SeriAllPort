@@ -58,18 +58,23 @@ namespace CommonWpf.ViewModels
             }
         }
 
-        public IShowDialog? ShowDialog { get; set; }
+        public string Name => _comPort.Name;
 
-        public ICommand RefreshPortListCommand { get; set; }
-
-        public ICommand SettingsCommand { get; set; }
-
-        public ICommand ConnectCommand { get; set; }
-
-        public string Name => ((ISerial)_comPort).Name;
+        private ConnectionState _ConnectionState;
+        public ConnectionState ConnectionState
+        {
+            get => _ConnectionState;
+            set
+            {
+                if (_ConnectionState != value)
+                {
+                    _ConnectionState = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         private ObservableCollection<string> _PortNameList = new ObservableCollection<string>();
-
         public ObservableCollection<string> PortNameList
         {
             get => _PortNameList;
@@ -103,23 +108,15 @@ namespace CommonWpf.ViewModels
             576000,
             921600
         };
-
         public List<int> DataBitsList { get; private set; } = new List<int>() { 5, 6, 7, 8 };
 
-        private ConnectionState _ConnectionState;
+        public IShowDialog? ShowDialog { get; set; }
 
-        public ConnectionState ConnectionState
-        {
-            get => _ConnectionState;
-            set
-            {
-                if (_ConnectionState != value)
-                {
-                    _ConnectionState = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+        public ICommand RefreshPortListCommand { get; set; }
+
+        public ICommand SettingsCommand { get; set; }
+
+        public ICommand ConnectCommand { get; set; }
 
         public ComPortViewModel()
         {
@@ -134,6 +131,33 @@ namespace CommonWpf.ViewModels
             }
 
             ComPort.ConnectionStateChanged += (o, c) => { ConnectionState = c.ConnectionState; };
+        }
+
+        public void Connect()
+        {
+            if (ComPort.ConnectionState == ConnectionState.Disconnected)
+            {
+                ComPort.Connect();
+            }
+            else if (ComPort.ConnectionState == ConnectionState.Connected)
+            {
+                ComPort.Disconnect();
+            }
+        }
+
+        public int ReadBytes(byte[] bytes, int offset, int capacity)
+        {
+            return ComPort.ReadBytes(bytes, offset, capacity);
+        }
+
+        public void SendBytes(byte[] bytes)
+        {
+            _comPort.SendBytes(bytes);
+        }
+
+        public void SendBytes(byte[] bytes, int offset, int length)
+        {
+            _comPort.SendBytes(bytes, offset, length);
         }
 
         public void RefreshPortList()
@@ -165,33 +189,6 @@ namespace CommonWpf.ViewModels
             {
                 throw new Exception("ShowDialog not configued.");
             }
-        }
-
-        public void Connect()
-        {
-            if (ComPort.ConnectionState == ConnectionState.Disconnected)
-            {
-                ComPort.Connect();
-            }
-            else if (ComPort.ConnectionState == ConnectionState.Connected)
-            {
-                ComPort.Disconnect();
-            }
-        }
-
-        public int ReadBytes(byte[] bytes, int offset, int capacity)
-        {
-            return ComPort.ReadBytes(bytes, offset, capacity);
-        }
-
-        public void SendBytes(byte[] bytes)
-        {
-            _comPort.SendBytes(bytes);
-        }
-
-        public void SendBytes(byte[] bytes, int offset, int length)
-        {
-            _comPort.SendBytes(bytes, offset, length);
         }
     }
 }

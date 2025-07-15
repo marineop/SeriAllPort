@@ -18,7 +18,7 @@
                 <TextBox Text="{Binding Text}"
                     Width="auto" HorizontalAlignment="Stretch" FontFamily="Cascadia Code"/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type fo:SendFormatString}">
+            <DataTemplate DataType="{x:Type fo:SendFormatText}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>

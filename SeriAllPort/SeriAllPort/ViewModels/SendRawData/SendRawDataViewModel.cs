@@ -38,7 +38,7 @@ namespace SeriAllPort.ViewModels.SendRawData
             _SendFormats =
             [
                 new SendFormatBytes(),
-                new SendFormatString()
+                new SendFormatText()
             ];
 
             _SendFormat = SendFormats[0];
