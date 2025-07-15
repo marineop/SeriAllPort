@@ -71,6 +71,7 @@ namespace CommonWpf.Communication.Prococol.PacketModes
 
         protected PacketField? _preamble;
 
+        [JsonIgnore]
         public abstract string Name { get; }
 
         protected object _lock = new object();

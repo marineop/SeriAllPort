@@ -3,6 +3,7 @@ using CommonWpf.Communication.PhysicalInterfaces;
 using CommonWpf.FileHelper;
 using SeriAllPort.ViewModels.SendRawData;
 using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
 
 namespace SeriAllPort.ViewModels.Profiles
 {
@@ -130,6 +131,7 @@ namespace SeriAllPort.ViewModels.Profiles
             }
         }
 
+        [JsonIgnore]
         public ITextToBytes SendFormat => SendFormats[SendFormatIndex];
 
         private ComPortSettings _comPortSettings = new ComPortSettings();
