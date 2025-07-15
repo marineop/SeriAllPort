@@ -1,8 +1,8 @@
-﻿using CommonWpf.Communication.Prococol.EventTypes;
-using CommonWpf.Communication.Prococol.PacketFields;
+﻿using CommonWpf.Communication.Protocol.EventTypes;
+using CommonWpf.Communication.Protocol.PacketFields;
 using System.Text.Json.Serialization;
 
-namespace CommonWpf.Communication.Prococol.PacketModes
+namespace CommonWpf.Communication.Protocol.PacketModes
 {
     public class PacketModeTimeout : PacketMode
     {
@@ -63,7 +63,7 @@ namespace CommonWpf.Communication.Prococol.PacketModes
             _timer.Stop();
         }
 
-        protected override PacketMode CreateCloneInteranl()
+        protected override PacketMode CreateCloneInternal()
         {
             PacketModeTimeout newMode = new PacketModeTimeout();
 

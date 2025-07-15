@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:SeriAllPort.Views.ProtocolEditor"
              xmlns:con="clr-namespace:CommonWpf.Converters;assembly=CommonWpf"
              xmlns:pro="clr-namespace:SeriAllPort.ViewModels.Protocols"
-             xmlns:cpro="clr-namespace:CommonWpf.Communication.Prococol;assembly=CommonWpf"
+             xmlns:cpro="clr-namespace:CommonWpf.Communication.Protocol;assembly=CommonWpf"
              xmlns:cwe="clr-namespace:CommonWpf.Extensions;assembly=CommonWpf"
              
              mc:Ignorable="d" 

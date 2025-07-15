@@ -1,10 +1,10 @@
-﻿using CommonWpf.Communication.Prococol.EventTypes;
-using CommonWpf.Communication.Prococol.PacketFields;
+﻿using CommonWpf.Communication.Protocol.EventTypes;
+using CommonWpf.Communication.Protocol.PacketFields;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 
-namespace CommonWpf.Communication.Prococol.PacketModes
+namespace CommonWpf.Communication.Protocol.PacketModes
 {
     [JsonDerivedType(typeof(PacketModeEndOfPacketSymbol), typeDiscriminator: "EOP")]
     [JsonDerivedType(typeof(PacketModeTimeout), typeDiscriminator: "Timeout")]
@@ -168,7 +168,7 @@ namespace CommonWpf.Communication.Prococol.PacketModes
 
         public PacketMode CreateClone()
         {
-            PacketMode newPacketMode = CreateCloneInteranl();
+            PacketMode newPacketMode = CreateCloneInternal();
 
             newPacketMode.PacketReceived = PacketReceived;
 
@@ -189,7 +189,7 @@ namespace CommonWpf.Communication.Prococol.PacketModes
 
         protected abstract void TerminateInternal();
 
-        protected abstract PacketMode CreateCloneInteranl();
+        protected abstract PacketMode CreateCloneInternal();
 
         protected void EnqueuEvent(PacketEventType eventType)
         {

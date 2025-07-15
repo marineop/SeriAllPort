@@ -1,8 +1,8 @@
-﻿using CommonWpf.Communication.Prococol.EventTypes;
-using CommonWpf.Communication.Prococol.PacketFields;
+﻿using CommonWpf.Communication.Protocol.EventTypes;
+using CommonWpf.Communication.Protocol.PacketFields;
 using System.Text.Json.Serialization;
 
-namespace CommonWpf.Communication.Prococol.PacketModes
+namespace CommonWpf.Communication.Protocol.PacketModes
 {
     public class PacketModeEndOfPacketSymbol : PacketMode
     {
@@ -213,15 +213,17 @@ namespace CommonWpf.Communication.Prococol.PacketModes
 
                             if (indexNow + fieldLength <= packetBytes.Length)
                             {
-                                newField.Data = packetBytes.Slice(indexNow, fieldLength).ToArray();
+                                byte[] newData = packetBytes.Slice(indexNow, fieldLength).ToArray();
 
                                 if (newField.LengthMode == LengthMode.FixedData
-                                    && !newField.Data.SequenceEqual(Fields[i].Data))
+                                    && !newData.SequenceEqual(Fields[i].Data))
                                 {
                                     // fixed data field, data must be equal to expected data
                                     fieldsValid = false;
                                     break;
                                 }
+
+                                newField.Value = newData;
 
                                 indexNow += fieldLength;
                             }
@@ -267,7 +269,7 @@ namespace CommonWpf.Communication.Prococol.PacketModes
                 _receiveBufferLength = remainLength;
             }
 
-            if (EventQueue.Count > 0)
+            if (!EventQueue.IsEmpty)
             {
                 RaiseEvent();
             }
@@ -277,7 +279,7 @@ namespace CommonWpf.Communication.Prococol.PacketModes
         {
         }
 
-        protected override PacketMode CreateCloneInteranl()
+        protected override PacketMode CreateCloneInternal()
         {
             PacketModeEndOfPacketSymbol packetModeEndOfPacketSymbol = new PacketModeEndOfPacketSymbol();
 

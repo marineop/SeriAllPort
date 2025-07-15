@@ -89,15 +89,29 @@ namespace SeriAllPort.ViewModels.Profiles
             }
         }
 
-        private bool _logGisplayText = false;
+        private bool _logDisplayText = false;
         public bool LogDisplayText
         {
-            get => _logGisplayText;
+            get => _logDisplayText;
             set
             {
-                if (_logGisplayText != value)
+                if (_logDisplayText != value)
                 {
-                    _logGisplayText = value;
+                    _logDisplayText = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private bool _logDisplayParsed = false;
+        public bool LogDisplayParsed
+        {
+            get => _logDisplayParsed;
+            set
+            {
+                if (_logDisplayParsed != value)
+                {
+                    _logDisplayParsed = value;
                     OnPropertyChanged();
                 }
             }

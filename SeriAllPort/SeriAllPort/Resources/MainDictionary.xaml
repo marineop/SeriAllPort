@@ -4,7 +4,7 @@
                     xmlns:protocol="clr-namespace:SeriAllPort.ViewModels.Protocols"
                     xmlns:ProfileEditor="clr-namespace:SeriAllPort.Views.ProfileEditor"
                     xmlns:ProtocolEditor="clr-namespace:SeriAllPort.Views.ProtocolEditor"
-                    xmlns:packetField="clr-namespace:CommonWpf.Communication.Prococol.PacketFields;assembly=CommonWpf"
+                    xmlns:packetField="clr-namespace:CommonWpf.Communication.Protocol.PacketFields;assembly=CommonWpf"
                     >
 
     <DataTemplate DataType="{x:Type profile:ProfileEditorViewModel}">

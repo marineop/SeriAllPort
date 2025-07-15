@@ -1,7 +1,7 @@
 ﻿using CommonWpf;
-using CommonWpf.Communication.Prococol;
-using CommonWpf.Communication.Prococol.PacketFields;
-using CommonWpf.Communication.Prococol.PacketModes;
+using CommonWpf.Communication.Protocol;
+using CommonWpf.Communication.Protocol.PacketFields;
+using CommonWpf.Communication.Protocol.PacketModes;
 using CommonWpf.FileHelper;
 using System.Collections.ObjectModel;
 

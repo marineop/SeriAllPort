@@ -1,7 +1,7 @@
-﻿using CommonWpf.Communication.Prococol.PacketModes;
+﻿using CommonWpf.Communication.Protocol.PacketModes;
 using CommonWpf.FileHelper;
 
-namespace CommonWpf.Communication.Prococol
+namespace CommonWpf.Communication.Protocol
 {
     public class Protocol : ViewModel, IAppDataFolderFile
     {

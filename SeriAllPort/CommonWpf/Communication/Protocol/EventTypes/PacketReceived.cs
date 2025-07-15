@@ -1,6 +1,6 @@
-﻿using CommonWpf.Communication.Prococol.PacketFields;
+﻿using CommonWpf.Communication.Protocol.PacketFields;
 
-namespace CommonWpf.Communication.Prococol.EventTypes
+namespace CommonWpf.Communication.Protocol.EventTypes
 {
     public class PacketReceived : PacketEventType
     {

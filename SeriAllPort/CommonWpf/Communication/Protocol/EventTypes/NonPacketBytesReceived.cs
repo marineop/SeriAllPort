@@ -1,4 +1,4 @@
-﻿namespace CommonWpf.Communication.Prococol.EventTypes
+﻿namespace CommonWpf.Communication.Protocol.EventTypes
 {
     public class NonPacketBytesReceived : PacketEventType
     {

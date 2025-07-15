@@ -1,4 +1,4 @@
-﻿namespace CommonWpf.Communication.Prococol
+﻿namespace CommonWpf.Communication.Protocol
 {
     public enum Unit
     {

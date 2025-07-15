@@ -1,4 +1,4 @@
-﻿namespace CommonWpf.Communication.Prococol.PacketFields
+﻿namespace CommonWpf.Communication.Protocol.PacketFields
 {
     public class EndOfPacketSymbol : PacketField
     {

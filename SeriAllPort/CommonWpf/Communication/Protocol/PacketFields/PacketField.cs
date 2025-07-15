@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace CommonWpf.Communication.Prococol.PacketFields
+namespace CommonWpf.Communication.Protocol.PacketFields
 {
     [JsonDerivedType(typeof(PacketField), typeDiscriminator: "PacketField")]
     [JsonDerivedType(typeof(EndOfPacketSymbol), typeDiscriminator: "EOP")]

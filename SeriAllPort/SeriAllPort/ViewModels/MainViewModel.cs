@@ -1,8 +1,9 @@
 ﻿using CommonWpf;
 using CommonWpf.Communication;
-using CommonWpf.Communication.Prococol;
-using CommonWpf.Communication.Prococol.EventTypes;
-using CommonWpf.Communication.Prococol.PacketModes;
+using CommonWpf.Communication.Protocol;
+using CommonWpf.Communication.Protocol.EventTypes;
+using CommonWpf.Communication.Protocol.PacketFields;
+using CommonWpf.Communication.Protocol.PacketModes;
 using CommonWpf.Extensions;
 using CommonWpf.FileHelper;
 using CommonWpf.ViewModels;
@@ -367,7 +368,7 @@ namespace SeriAllPort.ViewModels
 
             SetUpProtocolOrUseDefault();
 
-            SetupSettingsAccrodingToCurrentProfile();
+            SetupSettingsAccordingToCurrentProfile();
         }
 
         private void SetupCurrentProfileWithIdOrUseDefault(Guid guid)
@@ -411,7 +412,7 @@ namespace SeriAllPort.ViewModels
             }
         }
 
-        private void SetupSettingsAccrodingToCurrentProfile()
+        private void SetupSettingsAccordingToCurrentProfile()
         {
             _comPortViewModel.ComPort.Settings = CurrentProfile.ComPortSettings;
         }
@@ -513,26 +514,61 @@ namespace SeriAllPort.ViewModels
                         StringBuilder sb = new StringBuilder();
                         byte[] bytes = eventNow.Bytes;
 
-                        if (eventNow is PacketReceived)
+                        if (eventNow is PacketReceived packetReceived)
                         {
                             sb.Append($"R.Packet: ");
 
-                            bool first = true;
+                            int entryCount = 0;
+                            if (CurrentProfile.LogDisplayBytes)
+                            {
+                                ++entryCount;
+                            }
+
+                            if (CurrentProfile.LogDisplayText)
+                            {
+                                ++entryCount;
+                            }
+
+                            if (CurrentProfile.LogDisplayParsed)
+                            {
+                                ++entryCount;
+                            }
+
+                            string newLine = string.Empty;
+                            bool multipleEntry = false;
+                            if (entryCount >= 2)
+                            {
+                                newLine = "\r\n";
+                                multipleEntry = true;
+                            }
 
                             if (CurrentProfile.LogDisplayBytes)
                             {
-                                sb.Append($"{bytes.BytesToString()}");
-
-                                first = false;
+                                sb.Append($"{newLine}{(multipleEntry ? "Bytes: " : string.Empty)}: {bytes.BytesToString()}");
                             }
 
                             if (CurrentProfile.LogDisplayText)
                             {
                                 string text = Encoding.UTF8.GetString(bytes);
                                 string cleaned = Regex.Replace(text, @"[^\u0020-\u007E]+", "");
-                                sb.Append($"{(first ? "" : "\r\n          ")}{cleaned}");
+                                sb.Append($"{newLine}{(multipleEntry ? "Text: " : string.Empty)}{cleaned}");
+                            }
 
-                                first = false;
+                            if (CurrentProfile.LogDisplayParsed)
+                            {
+                                sb.Append($"{newLine}Parsed Bytes:");
+                                IList<PacketField> fields = packetReceived.PacketFields;
+
+                                for (int i = 0; i < fields.Count; ++i)
+                                {
+                                    PacketField field = fields[i];
+                                    if (field is not EndOfPacketSymbol
+                                        && field is not Preamble)
+                                    {
+                                        byte[]? fieldBytes = field.Value as byte[];
+                                        sb.Append($"\r\n\t{field.Name}: {fieldBytes?.BytesToString()}");
+                                    }
+                                }
                             }
                         }
                         else if (eventNow is NonPacketBytesReceived)
