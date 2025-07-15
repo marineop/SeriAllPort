@@ -9,15 +9,15 @@ namespace SeriAllPort.ViewModels.SendRawData
         [JsonIgnore]
         public string Name => "Bytes";
 
-        private string? _Text;
+        private string? _text;
         public string? Text
         {
-            get => _Text;
+            get => _text;
             set
             {
-                if (_Text != value)
+                if (_text != value)
                 {
-                    _Text = value;
+                    _text = value;
                     OnPropertyChanged();
                 }
             }

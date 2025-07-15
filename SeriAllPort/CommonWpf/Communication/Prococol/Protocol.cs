@@ -41,15 +41,15 @@ namespace CommonWpf.Communication.Prococol
             }
         }
 
-        private bool _CanNotEditName = false;
+        private bool _canNotEditName = false;
         public bool CanNotEditName
         {
-            get => _CanNotEditName;
+            get => _canNotEditName;
             set
             {
-                if (_CanNotEditName != value)
+                if (_canNotEditName != value)
                 {
-                    _CanNotEditName = value;
+                    _canNotEditName = value;
                     OnPropertyChanged();
                 }
             }

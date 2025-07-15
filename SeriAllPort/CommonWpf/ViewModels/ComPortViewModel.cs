@@ -60,29 +60,29 @@ namespace CommonWpf.ViewModels
 
         public string Name => _comPort.Name;
 
-        private ConnectionState _ConnectionState;
+        private ConnectionState _connectionState;
         public ConnectionState ConnectionState
         {
-            get => _ConnectionState;
+            get => _connectionState;
             set
             {
-                if (_ConnectionState != value)
+                if (_connectionState != value)
                 {
-                    _ConnectionState = value;
+                    _connectionState = value;
                     OnPropertyChanged();
                 }
             }
         }
 
-        private ObservableCollection<string> _PortNameList = new ObservableCollection<string>();
+        private ObservableCollection<string> _portNameList = new ObservableCollection<string>();
         public ObservableCollection<string> PortNameList
         {
-            get => _PortNameList;
+            get => _portNameList;
             set
             {
-                if (_PortNameList != value)
+                if (_portNameList != value)
                 {
-                    _PortNameList = value;
+                    _portNameList = value;
                     OnPropertyChanged();
                 }
             }

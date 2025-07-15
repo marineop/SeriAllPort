@@ -5,29 +5,29 @@ namespace SeriAllPort.ViewModels.SendRawData
 {
     public class SendRawDataViewModel : ViewModel
     {
-        private ITextToBytes _SendFormat;
+        private ITextToBytes _sendFormat;
         public ITextToBytes SendFormat
         {
-            get => _SendFormat;
+            get => _sendFormat;
             set
             {
-                if (_SendFormat != value)
+                if (_sendFormat != value)
                 {
-                    _SendFormat = value;
+                    _sendFormat = value;
                     OnPropertyChanged();
                 }
             }
         }
 
-        private ObservableCollection<ITextToBytes> _SendFormats;
+        private ObservableCollection<ITextToBytes> _sendFormats;
         public ObservableCollection<ITextToBytes> SendFormats
         {
-            get => _SendFormats;
+            get => _sendFormats;
             set
             {
-                if (_SendFormats != value)
+                if (_sendFormats != value)
                 {
-                    _SendFormats = value;
+                    _sendFormats = value;
                     OnPropertyChanged();
                 }
             }
@@ -35,13 +35,13 @@ namespace SeriAllPort.ViewModels.SendRawData
 
         public SendRawDataViewModel()
         {
-            _SendFormats =
+            _sendFormats =
             [
                 new SendFormatBytes(),
                 new SendFormatText()
             ];
 
-            _SendFormat = SendFormats[0];
+            _sendFormat = SendFormats[0];
         }
     }
 }

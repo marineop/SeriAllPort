@@ -45,15 +45,15 @@ namespace SeriAllPort.ViewModels.Profiles
             }
         }
 
-        private bool _CanNotEditName = false;
+        private bool _canNotEditName = false;
         public bool CanNotEditName
         {
-            get => _CanNotEditName;
+            get => _canNotEditName;
             set
             {
-                if (_CanNotEditName != value)
+                if (_canNotEditName != value)
                 {
-                    _CanNotEditName = value;
+                    _canNotEditName = value;
                     OnPropertyChanged();
                 }
             }
@@ -61,15 +61,15 @@ namespace SeriAllPort.ViewModels.Profiles
 
         public Guid ProtocolId { get; set; } = Guid.Empty;
 
-        private string _Description = string.Empty;
+        private string _description = string.Empty;
         public string Description
         {
-            get => _Description;
+            get => _description;
             set
             {
-                if (_Description != value)
+                if (_description != value)
                 {
-                    _Description = value;
+                    _description = value;
                     OnPropertyChanged();
                 }
             }
@@ -103,15 +103,15 @@ namespace SeriAllPort.ViewModels.Profiles
             }
         }
 
-        private int _SendFormatIndex = 0;
+        private int _sendFormatIndex = 0;
         public int SendFormatIndex
         {
-            get => _SendFormatIndex;
+            get => _sendFormatIndex;
             set
             {
-                if (_SendFormatIndex != value)
+                if (_sendFormatIndex != value)
                 {
-                    _SendFormatIndex = value;
+                    _sendFormatIndex = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(SendFormat));
                 }
