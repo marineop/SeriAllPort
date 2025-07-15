@@ -9,7 +9,7 @@ namespace SeriAllPort.ViewModels.Protocols
 {
     public class ProtocolEditorViewModel : ViewModel
     {
-        private ObservableCollection<Protocol> _protocols = new ObservableCollection<Protocol>();
+        private ObservableCollection<Protocol> _protocols = [];
         public ObservableCollection<Protocol> Protocols
         {
             get => _protocols;
@@ -42,12 +42,12 @@ namespace SeriAllPort.ViewModels.Protocols
 
                     if (_selectedProtocol != null)
                     {
-                        PacketModes = new ObservableCollection<PacketMode>()
-                        {
+                        PacketModes =
+                        [
                             new PacketModeTimeout(0),
                             new PacketModeEndOfPacketSymbol([(byte)'\r', (byte)'\n']),
                             _selectedProtocol.PacketMode,
-                        };
+                        ];
 
                         for (int i = 0; i < PacketModes.Count; ++i)
                         {
@@ -217,7 +217,7 @@ namespace SeriAllPort.ViewModels.Protocols
         {
             if (SelectedProtocolIndex >= 0)
             {
-                IList<Protocol>? protocols = Protocols;
+                ObservableCollection<Protocol> protocols = Protocols;
                 int index = SelectedProtocolIndex;
 
                 if (index > 0)
@@ -233,7 +233,7 @@ namespace SeriAllPort.ViewModels.Protocols
         {
             if (SelectedProtocolIndex >= 0)
             {
-                IList<Protocol>? protocols = Protocols;
+                ObservableCollection<Protocol> protocols = Protocols;
                 int index = SelectedProtocolIndex;
 
                 if (index < protocols.Count - 1)
@@ -249,7 +249,7 @@ namespace SeriAllPort.ViewModels.Protocols
         {
             PacketModeTimeout packetMode = new PacketModeTimeout(0);
 
-            List<string> protocolNames = new List<string>();
+            List<string> protocolNames = [];
 
             foreach (Protocol protocol in Protocols)
             {
@@ -287,7 +287,7 @@ namespace SeriAllPort.ViewModels.Protocols
         {
             if (SelectedProtocol != null && SelectedPacketField != null)
             {
-                IList<PacketField>? fields = SelectedProtocol.PacketMode.Fields;
+                ObservableCollection<PacketField> fields = SelectedProtocol.PacketMode.Fields;
                 int index = SelectedPacketFieldIndex;
 
                 if (index > 0)
@@ -303,7 +303,7 @@ namespace SeriAllPort.ViewModels.Protocols
         {
             if (SelectedProtocol != null && SelectedPacketField != null)
             {
-                IList<PacketField>? fields = SelectedProtocol.PacketMode.Fields;
+                ObservableCollection<PacketField> fields = SelectedProtocol.PacketMode.Fields;
                 int index = SelectedPacketFieldIndex;
 
                 if (index < fields.Count - 1)
@@ -325,7 +325,7 @@ namespace SeriAllPort.ViewModels.Protocols
             {
                 if (SelectedProtocol != null)
                 {
-                    IList<PacketField>? fields = SelectedProtocol.PacketMode.Fields;
+                    ObservableCollection<PacketField> fields = SelectedProtocol.PacketMode.Fields;
                     int selectedNextIndex = fields.Count;
                     if (SelectedPacketField != null)
                     {
@@ -338,7 +338,7 @@ namespace SeriAllPort.ViewModels.Protocols
                         newPacketField = new PacketField(
                             "Data",
                             LengthMode.FixedLength,
-                            Array.Empty<byte>(),
+                            [],
                             0);
                         fields.Insert(selectedNextIndex, newPacketField);
                     }
@@ -359,8 +359,8 @@ namespace SeriAllPort.ViewModels.Protocols
 
                     if (newPacketField != null)
                     {
-                        List<string> fieldNames = new List<string>();
-                        foreach (var field in fields)
+                        List<string> fieldNames = [];
+                        foreach (PacketField field in fields)
                         {
                             fieldNames.Add(field.Name);
                         }
@@ -374,9 +374,9 @@ namespace SeriAllPort.ViewModels.Protocols
             }
         }
 
-        private string GetUniqueName(IList<string> currentList, string prefix)
+        private static string GetUniqueName(IList<string> currentList, string prefix)
         {
-            HashSet<string> table = new HashSet<string>();
+            HashSet<string> table = [];
             foreach (string s in currentList)
             {
                 if (s.StartsWith(prefix))
@@ -403,7 +403,7 @@ namespace SeriAllPort.ViewModels.Protocols
         {
             if (SelectedProtocol != null && SelectedPacketField != null)
             {
-                IList<PacketField>? fields = SelectedProtocol.PacketMode.Fields;
+                ObservableCollection<PacketField> fields = SelectedProtocol.PacketMode.Fields;
                 fields.RemoveAt(SelectedPacketFieldIndex);
             }
         }

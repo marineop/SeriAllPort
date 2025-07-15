@@ -1,4 +1,5 @@
-﻿using CommonWpf;
+﻿
+using CommonWpf;
 using CommonWpf.Communication;
 using CommonWpf.Communication.Protocol;
 using CommonWpf.Communication.Protocol.EventTypes;
@@ -18,7 +19,7 @@ using System.Windows.Input;
 
 namespace SeriAllPort.ViewModels
 {
-    public class MainViewModel : ViewModel
+    public partial class MainViewModel : ViewModel
     {
         public LogViewModel LogViewModel { get; set; }
 
@@ -36,7 +37,7 @@ namespace SeriAllPort.ViewModels
             }
         }
 
-        private ObservableCollection<Profile> _profiles = new ObservableCollection<Profile>();
+        private ObservableCollection<Profile> _profiles = [];
         public ObservableCollection<Profile> Profiles
         {
             get => _profiles;
@@ -69,7 +70,7 @@ namespace SeriAllPort.ViewModels
 
         private Profile _defaultProfile = new Profile(string.Empty, Guid.Empty);
 
-        private ObservableCollection<Protocol> _protocols = new ObservableCollection<Protocol>();
+        private ObservableCollection<Protocol> _protocols = [];
         public ObservableCollection<Protocol> Protocols
         {
             get => _protocols;
@@ -550,14 +551,14 @@ namespace SeriAllPort.ViewModels
                             if (CurrentProfile.LogDisplayText)
                             {
                                 string text = Encoding.UTF8.GetString(bytes);
-                                string cleaned = Regex.Replace(text, @"[^\u0020-\u007E]+", "");
+                                string cleaned = RegexVisibleCharacters().Replace(text, "");
                                 sb.Append($"{newLine}{(multipleEntry ? "Text: " : string.Empty)}{cleaned}");
                             }
 
                             if (CurrentProfile.LogDisplayParsed)
                             {
                                 sb.Append($"{newLine}Parsed Bytes:");
-                                IList<PacketField> fields = packetReceived.PacketFields;
+                                List<PacketField> fields = packetReceived.PacketFields;
 
                                 for (int i = 0; i < fields.Count; ++i)
                                 {
@@ -596,6 +597,9 @@ namespace SeriAllPort.ViewModels
                 ShowErrorDialog.ShowError("Error", LastErrorMessage);
             });
         }
+
+        [GeneratedRegex(@"[^\u0020-\u007E]+")]
+        private static partial Regex RegexVisibleCharacters();
     }
 }
 

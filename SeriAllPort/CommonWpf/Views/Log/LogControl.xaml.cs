@@ -40,7 +40,7 @@ namespace CommonWpf.Views.Log
             if (uxLogList.SelectedItems.Count > 0)
             {
                 StringBuilder sb = new StringBuilder();
-                foreach (var item in uxLogList.SelectedItems)
+                foreach (object? item in uxLogList.SelectedItems)
                 {
                     sb.AppendLine(item.ToString());
                 }

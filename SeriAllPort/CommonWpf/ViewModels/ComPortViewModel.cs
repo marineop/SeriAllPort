@@ -74,7 +74,7 @@ namespace CommonWpf.ViewModels
             }
         }
 
-        private ObservableCollection<string> _portNameList = new ObservableCollection<string>();
+        private ObservableCollection<string> _portNameList = [];
         public ObservableCollection<string> PortNameList
         {
             get => _portNameList;
@@ -88,8 +88,8 @@ namespace CommonWpf.ViewModels
             }
         }
 
-        public List<int> BaudRateList { get; private set; } = new List<int>()
-        {
+        public List<int> BaudRateList { get; private set; } =
+        [
             300,
             600,
             1200,
@@ -107,8 +107,8 @@ namespace CommonWpf.ViewModels
             460800,
             576000,
             921600
-        };
-        public List<int> DataBitsList { get; private set; } = new List<int>() { 5, 6, 7, 8 };
+        ];
+        public List<int> DataBitsList { get; private set; } = [5, 6, 7, 8];
 
         public IShowDialog? ShowDialog { get; set; }
 
@@ -187,7 +187,7 @@ namespace CommonWpf.ViewModels
             }
             else
             {
-                throw new Exception("ShowDialog not configued.");
+                throw new Exception("ShowDialog not configured.");
             }
         }
     }

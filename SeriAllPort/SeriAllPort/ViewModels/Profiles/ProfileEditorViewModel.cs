@@ -6,7 +6,7 @@ namespace SeriAllPort.ViewModels.Profiles
 {
     public class ProfileEditorViewModel : ViewModel
     {
-        private ObservableCollection<Profile> _profiles = new ObservableCollection<Profile>();
+        private ObservableCollection<Profile> _profiles = [];
         public ObservableCollection<Profile> Profiles
         {
             get => _profiles;
@@ -95,7 +95,7 @@ namespace SeriAllPort.ViewModels.Profiles
         {
             if (SelectedProfileIndex >= 0)
             {
-                IList<Profile>? profiles = Profiles;
+                ObservableCollection<Profile> profiles = Profiles;
                 int index = SelectedProfileIndex;
 
                 if (index > 0)
@@ -111,7 +111,7 @@ namespace SeriAllPort.ViewModels.Profiles
         {
             if (SelectedProfileIndex >= 0)
             {
-                IList<Profile>? profiles = Profiles;
+                ObservableCollection<Profile> profiles = Profiles;
                 int index = SelectedProfileIndex;
 
                 if (index < profiles.Count - 1)
@@ -125,7 +125,7 @@ namespace SeriAllPort.ViewModels.Profiles
 
         private void ProfileNew()
         {
-            List<string> profileNames = new List<string>();
+            List<string> profileNames = [];
 
             foreach (Profile profile in Profiles)
             {
@@ -158,9 +158,9 @@ namespace SeriAllPort.ViewModels.Profiles
             }
         }
 
-        private string GetUniqueName(IList<string> currentList, string prefix)
+        private static string GetUniqueName(IList<string> currentList, string prefix)
         {
-            HashSet<string> table = new HashSet<string>();
+            HashSet<string> table = [];
             foreach (string s in currentList)
             {
                 if (s.StartsWith(prefix))

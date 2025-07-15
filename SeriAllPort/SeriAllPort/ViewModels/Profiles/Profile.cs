@@ -132,7 +132,7 @@ namespace SeriAllPort.ViewModels.Profiles
             }
         }
 
-        private ObservableCollection<ITextToBytes> _sendFormats = new ObservableCollection<ITextToBytes>();
+        private ObservableCollection<ITextToBytes> _sendFormats = [];
         public ObservableCollection<ITextToBytes> SendFormats
         {
             get => _sendFormats;

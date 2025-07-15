@@ -33,7 +33,7 @@ namespace CommonWpf.Communication.Protocol.PacketFields
 
                     if (_lengthMode == LengthMode.FixedLength)
                     {
-                        Data = Array.Empty<byte>();
+                        Data = [];
                         if (FixedLength <= 1)
                         {
                             FixedLength = 1;
@@ -49,7 +49,7 @@ namespace CommonWpf.Communication.Protocol.PacketFields
                     else
                     {
                         FixedLength = 0;
-                        Data = Array.Empty<byte>();
+                        Data = [];
                     }
 
                     OnPropertyChanged();
@@ -57,7 +57,7 @@ namespace CommonWpf.Communication.Protocol.PacketFields
             }
         }
 
-        private byte[] _data = Array.Empty<byte>();
+        private byte[] _data = [];
         public byte[] Data
         {
             get => _data;
@@ -69,18 +69,23 @@ namespace CommonWpf.Communication.Protocol.PacketFields
 
                     if (LengthMode == LengthMode.FixedData)
                     {
-                        _data = newData ?? throw new Exception("Invalid Data");
+                        if (_data == null)
+                        {
+                            throw new Exception("Invalid Data");
+                        }
 
                         if (newData.Length <= 0)
                         {
                             newData = new byte[1];
                         }
 
+                        _data = newData;
+
                         FixedLength = _data.Length;
                     }
                     else
                     {
-                        _data = Array.Empty<byte>();
+                        _data = [];
                     }
 
                     OnPropertyChanged();

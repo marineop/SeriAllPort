@@ -55,7 +55,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
             }
         }
 
-        private ObservableCollection<PacketField> _fields = new ObservableCollection<PacketField>();
+        private ObservableCollection<PacketField> _fields = [];
         public ObservableCollection<PacketField> Fields
         {
             get => _fields;
@@ -83,14 +83,14 @@ namespace CommonWpf.Communication.Protocol.PacketModes
             _preamble = null;
             int preambleCount = 0;
 
-            HashSet<string> names = new HashSet<string>();
+            HashSet<string> names = [];
 
             if (Fields.Count <= 0)
             {
                 throw new Exception("There must be at least 1 Field.");
             }
 
-            PacketField? previousfield = null;
+            PacketField? previousField = null;
             for (int i = 0; i < Fields.Count; ++i)
             {
                 PacketField field = Fields[i];
@@ -130,14 +130,14 @@ namespace CommonWpf.Communication.Protocol.PacketModes
                     throw new Exception("Fixed Data field's Data length must be at least 1.");
                 }
 
-                if (previousfield != null
-                    && previousfield.LengthMode == LengthMode.VariableLength
+                if (previousField != null
+                    && previousField.LengthMode == LengthMode.VariableLength
                     && field.LengthMode != LengthMode.FixedData)
                 {
                     throw new Exception("A variable-length field must be followed by a fixed-Data field.");
                 }
 
-                previousfield = field;
+                previousField = field;
             }
 
             ValidateInternal();
@@ -191,7 +191,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
 
         protected abstract PacketMode CreateCloneInternal();
 
-        protected void EnqueuEvent(PacketEventType eventType)
+        protected void EnqueueEvent(PacketEventType eventType)
         {
             EventQueue.Enqueue(eventType);
         }

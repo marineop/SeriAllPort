@@ -6,7 +6,7 @@ namespace CommonWpf.ViewModels.Log
 {
     public class LogViewModel : ViewModel
     {
-        private ObservableCollection<LogEntry> _entries = new ObservableCollection<LogEntry>();
+        private ObservableCollection<LogEntry> _entries = [];
         public ObservableCollection<LogEntry> Entries
         {
             get => _entries;

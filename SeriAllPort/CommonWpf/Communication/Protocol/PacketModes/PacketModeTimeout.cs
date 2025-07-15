@@ -7,6 +7,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
     public class PacketModeTimeout : PacketMode
     {
         private readonly System.Timers.Timer _timer = new System.Timers.Timer();
+        private readonly int dummy;
 
         [JsonIgnore]
         public override string Name => "Timeout";
@@ -25,10 +26,11 @@ namespace CommonWpf.Communication.Protocol.PacketModes
             PacketField packetField = new PacketField(
                 "Data",
                 LengthMode.VariableLength,
-                Array.Empty<byte>(),
+                [],
                 0);
 
             Fields.Add(packetField);
+            this.dummy = dummy;
         }
 
         private void Initialize()
@@ -106,11 +108,11 @@ namespace CommonWpf.Communication.Protocol.PacketModes
                     }
                     else
                     {
-                        var packetBytes = windowNow[..packetLength];
+                        Span<byte> packetBytes = windowNow[..packetLength];
 
                         // Parse fields
                         bool fieldsValid = true;
-                        List<PacketField> parsedFields = new List<PacketField>();
+                        List<PacketField> parsedFields = [];
 
                         int indexNow = 0;
                         for (int i = 0; i < Fields.Count; ++i)
@@ -205,7 +207,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
 
                 _receiveBufferLength = 0;
 
-                if (EventQueue.Count > 0)
+                if (!EventQueue.IsEmpty)
                 {
                     RaiseEvent();
                 }

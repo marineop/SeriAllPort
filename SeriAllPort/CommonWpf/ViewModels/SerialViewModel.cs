@@ -77,7 +77,7 @@ namespace CommonWpf.ViewModels
             }
         }
 
-        private ObservableCollection<ISerial> _physicalInterfaces = new ObservableCollection<ISerial>();
+        private ObservableCollection<ISerial> _physicalInterfaces = [];
         public ObservableCollection<ISerial> PhysicalInterfaces
         {
             get => _physicalInterfaces;

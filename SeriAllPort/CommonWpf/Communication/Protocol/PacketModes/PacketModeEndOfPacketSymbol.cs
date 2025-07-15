@@ -23,7 +23,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
             PacketField data = new PacketField(
                 "Data",
                 LengthMode.VariableLength,
-                Array.Empty<byte>(),
+                [],
                 0);
 
             Fields.Add(data);
@@ -150,11 +150,11 @@ namespace CommonWpf.Communication.Protocol.PacketModes
                     }
                     else
                     {
-                        var packetBytes = windowNow[..packetLength];
+                        Span<byte> packetBytes = windowNow[..packetLength];
 
                         // Parse fields
                         bool fieldsValid = true;
-                        List<PacketField> parsedFields = new List<PacketField>();
+                        List<PacketField> parsedFields = [];
 
                         int indexNow = 0;
                         for (int i = 0; i < Fields.Count; ++i)

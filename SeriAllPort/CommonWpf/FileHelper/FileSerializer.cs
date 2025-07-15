@@ -5,16 +5,16 @@ namespace CommonWpf.FileHelper
 {
     public static class FileSerializer
     {
+        private static readonly JsonSerializerOptions _options = new JsonSerializerOptions
+        {
+            WriteIndented = true
+        };
+
         public static string AppName { get; set; } = string.Empty;
 
         public static void Save<T>(T data, string path)
         {
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true
-            };
-
-            string json = JsonSerializer.Serialize(data, options);
+            string json = JsonSerializer.Serialize(data, _options);
 
             string? pathFolder = Path.GetDirectoryName(path);
 

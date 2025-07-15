@@ -12,7 +12,7 @@ namespace CommonWpf.Communication.PhysicalInterfaces
         public event EventHandler? BytesReceived;
 
         private readonly SerialPort _serialPort = new SerialPort();
-        private readonly object _serialPortRecieveLock = new object();
+        private readonly object _serialPortReceiveLock = new object();
 
         private ConnectionState _connectionState;
         public ConnectionState ConnectionState
@@ -105,19 +105,13 @@ namespace CommonWpf.Communication.PhysicalInterfaces
 
         public void SendBytes(byte[] bytes, int offset, int length)
         {
-            if (offset < 0)
-            {
-                throw new ArgumentOutOfRangeException("offset must not be less than 0");
-            }
+            ArgumentOutOfRangeException.ThrowIfNegative(offset);
 
-            if (length < 0)
-            {
-                throw new ArgumentOutOfRangeException("length must not be less than 0");
-            }
+            ArgumentOutOfRangeException.ThrowIfNegative(length);
 
             if (offset + length >= bytes.Length)
             {
-                throw new ArgumentOutOfRangeException("(offset + length) must be less than bytes.Length");
+                throw new IndexOutOfRangeException("(offset + length) must be less than bytes.Length");
             }
 
             if (length > 0)
@@ -134,7 +128,7 @@ namespace CommonWpf.Communication.PhysicalInterfaces
         public int ReadBytes(byte[] bytes, int offset, int capacity)
         {
             int count = 0;
-            lock (_serialPortRecieveLock)
+            lock (_serialPortReceiveLock)
             {
                 count = _serialPort.Read(bytes, offset, capacity - offset);
             }

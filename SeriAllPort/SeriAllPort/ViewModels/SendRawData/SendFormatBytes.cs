@@ -7,7 +7,7 @@ namespace SeriAllPort.ViewModels.SendRawData
     public class SendFormatBytes : ViewModel, ITextToBytes
     {
         [JsonIgnore]
-        public string Name => "Bytes";
+        public static string Name => "Bytes";
 
         private string? _text;
         public string? Text
@@ -31,7 +31,7 @@ namespace SeriAllPort.ViewModels.SendRawData
             }
             else
             {
-                return Array.Empty<byte>();
+                return [];
             }
         }
     }

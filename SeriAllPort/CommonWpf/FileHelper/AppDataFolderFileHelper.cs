@@ -17,8 +17,8 @@ namespace CommonWpf.FileHelper
                 filePattern,
                 SearchOption.TopDirectoryOnly);
 
-            List<T> loadedTs = new List<T>();
-            HashSet<Guid> ids = new HashSet<Guid>();
+            List<T> loadedTs = [];
+            HashSet<Guid> ids = [];
 
             foreach (string file in files)
             {
@@ -47,12 +47,12 @@ namespace CommonWpf.FileHelper
 
             FileSerializer.CreateFolderIfNotExist(folder);
 
-            IEnumerable<string> existTFiles = Directory.EnumerateFiles(
+            IEnumerable<string> existFiles = Directory.EnumerateFiles(
                 folder,
                 filePattern,
                 SearchOption.TopDirectoryOnly);
 
-            HashSet<string> newTFiles = new HashSet<string>();
+            HashSet<string> newTFiles = [];
 
             foreach (T t in listOfT)
             {
@@ -61,18 +61,18 @@ namespace CommonWpf.FileHelper
                 newTFiles.Add(newFileFullPath);
             }
 
-            foreach (string oldTfile in existTFiles)
+            foreach (string oldFile in existFiles)
             {
-                if (!newTFiles.Contains(oldTfile))
+                if (!newTFiles.Contains(oldFile))
                 {
-                    File.Delete(oldTfile);
+                    File.Delete(oldFile);
                 }
             }
         }
 
         public static Guid GenerateUnusedId<T>(IList<T> existedTs) where T : IAppDataFolderFile
         {
-            HashSet<Guid> ids = new HashSet<Guid>();
+            HashSet<Guid> ids = [];
 
             foreach (T t in existedTs)
             {
