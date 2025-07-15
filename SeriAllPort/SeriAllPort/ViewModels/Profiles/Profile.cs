@@ -75,29 +75,29 @@ namespace SeriAllPort.ViewModels.Profiles
             }
         }
 
-        private bool _displayBytes = true;
-        public bool DisplayBytes
+        private bool _logDisplayBytes = true;
+        public bool LogDisplayBytes
         {
-            get => _displayBytes;
+            get => _logDisplayBytes;
             set
             {
-                if (_displayBytes != value)
+                if (_logDisplayBytes != value)
                 {
-                    _displayBytes = value;
+                    _logDisplayBytes = value;
                     OnPropertyChanged();
                 }
             }
         }
 
-        private bool _displayText = true;
-        public bool DisplayText
+        private bool _logGisplayText = false;
+        public bool LogDisplayText
         {
-            get => _displayText;
+            get => _logGisplayText;
             set
             {
-                if (_displayText != value)
+                if (_logGisplayText != value)
                 {
-                    _displayText = value;
+                    _logGisplayText = value;
                     OnPropertyChanged();
                 }
             }
@@ -167,8 +167,6 @@ namespace SeriAllPort.ViewModels.Profiles
 
             newProfile.SendFormats = new ObservableCollection<ITextToBytes>(SendFormats);
             newProfile.ComPortSettings = ComPortSettings.Clone();
-
-            // TODO: more members
 
             return newProfile;
         }

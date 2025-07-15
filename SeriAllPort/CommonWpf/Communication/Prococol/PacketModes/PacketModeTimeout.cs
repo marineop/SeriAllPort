@@ -1,5 +1,6 @@
 ﻿using CommonWpf.Communication.Prococol.EventTypes;
 using CommonWpf.Communication.Prococol.PacketFields;
+using System.Text.Json.Serialization;
 
 namespace CommonWpf.Communication.Prococol.PacketModes
 {
@@ -7,12 +8,13 @@ namespace CommonWpf.Communication.Prococol.PacketModes
     {
         private readonly System.Timers.Timer _timer;
 
+        [JsonIgnore]
         public override string Name => "Timeout";
 
         public PacketModeTimeout()
             : base()
         {
-            TimeoutMs = 50;
+            IdleTimeoutMs = 50;
 
             _timer = new System.Timers.Timer();
             _timer.AutoReset = false;
@@ -35,7 +37,7 @@ namespace CommonWpf.Communication.Prococol.PacketModes
 
         protected override void ValidateInternal()
         {
-            _timer.Interval = TimeoutMs;
+            _timer.Interval = IdleTimeoutMs;
 
             foreach (PacketField field in Fields)
             {

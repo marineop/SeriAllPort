@@ -69,12 +69,12 @@ namespace CommonWpf.Communication.Prococol.PacketFields
 
                     if (LengthMode == LengthMode.FixedData)
                     {
+                        _data = newData ?? throw new Exception("Invalid Data");
+
                         if (newData.Length <= 0)
                         {
                             newData = new byte[1];
                         }
-
-                        _data = newData ?? throw new Exception("Invalid Data");
 
                         FixedLength = _data.Length;
                     }

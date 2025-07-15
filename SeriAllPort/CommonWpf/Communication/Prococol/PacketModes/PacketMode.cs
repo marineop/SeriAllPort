@@ -41,15 +41,15 @@ namespace CommonWpf.Communication.Prococol.PacketModes
             }
         }
 
-        private double _timeoutMs = 50;
-        public double TimeoutMs
+        private double _idleTimeoutMs = 50;
+        public double IdleTimeoutMs
         {
-            get => _timeoutMs;
+            get => _idleTimeoutMs;
             set
             {
-                if (_timeoutMs != value)
+                if (_idleTimeoutMs != value)
                 {
-                    _timeoutMs = value;
+                    _idleTimeoutMs = value;
                     OnPropertyChanged();
                 }
             }
@@ -170,7 +170,7 @@ namespace CommonWpf.Communication.Prococol.PacketModes
             newPacketMode.PacketReceived = PacketReceived;
 
             newPacketMode.Serial = Serial;
-            newPacketMode.TimeoutMs = TimeoutMs;
+            newPacketMode.IdleTimeoutMs = IdleTimeoutMs;
 
             for (int i = 0; i < Fields.Count; ++i)
             {

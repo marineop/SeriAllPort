@@ -35,10 +35,10 @@
             <cwvl:LogControl DataContext="{Binding LogViewModel}">
                 <cwvl:LogControl.UserControls>
                     <CheckBox Content="Bytes" 
-                              IsChecked="{Binding DataContext.CurrentProfile.DisplayBytes, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
+                              IsChecked="{Binding DataContext.CurrentProfile.LogDisplayBytes, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
 
                     <CheckBox Content="Text"
-                              IsChecked="{Binding DataContext.CurrentProfile.DisplayText, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
+                              IsChecked="{Binding DataContext.CurrentProfile.LogDisplayText, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
                 </cwvl:LogControl.UserControls>
             </cwvl:LogControl>
         </GroupBox>

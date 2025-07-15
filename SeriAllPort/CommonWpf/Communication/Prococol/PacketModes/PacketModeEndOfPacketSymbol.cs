@@ -1,5 +1,6 @@
 ﻿using CommonWpf.Communication.Prococol.EventTypes;
 using CommonWpf.Communication.Prococol.PacketFields;
+using System.Text.Json.Serialization;
 
 namespace CommonWpf.Communication.Prococol.PacketModes
 {
@@ -8,6 +9,7 @@ namespace CommonWpf.Communication.Prococol.PacketModes
         private EndOfPacketSymbol? _eop;
         private int _byteCountAfterEop;
 
+        [JsonIgnore]
         public override string Name => "End of Packet Symbol";
 
         public PacketModeEndOfPacketSymbol()

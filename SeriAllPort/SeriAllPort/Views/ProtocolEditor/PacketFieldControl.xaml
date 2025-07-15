@@ -50,7 +50,7 @@
                      IsEnabled="{Binding LengthMode, Converter={StaticResource L2Le}}"
                      Text="{Binding FixedLength, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"/>
 
-            <TextBlock Grid.Row="0" Grid.Column="3" Text="Raw Bytes"/>
+            <TextBlock Grid.Row="0" Grid.Column="3" Text="Raw Bytes Data"/>
             <TextBox Grid.Row="1" Grid.Column="3"
                      FontFamily="Consolas"
                      MinWidth="150"

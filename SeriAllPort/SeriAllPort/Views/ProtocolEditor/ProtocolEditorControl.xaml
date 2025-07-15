@@ -73,8 +73,8 @@
                          IsEnabled="{Binding SelectedProtocol.CanNotEditName, Converter={StaticResource boolInverse}}"
                          Width="auto" HorizontalAlignment="Stretch"/>
 
-                <TextBlock Grid.Row="1" Text="Timeout (ms)"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedProtocol.PacketMode.TimeoutMs,
+                <TextBlock Grid.Row="1" Text="Idle Timeout (ms)"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedProtocol.PacketMode.IdleTimeoutMs,
                                                                      UpdateSourceTrigger=PropertyChanged}"/>
 
                 <TextBlock Grid.Row="2" Text="Packet Mode"/>
@@ -106,7 +106,7 @@
 
                             <MenuItem Header="Add">
                                 <MenuItem Header="Field" Command="{Binding FieldNewCommand}" CommandParameter="{x:Type field:PacketField}"/>
-                                <MenuItem Header="EOP" Command="{Binding FieldNewCommand}" CommandParameter="{x:Type field:EndOfPacketSymbol}"/>
+                                <MenuItem Header="End of Packet" Command="{Binding FieldNewCommand}" CommandParameter="{x:Type field:EndOfPacketSymbol}"/>
                                 <MenuItem Header="Preamble" Command="{Binding FieldNewCommand}" CommandParameter="{x:Type field:Preamble}"/>
                             </MenuItem>
                         </Menu>

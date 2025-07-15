@@ -501,14 +501,14 @@ namespace SeriAllPort.ViewModels
 
                             bool first = true;
 
-                            if (CurrentProfile.DisplayBytes)
+                            if (CurrentProfile.LogDisplayBytes)
                             {
                                 sb.Append($"{bytes.BytesToString()}");
 
                                 first = false;
                             }
 
-                            if (CurrentProfile.DisplayText)
+                            if (CurrentProfile.LogDisplayText)
                             {
                                 string text = Encoding.UTF8.GetString(bytes);
                                 string cleaned = Regex.Replace(text, @"[^\u0020-\u007E]+", "");
