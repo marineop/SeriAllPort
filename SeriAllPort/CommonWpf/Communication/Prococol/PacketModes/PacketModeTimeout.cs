@@ -20,7 +20,7 @@ namespace CommonWpf.Communication.Prococol.PacketModes
 
             PacketField packetField = new PacketField(
                 "Data",
-                false,
+                LengthMode.VariableLength,
                 Array.Empty<byte>(),
                 0);
 
@@ -76,11 +76,15 @@ namespace CommonWpf.Communication.Prococol.PacketModes
                             parsedFields.Add(newField);
 
                             int fieldLength;
-                            if (newField.IsFixedLength)
+                            if (newField.LengthMode == LengthMode.FixedLength)
                             {
                                 fieldLength = newField.FixedLength;
                             }
-                            else
+                            else if (newField.LengthMode == LengthMode.FixedData)
+                            {
+                                fieldLength = newField.Data.Length;
+                            }
+                            else // VariableLength
                             {
                                 if (i >= Fields.Count - 1)
                                 {
@@ -89,7 +93,7 @@ namespace CommonWpf.Communication.Prococol.PacketModes
                                 else
                                 {
                                     PacketField nextField = Fields[i + 1];
-                                    if (nextField.IsFixedLength)
+                                    if (nextField.LengthMode == LengthMode.FixedData)
                                     {
                                         Span<byte> nextFieldData = nextField.Data;
                                         int nextFileRelativeIndex = packetBytes[indexNow..].IndexOf(nextFieldData);
@@ -117,7 +121,8 @@ namespace CommonWpf.Communication.Prococol.PacketModes
                             {
                                 newField.Data = packetBytes.Slice(indexNow, fieldLength).ToArray();
 
-                                if (newField.IsFixedLength && !newField.Data.SequenceEqual(Fields[i].Data))
+                                if (newField.LengthMode == LengthMode.FixedData
+                                    && !newField.Data.SequenceEqual(Fields[i].Data))
                                 {
                                     // fixed length field data must equal to actual data
                                     fieldsValid = false;

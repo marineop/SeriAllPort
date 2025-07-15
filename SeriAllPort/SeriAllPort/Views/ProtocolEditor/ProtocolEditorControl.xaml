@@ -8,7 +8,7 @@
              xmlns:field="clr-namespace:CommonWpf.Communication.Prococol.PacketFields;assembly=CommonWpf"
              xmlns:con="clr-namespace:CommonWpf.Converters;assembly=CommonWpf"
              Height="500"
-             Width="700"
+             Width="710"
              
              mc:Ignorable="d" 
              d:Background="White">

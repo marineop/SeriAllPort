@@ -337,7 +337,7 @@ namespace SeriAllPort.ViewModels.Protocols
                     {
                         newPacketField = new PacketField(
                             "Data",
-                            false,
+                            LengthMode.FixedLength,
                             Array.Empty<byte>(),
                             0);
                         fields.Insert(selectedNextIndex, newPacketField);

@@ -6,6 +6,8 @@
              xmlns:local="clr-namespace:SeriAllPort.Views.ProtocolEditor"
              xmlns:con="clr-namespace:CommonWpf.Converters;assembly=CommonWpf"
              xmlns:pro="clr-namespace:SeriAllPort.ViewModels.Protocols"
+             xmlns:cpro="clr-namespace:CommonWpf.Communication.Prococol;assembly=CommonWpf"
+             xmlns:cwe="clr-namespace:CommonWpf.Extensions;assembly=CommonWpf"
              
              mc:Ignorable="d" 
              d:DesignHeight="60" d:DesignWidth="600"
@@ -14,6 +16,8 @@
     <UserControl.Resources>
         <con:BytesToHexStringConverter x:Key="b2s"/>
         <con:BoolInverseConverter x:Key="boolInverse"/>
+        <con:LengthModeToLengthEnabledConverter x:Key="L2Le"/>
+        <con:LengthModeToDataEnabledConverter x:Key="L2De"/>
     </UserControl.Resources>
     <Border BorderBrush="LightGray" BorderThickness="1">
         <Grid>
@@ -36,12 +40,14 @@
             <TextBox Grid.Row="1" Grid.Column="1" 
                      Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <!--<TextBlock Grid.Row="0" Grid.Column="2" Text="Length"/>-->
-            <CheckBox Grid.Row="0" Grid.Column="2"
-                      Content="Variable Length"
-                      IsChecked="{Binding IsFixedLength, Converter={StaticResource boolInverse}}"/>
+
+            <ComboBox Grid.Row="0" Grid.Column="2" Width="120"
+                      ItemsSource="{Binding Source={cwe:EnumAll {x:Type cpro:LengthMode}}}" DisplayMemberPath="Description" SelectedValuePath="Value"
+                      SelectedValue="{Binding LengthMode}"
+                      />
+            
             <TextBox Grid.Row="1" Grid.Column="2" Width="auto" HorizontalAlignment="Stretch"
-                     IsEnabled="{Binding IsFixedLength}"
+                     IsEnabled="{Binding LengthMode, Converter={StaticResource L2Le}}"
                      Text="{Binding FixedLength, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"/>
 
             <TextBlock Grid.Row="0" Grid.Column="3" Text="Raw Bytes"/>
@@ -49,7 +55,7 @@
                      FontFamily="Consolas"
                      MinWidth="150"
                      Width="auto"
-                     IsEnabled="{Binding IsFixedLength}"
+                     IsEnabled="{Binding LengthMode, Converter={StaticResource L2De}}"
                      Text="{Binding Data, Converter={StaticResource b2s}, ValidatesOnExceptions=True}"/>
 
             <ContentControl Grid.Column="4" Grid.RowSpan="2" DataContext="{Binding}"/>

@@ -1,19 +1,17 @@
-﻿using System.Xml.Linq;
-
-namespace CommonWpf.Communication.Prococol.PacketFields
+﻿namespace CommonWpf.Communication.Prococol.PacketFields
 {
     public class Preamble : PacketField
     {
         public override string TypeName => "Preamble";
 
-        public override bool IsFixedLength
+        public override LengthMode LengthMode
         {
-            get => base.IsFixedLength;
-            set => base.IsFixedLength = true;
+            get => base.LengthMode;
+            set => base.LengthMode = LengthMode.FixedData;
         }
 
         public Preamble(string name, byte[] data)
-             : base(name, true, data, data.Length)
+             : base(name, LengthMode.FixedData, data, data.Length)
         {
         }
 

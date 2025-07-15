@@ -21,30 +21,41 @@ namespace CommonWpf.Communication.Prococol.PacketFields
             }
         }
 
-        private bool _isfixedLength = true;
-        public virtual bool IsFixedLength
+        private LengthMode _lengthMode = LengthMode.FixedLength;
+        public virtual LengthMode LengthMode
         {
-            get => _isfixedLength;
+            get => _lengthMode;
             set
             {
-                if (_isfixedLength != value)
+                if (_lengthMode != value)
                 {
-                    _isfixedLength = value;
+                    _lengthMode = value;
 
-                    if (_isfixedLength)
+                    if (_lengthMode == LengthMode.FixedLength)
                     {
-                        FixedLength = 1;
+                        Data = Array.Empty<byte>();
+                        if (FixedLength <= 1)
+                        {
+                            FixedLength = 1;
+                        }
+                    }
+                    else if (_lengthMode == LengthMode.FixedData)
+                    {
+                        if (Data == null || Data.Length < 1)
+                        {
+                            Data = new byte[1];
+                        }
                     }
                     else
                     {
                         FixedLength = 0;
+                        Data = Array.Empty<byte>();
                     }
 
                     OnPropertyChanged();
                 }
             }
         }
-
 
         private byte[] _data = Array.Empty<byte>();
         public byte[] Data
@@ -55,11 +66,21 @@ namespace CommonWpf.Communication.Prococol.PacketFields
                 if (_data != value)
                 {
                     byte[] newData = value;
-                    _data = newData ?? throw new Exception("Invalid Data");
 
-                    if (IsFixedLength && _data != null && _data.Length >= 0)
+                    if (LengthMode == LengthMode.FixedData)
                     {
+                        if (newData.Length <= 0)
+                        {
+                            newData = new byte[1];
+                        }
+
+                        _data = newData ?? throw new Exception("Invalid Data");
+
                         FixedLength = _data.Length;
+                    }
+                    else
+                    {
+                        _data = Array.Empty<byte>();
                     }
 
                     OnPropertyChanged();
@@ -77,34 +98,29 @@ namespace CommonWpf.Communication.Prococol.PacketFields
                 {
                     int newValue = value;
 
-                    if (!IsFixedLength)
-                    {
-                        newValue = 0;
-                    }
-                    else
+                    if (LengthMode == LengthMode.FixedLength)
                     {
                         if (newValue <= 0)
                         {
                             newValue = 1;
                         }
                     }
-
-                    _fixedLength = newValue;
-
-                    if (newValue != Data.Length)
+                    else if (LengthMode == LengthMode.FixedData)
                     {
-                        byte[] newData = new byte[newValue];
-                        Array.Copy(Data, newData, Math.Min(Data.Length, newValue));
-                        Data = newData;
+                        newValue = Data.Length;
+                    }
+                    else
+                    {
+                        newValue = 0;
                     }
 
+                    _fixedLength = newValue;
                     OnPropertyChanged();
                 }
             }
         }
 
         private object? _value = null;
-
         [JsonIgnore]
         public object? Value
         {
@@ -122,10 +138,10 @@ namespace CommonWpf.Communication.Prococol.PacketFields
         [JsonIgnore]
         public virtual string TypeName { get; } = "Field";
 
-        public PacketField(string name, bool isFixedLength, byte[] data, int fixedLength)
+        public PacketField(string name, LengthMode lengthMode, byte[] data, int fixedLength)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
-            IsFixedLength = isFixedLength;
+            LengthMode = lengthMode;
             Data = data ?? throw new ArgumentNullException(nameof(data));
             FixedLength = fixedLength;
         }
@@ -134,7 +150,7 @@ namespace CommonWpf.Communication.Prococol.PacketFields
         {
             PacketField newPacketField = new PacketField(
                 Name,
-                IsFixedLength,
+                LengthMode,
                 Data = (byte[])Data.Clone(),
                 FixedLength);
 

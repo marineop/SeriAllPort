@@ -4,14 +4,14 @@
     {
         public override string TypeName => "End of Packet";
 
-        public override bool IsFixedLength
+        public override LengthMode LengthMode
         {
-            get => base.IsFixedLength;
-            set => base.IsFixedLength = true;
+            get => base.LengthMode;
+            set => base.LengthMode = LengthMode.FixedData;
         }
 
         public EndOfPacketSymbol(string name, byte[] data)
-            : base(name, true, data, data.Length)
+            : base(name, LengthMode.FixedData, data, data.Length)
         {
         }
 

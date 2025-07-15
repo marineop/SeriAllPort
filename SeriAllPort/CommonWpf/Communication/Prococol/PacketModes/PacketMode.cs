@@ -121,14 +121,21 @@ namespace CommonWpf.Communication.Prococol.PacketModes
                     names.Add(field.Name);
                 }
 
-                if (field.IsFixedLength && field.FixedLength <= 0)
+                if (field.LengthMode == LengthMode.FixedLength && field.FixedLength <= 0)
                 {
                     throw new Exception("Fixed Length field's length must be at least 1.");
                 }
 
-                if (previousfield != null && (!previousfield.IsFixedLength && !field.IsFixedLength))
+                if (field.LengthMode == LengthMode.FixedData && field.Data.Length <= 0)
                 {
-                    throw new Exception("Consecutive variable-length fields are not permitted.");
+                    throw new Exception("Fixed Data field's Data length must be at least 1.");
+                }
+
+                if (previousfield != null
+                    && previousfield.LengthMode == LengthMode.VariableLength
+                    && field.LengthMode != LengthMode.FixedData)
+                {
+                    throw new Exception("A variable-length field must be followed by a fixed-Data field.");
                 }
 
                 previousfield = field;

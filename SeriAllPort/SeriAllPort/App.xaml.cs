@@ -48,7 +48,7 @@ namespace SeriAllPort
             _mainViewModel = new MainViewModel(this, this, AppSettings);
 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-            this.DispatcherUnhandledException += App_DispatcherUnhandledException;
+            DispatcherUnhandledException += App_DispatcherUnhandledException;
             TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
         }
 

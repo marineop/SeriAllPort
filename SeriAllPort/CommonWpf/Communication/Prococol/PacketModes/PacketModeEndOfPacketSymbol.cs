@@ -17,7 +17,7 @@ namespace CommonWpf.Communication.Prococol.PacketModes
         {
             PacketField data = new PacketField(
                 "Data",
-                false,
+                LengthMode.VariableLength,
                 Array.Empty<byte>(),
                 0);
 
@@ -42,9 +42,9 @@ namespace CommonWpf.Communication.Prococol.PacketModes
                 PacketField field = Fields[i];
                 if (field is EndOfPacketSymbol)
                 {
-                    if (!field.IsFixedLength)
+                    if (field.LengthMode != LengthMode.FixedData)
                     {
-                        throw new Exception("EOP must be fixed length.");
+                        throw new Exception("EOP must be fixed data.");
                     }
 
                     if (field.FixedLength <= 0)
@@ -80,7 +80,7 @@ namespace CommonWpf.Communication.Prococol.PacketModes
 
             for (int i = eopIndex + 1; i < Fields.Count; ++i)
             {
-                if (!Fields[i].IsFixedLength)
+                if (Fields[i].LengthMode != LengthMode.FixedLength)
                 {
                     throw new Exception("Fields after End of Packet Symbol must be fixed length.");
                 }
@@ -157,11 +157,15 @@ namespace CommonWpf.Communication.Prococol.PacketModes
                             parsedFields.Add(newField);
 
                             int fieldLength;
-                            if (newField.IsFixedLength)
+                            if (newField.LengthMode == LengthMode.FixedLength)
                             {
                                 fieldLength = newField.FixedLength;
                             }
-                            else
+                            else if (newField.LengthMode == LengthMode.FixedData)
+                            {
+                                fieldLength = newField.Data.Length;
+                            }
+                            else // VariableLength
                             {
                                 if (i >= Fields.Count - 1)
                                 {
@@ -176,7 +180,7 @@ namespace CommonWpf.Communication.Prococol.PacketModes
                                     {
                                         fieldLength = eopIndex - indexNow;
                                     }
-                                    else if (nextField.IsFixedLength)
+                                    else if (nextField.LengthMode == LengthMode.FixedData)
                                     {
                                         Span<byte> nextFieldData = nextField.Data;
                                         int nextFileRelativeIndex = packetBytes[indexNow..].IndexOf(nextFieldData);
@@ -193,7 +197,8 @@ namespace CommonWpf.Communication.Prococol.PacketModes
                                     }
                                     else
                                     {
-                                        // two consecutive variable length fields
+                                        // [variable length] [variable length]
+                                        // [variable length] [Fixed length]
                                         fieldsValid = false;
                                         break;
                                     }
@@ -204,9 +209,10 @@ namespace CommonWpf.Communication.Prococol.PacketModes
                             {
                                 newField.Data = packetBytes.Slice(indexNow, fieldLength).ToArray();
 
-                                if (newField.IsFixedLength && !newField.Data.SequenceEqual(Fields[i].Data))
+                                if (newField.LengthMode == LengthMode.FixedData
+                                    && !newField.Data.SequenceEqual(Fields[i].Data))
                                 {
-                                    // fixed length field data must equal to actual data
+                                    // fixed data field, data must be equal to expected data
                                     fieldsValid = false;
                                     break;
                                 }
