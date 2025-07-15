@@ -81,15 +81,9 @@ namespace CommonWpf.Communication.Prococol
 
         public Protocol CreateClone()
         {
-            PacketMode newPacketMode = PacketMode.CreateClone();
-            Protocol newProtocol = new Protocol(
-                Name,
-                Id,
-                newPacketMode);
+            Protocol newProtocol = (Protocol)MemberwiseClone();
 
-            newProtocol.Order = Order;
-            newProtocol.CanNotDelete = CanNotDelete;
-            newProtocol.CanNotEditName = CanNotEditName;
+            newProtocol.PacketMode = PacketMode.CreateClone();
 
             return newProtocol;
         }

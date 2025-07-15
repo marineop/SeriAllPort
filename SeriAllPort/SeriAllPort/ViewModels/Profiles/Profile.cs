@@ -162,6 +162,9 @@ namespace SeriAllPort.ViewModels.Profiles
         {
             Profile newProfile = (Profile)MemberwiseClone();
 
+            newProfile.SendFormats = new ObservableCollection<ITextToBytes>(SendFormats);
+            newProfile.ComPortSettings = ComPortSettings.Clone();
+
             // TODO: more members
 
             return newProfile;
