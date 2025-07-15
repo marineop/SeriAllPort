@@ -13,6 +13,11 @@ namespace CommonWpf.Communication.Prococol.PacketModes
         public override string Name => "End of Packet Symbol";
 
         public PacketModeEndOfPacketSymbol()
+            : base()
+        {
+        }
+
+        public PacketModeEndOfPacketSymbol(byte[] symbol)
              : base()
         {
             PacketField data = new PacketField(
@@ -25,7 +30,8 @@ namespace CommonWpf.Communication.Prococol.PacketModes
 
             EndOfPacketSymbol eop = new EndOfPacketSymbol(
                 "EOP",
-                [(byte)'\r', (byte)'\n']);
+                symbol);
+
             Fields.Add(eop);
         }
 
@@ -274,7 +280,6 @@ namespace CommonWpf.Communication.Prococol.PacketModes
         protected override PacketMode CreateCloneInteranl()
         {
             PacketModeEndOfPacketSymbol packetModeEndOfPacketSymbol = new PacketModeEndOfPacketSymbol();
-            packetModeEndOfPacketSymbol.Fields.Clear();
 
             return packetModeEndOfPacketSymbol;
         }

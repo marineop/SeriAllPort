@@ -6,7 +6,7 @@ namespace CommonWpf.Communication.Prococol.PacketModes
 {
     public class PacketModeTimeout : PacketMode
     {
-        private readonly System.Timers.Timer _timer;
+        private readonly System.Timers.Timer _timer = new System.Timers.Timer();
 
         [JsonIgnore]
         public override string Name => "Timeout";
@@ -14,11 +14,13 @@ namespace CommonWpf.Communication.Prococol.PacketModes
         public PacketModeTimeout()
             : base()
         {
-            IdleTimeoutMs = 50;
+            Initialize();
+        }
 
-            _timer = new System.Timers.Timer();
-            _timer.AutoReset = false;
-            _timer.Elapsed += _timer_Elapsed;
+        public PacketModeTimeout(int dummy)
+            : base()
+        {
+            Initialize();
 
             PacketField packetField = new PacketField(
                 "Data",
@@ -27,6 +29,14 @@ namespace CommonWpf.Communication.Prococol.PacketModes
                 0);
 
             Fields.Add(packetField);
+        }
+
+        private void Initialize()
+        {
+            IdleTimeoutMs = 50;
+
+            _timer.AutoReset = false;
+            _timer.Elapsed += _timer_Elapsed;
         }
 
         protected override void BytesReceivedInternal()
@@ -56,7 +66,6 @@ namespace CommonWpf.Communication.Prococol.PacketModes
         protected override PacketMode CreateCloneInteranl()
         {
             PacketModeTimeout newMode = new PacketModeTimeout();
-            newMode.Fields.Clear();
 
             return newMode;
         }

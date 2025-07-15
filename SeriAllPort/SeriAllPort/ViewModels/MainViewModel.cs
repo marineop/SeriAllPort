@@ -291,7 +291,21 @@ namespace SeriAllPort.ViewModels
                 Protocol newProtocol = new Protocol(
                    "CR LF",
                    AppDataFolderFileHelper.GenerateUnusedId(Protocols),
-                   new PacketModeEndOfPacketSymbol());
+                   new PacketModeEndOfPacketSymbol([(byte)'\r', (byte)'\n']));
+
+                Protocols.Add(newProtocol);
+
+                newProtocol = new Protocol(
+                   "CR",
+                   AppDataFolderFileHelper.GenerateUnusedId(Protocols),
+                   new PacketModeEndOfPacketSymbol([(byte)'\r']));
+
+                Protocols.Add(newProtocol);
+
+                newProtocol = new Protocol(
+                   "LF",
+                   AppDataFolderFileHelper.GenerateUnusedId(Protocols),
+                   new PacketModeEndOfPacketSymbol([(byte)'\n']));
 
                 Protocols.Add(newProtocol);
             }
@@ -313,7 +327,7 @@ namespace SeriAllPort.ViewModels
                 _defaultProtocol = new Protocol(
                 "Default",
                 Guid.Empty,
-                new PacketModeTimeout());
+                new PacketModeTimeout(0));
 
                 _defaultProtocol.CanNotDelete = true;
                 _defaultProtocol.CanNotEditName = true;

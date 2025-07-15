@@ -44,8 +44,8 @@ namespace SeriAllPort.ViewModels.Protocols
                     {
                         PacketModes = new ObservableCollection<PacketMode>()
                         {
-                            new PacketModeTimeout(),
-                            new PacketModeEndOfPacketSymbol(),
+                            new PacketModeTimeout(0),
+                            new PacketModeEndOfPacketSymbol([(byte)'\r', (byte)'\n']),
                             _selectedProtocol.PacketMode,
                         };
 
@@ -206,8 +206,8 @@ namespace SeriAllPort.ViewModels.Protocols
 
             _packetModes =
             [
-                new PacketModeTimeout(),
-                new PacketModeEndOfPacketSymbol(),
+                new PacketModeTimeout(0),
+                new PacketModeEndOfPacketSymbol([(byte)'\r', (byte)'\n']),
             ];
 
             SelectedProtocol = selectedProtocol;
@@ -247,7 +247,7 @@ namespace SeriAllPort.ViewModels.Protocols
 
         private void ProtocolNew()
         {
-            PacketModeTimeout packetMode = new PacketModeTimeout();
+            PacketModeTimeout packetMode = new PacketModeTimeout(0);
 
             List<string> protocolNames = new List<string>();
 
