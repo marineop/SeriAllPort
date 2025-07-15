@@ -335,17 +335,25 @@ namespace SeriAllPort.ViewModels.Protocols
                     PacketField? newPacketField = null;
                     if (type == typeof(PacketField))
                     {
-                        newPacketField = new PacketField();
+                        newPacketField = new PacketField(
+                            "Data",
+                            false,
+                            Array.Empty<byte>(),
+                            0);
                         fields.Insert(selectedNextIndex, newPacketField);
                     }
                     else if (type == typeof(EndOfPacketSymbol))
                     {
-                        newPacketField = new EndOfPacketSymbol();
+                        newPacketField = new EndOfPacketSymbol(
+                            "EOP",
+                            [(byte)'\r', (byte)'\n']);
                         fields.Insert(fields.Count, newPacketField);
                     }
                     else if (type == typeof(Preamble))
                     {
-                        newPacketField = new Preamble();
+                        newPacketField = new Preamble(
+                            "Preamble",
+                            [0x00]);
                         fields.Insert(0, newPacketField);
                     }
 

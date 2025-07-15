@@ -10,13 +10,14 @@
             set => base.IsFixedLength = true;
         }
 
-        public EndOfPacketSymbol()
+        public EndOfPacketSymbol(string name, byte[] data)
+            : base(name, true, data, data.Length)
         {
         }
 
         public override PacketField CreateClone()
         {
-            EndOfPacketSymbol newPacketField = new EndOfPacketSymbol();
+            EndOfPacketSymbol newPacketField = new EndOfPacketSymbol(Name, Data);
 
             AssignWithSelfValue(newPacketField);
 

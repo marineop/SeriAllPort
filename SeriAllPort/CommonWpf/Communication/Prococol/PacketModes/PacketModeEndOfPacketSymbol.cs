@@ -15,17 +15,17 @@ namespace CommonWpf.Communication.Prococol.PacketModes
         public PacketModeEndOfPacketSymbol()
              : base()
         {
-            PacketField data = new PacketField();
-            data.Name = "Data";
-            data.IsFixedLength = false;
-            data.FixedLength = 0;
+            PacketField data = new PacketField(
+                "Data",
+                false,
+                Array.Empty<byte>(),
+                0);
+
             Fields.Add(data);
 
-            EndOfPacketSymbol eop = new EndOfPacketSymbol();
-            eop.Name = "EOP";
-            eop.IsFixedLength = true;
-            eop.Data = [(byte)'\r', (byte)'\n'];
-            eop.FixedLength = 2;
+            EndOfPacketSymbol eop = new EndOfPacketSymbol(
+                "EOP",
+                [(byte)'\r', (byte)'\n']);
             Fields.Add(eop);
         }
 

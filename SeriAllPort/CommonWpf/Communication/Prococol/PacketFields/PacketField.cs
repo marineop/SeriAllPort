@@ -7,7 +7,7 @@ namespace CommonWpf.Communication.Prococol.PacketFields
     [JsonDerivedType(typeof(Preamble), typeDiscriminator: "Preamble")]
     public class PacketField : ViewModel
     {
-        private string _name = "Name";
+        private string _name = string.Empty;
         public string Name
         {
             get => _name;
@@ -16,27 +16,6 @@ namespace CommonWpf.Communication.Prococol.PacketFields
                 if (_name != value)
                 {
                     _name = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private byte[] _data = Array.Empty<byte>();
-        public byte[] Data
-        {
-            get => _data;
-            set
-            {
-                if (_data != value)
-                {
-                    byte[] newData = value;
-                    _data = newData ?? throw new Exception("Invalid Data");
-
-                    if (IsFixedLength && _data != null && _data.Length >= 0)
-                    {
-                        FixedLength = _data.Length;
-                    }
-
                     OnPropertyChanged();
                 }
             }
@@ -59,6 +38,28 @@ namespace CommonWpf.Communication.Prococol.PacketFields
                     else
                     {
                         FixedLength = 0;
+                    }
+
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
+        private byte[] _data = Array.Empty<byte>();
+        public byte[] Data
+        {
+            get => _data;
+            set
+            {
+                if (_data != value)
+                {
+                    byte[] newData = value;
+                    _data = newData ?? throw new Exception("Invalid Data");
+
+                    if (IsFixedLength && _data != null && _data.Length >= 0)
+                    {
+                        FixedLength = _data.Length;
                     }
 
                     OnPropertyChanged();
@@ -121,16 +122,21 @@ namespace CommonWpf.Communication.Prococol.PacketFields
         [JsonIgnore]
         public virtual string TypeName { get; } = "Field";
 
+        public PacketField(string name, bool isFixedLength, byte[] data, int fixedLength)
+        {
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            IsFixedLength = isFixedLength;
+            Data = data ?? throw new ArgumentNullException(nameof(data));
+            FixedLength = fixedLength;
+        }
+
         public virtual PacketField CreateClone()
         {
-            PacketField newPacketField = new PacketField()
-            {
-                Name = Name,
+            PacketField newPacketField = new PacketField(
+                Name,
+                IsFixedLength,
                 Data = (byte[])Data.Clone(),
-                IsFixedLength = IsFixedLength,
-                FixedLength = FixedLength,
-                Value = Value,
-            };
+                FixedLength);
 
             return newPacketField;
         }

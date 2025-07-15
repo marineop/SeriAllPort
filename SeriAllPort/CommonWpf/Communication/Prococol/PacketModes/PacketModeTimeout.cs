@@ -18,9 +18,11 @@ namespace CommonWpf.Communication.Prococol.PacketModes
             _timer.AutoReset = false;
             _timer.Elapsed += _timer_Elapsed;
 
-            PacketField packetField = new PacketField();
-            packetField.Name = "Data";
-            packetField.IsFixedLength = false;
+            PacketField packetField = new PacketField(
+                "Data",
+                false,
+                Array.Empty<byte>(),
+                0);
 
             Fields.Add(packetField);
         }
