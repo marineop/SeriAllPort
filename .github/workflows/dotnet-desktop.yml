@@ -40,9 +40,9 @@ name: .NET Core Desktop
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "marineop-patch-1" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "marineop-patch-1" ]
 
 jobs:
 
