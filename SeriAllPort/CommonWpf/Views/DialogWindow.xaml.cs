@@ -1,13 +1,13 @@
 ﻿using System.Windows;
 
-namespace CommonWpf.Views.ComPort
+namespace CommonWpf.Views
 {
     /// <summary>
-    /// Interaction logic for ComPortSettingsWindow.xaml
+    /// Interaction logic for DialogWindow.xaml
     /// </summary>
-    public partial class ComPortSettingsWindow : Window
+    public partial class DialogWindow : Window
     {
-        public ComPortSettingsWindow()
+        public DialogWindow()
         {
             InitializeComponent();
         }

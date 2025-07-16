@@ -6,10 +6,10 @@
         {
             if (string.IsNullOrWhiteSpace(text))
             {
-                return Array.Empty<byte>();
+                return [];
             }
 
-            List<byte> bytes = new List<byte>();
+            List<byte> bytes = [];
             int length = text.Length;
             int i = 0;
 

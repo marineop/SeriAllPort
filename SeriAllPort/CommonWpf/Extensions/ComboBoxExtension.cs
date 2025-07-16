@@ -42,7 +42,7 @@ namespace CommonWpf.Extensions
         {
             if (sender is ComboBox comboBox)
             {
-                var command = GetDropDownOpenedCommand(comboBox);
+                ICommand command = GetDropDownOpenedCommand(comboBox);
                 if (command != null && command.CanExecute(null))
                 {
                     command.Execute(null);

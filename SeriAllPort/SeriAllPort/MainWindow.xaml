@@ -15,7 +15,7 @@
 
     <Window.Resources>
     </Window.Resources>
-    
+
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -23,12 +23,25 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Menu>
-            <MenuItem Header="Help" Padding="8,2">
+            <MenuItem Header="Edit">
+                <MenuItem Header="Profile" Command="{Binding ProfileEditorCommand}"/>
+                <MenuItem Header="Protocol" Command="{Binding ProtocolEditorCommand}"/>
+            </MenuItem>
+            <MenuItem Header="Help">
                 <MenuItem x:Name="Aobut" Header="About SeriAllPort" Click="Aobut_Click"/>
             </MenuItem>
         </Menu>
         <GroupBox Header="Log" Grid.Row="1">
-            <cwvl:LogControl DataContext="{Binding LogViewModel}"/>
+            <cwvl:LogControl DataContext="{Binding LogViewModel}">
+                <cwvl:LogControl.UserControls>
+                    <CheckBox Content="Bytes" 
+                              IsChecked="{Binding DataContext.CurrentProfile.LogDisplayBytes, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
+                    <CheckBox Content="Text"
+                              IsChecked="{Binding DataContext.CurrentProfile.LogDisplayText, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
+                    <CheckBox Content="Parsed"
+                              IsChecked="{Binding DataContext.CurrentProfile.LogDisplayParsed, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
+                </cwvl:LogControl.UserControls>
+            </cwvl:LogControl>
         </GroupBox>
         <GroupBox Header="Control Panel" Grid.Row="2">
             <Grid>
@@ -38,17 +51,27 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <StackPanel Orientation="Horizontal" Visibility="Collapsed">
+                <StackPanel Orientation="Horizontal" IsEnabled="{Binding SerialIsDisconnected}">
                     <TextBlock Text="Profile"/>
-                    <ComboBox/>
-                    <TextBlock Text="Command Protocol"/>
-                    <ComboBox/>
-                    <TextBlock Text="Reply Protocol"/>
-                    <ComboBox/>
-                </StackPanel>
-                
-                <cwv:SerialControl Grid.Row="1"/>
+                    <ComboBox
+                        ItemsSource="{Binding Profiles}"
+                        SelectedItem="{Binding CurrentProfile}"
+                        DisplayMemberPath="Name"
+                        />
+                    <Button Content="..." Width="20" Command="{Binding ProfileEditorCommand}"/>
+                    <TextBlock Text="Protocol"/>
 
+                    <ComboBox ItemsSource="{Binding Protocols}" DisplayMemberPath="Name"
+                              SelectedItem="{Binding CurrentProtocol}"
+                              Width="auto" MinWidth="150"/>
+                    <TextBlock Text="{Binding CurrentProtocolValidation}"/>
+                    <Button Content="..." Width="20" Command="{Binding ProtocolEditorCommand}"/>
+                </StackPanel>
+
+                <Grid Grid.Row="1" IsEnabled="{Binding CurrentProtocolIsValid}">
+                    <cwv:SerialControl DataContext="{Binding Serial}"/>
+                </Grid>
+                
                 <view:SendRawDataControl Grid.Row="2"/>
             </Grid>
         </GroupBox>

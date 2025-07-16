@@ -7,6 +7,8 @@
              xmlns:ex="clr-namespace:CommonWpf.Extensions"
              xmlns:viewcomp="clr-namespace:CommonWpf.Views.ComPort"
              xmlns:vm="clr-namespace:CommonWpf.ViewModels"
+             xmlns:con="clr-namespace:CommonWpf.Converters"
+             
              mc:Ignorable="d"
              d:Background="white"
              >
@@ -20,6 +22,8 @@
             <DataTemplate DataType="{x:Type vm:ComPortViewModel}">
                 <viewcomp:ComPortConnectionControl/>
             </DataTemplate>
+
+            <con:ConnectionStateToSettingEnableConverter x:Key="c2se"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -31,11 +35,13 @@
         </Grid.ColumnDefinitions>
         
         <TextBlock Text="Interface"/>
-        <ComboBox Grid.Column="1" ItemsSource="{Binding Serial.PhysicalInterfaces}"
+        <ComboBox Grid.Column="1" ItemsSource="{Binding PhysicalInterfaces}"
                   DisplayMemberPath="Name"
-                  SelectedItem="{Binding Serial.CurrentInterface}"/>
+                  SelectedItem="{Binding CurrentInterface}"
+                  IsEnabled="{Binding ConnectionState, Converter={StaticResource c2se}}"
+                  />
 
-        <ContentControl Grid.Column="2" Content="{Binding Serial.CurrentInterface}"/>
+        <ContentControl Grid.Column="2" Content="{Binding CurrentInterface}"/>
 
     </Grid>
 </UserControl>

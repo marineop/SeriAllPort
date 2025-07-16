@@ -32,7 +32,7 @@ namespace CommonWpf.ViewModels
                 _comPort.ConnectionStateChanged -= value;
             }
         }
-        public event BytesReceivedEventHandler BytesReceived
+        public event EventHandler? BytesReceived
         {
             add
             {
@@ -58,30 +58,38 @@ namespace CommonWpf.ViewModels
             }
         }
 
-        public IShowDialog? ShowDialog { get; set; }
+        public string Name => _comPort.Name;
 
-        public ICommand RefreshPortListCommand { get; set; }
-        public ICommand SettingsCommand { get; set; }
-        public ICommand ConnectCommand { get; set; }
-
-        public string Name => ((ISerial)_comPort).Name;
-
-        private ObservableCollection<string> _PortNameList = new ObservableCollection<string>();
-        public ObservableCollection<string> PortNameList
+        private ConnectionState _connectionState;
+        public ConnectionState ConnectionState
         {
-            get => _PortNameList;
+            get => _connectionState;
             set
             {
-                if (_PortNameList != value)
+                if (_connectionState != value)
                 {
-                    _PortNameList = value;
+                    _connectionState = value;
                     OnPropertyChanged();
                 }
             }
         }
 
-        public List<int> BaudRateList { get; private set; } = new List<int>()
+        private ObservableCollection<string> _portNameList = [];
+        public ObservableCollection<string> PortNameList
         {
+            get => _portNameList;
+            set
+            {
+                if (_portNameList != value)
+                {
+                    _portNameList = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public List<int> BaudRateList { get; private set; } =
+        [
             300,
             600,
             1200,
@@ -99,24 +107,16 @@ namespace CommonWpf.ViewModels
             460800,
             576000,
             921600
-        };
+        ];
+        public List<int> DataBitsList { get; private set; } = [5, 6, 7, 8];
 
-        public List<int> DataBitsList { get; private set; } = new List<int>() { 5, 6, 7, 8 };
+        public IShowDialog? ShowDialog { get; set; }
 
-        private ConnectionState _ConnectionState;
+        public ICommand RefreshPortListCommand { get; set; }
 
-        public ConnectionState ConnectionState
-        {
-            get => _ConnectionState;
-            set
-            {
-                if (_ConnectionState != value)
-                {
-                    _ConnectionState = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+        public ICommand SettingsCommand { get; set; }
+
+        public ICommand ConnectCommand { get; set; }
 
         public ComPortViewModel()
         {
@@ -131,6 +131,33 @@ namespace CommonWpf.ViewModels
             }
 
             ComPort.ConnectionStateChanged += (o, c) => { ConnectionState = c.ConnectionState; };
+        }
+
+        public void Connect()
+        {
+            if (ComPort.ConnectionState == ConnectionState.Disconnected)
+            {
+                ComPort.Connect();
+            }
+            else if (ComPort.ConnectionState == ConnectionState.Connected)
+            {
+                ComPort.Disconnect();
+            }
+        }
+
+        public int ReadBytes(byte[] bytes, int offset, int capacity)
+        {
+            return ComPort.ReadBytes(bytes, offset, capacity);
+        }
+
+        public void SendBytes(byte[] bytes)
+        {
+            _comPort.SendBytes(bytes);
+        }
+
+        public void SendBytes(byte[] bytes, int offset, int length)
+        {
+            _comPort.SendBytes(bytes, offset, length);
         }
 
         public void RefreshPortList()
@@ -152,7 +179,7 @@ namespace CommonWpf.ViewModels
             {
                 ComPortViewModel newInstance = new ComPortViewModel();
                 newInstance.ComPort.Settings = ComPort.Settings.Clone();
-                bool ok = ShowDialog.ShowDialog(newInstance);
+                bool ok = ShowDialog.ShowDialog(newInstance, "Serial Port Settings");
                 if (ok)
                 {
                     ComPort.Settings = newInstance.ComPort.Settings;
@@ -160,30 +187,8 @@ namespace CommonWpf.ViewModels
             }
             else
             {
-                throw new Exception("ShowDialog not configued.");
+                throw new Exception("ShowDialog not configured.");
             }
-        }
-
-        public void Connect()
-        {
-            if (ComPort.ConnectionState == ConnectionState.Disconnected)
-            {
-                ComPort.Connect();
-            }
-            else if (ComPort.ConnectionState == ConnectionState.Connected)
-            {
-                ComPort.Disconnect();
-            }
-        }
-
-        public void SendBytes(byte[] bytes)
-        {
-            _comPort.SendBytes(bytes);
-        }
-
-        public void SendBytes(byte[] bytes, int offset, int length)
-        {
-            _comPort.SendBytes(bytes, offset, length);
         }
     }
 }

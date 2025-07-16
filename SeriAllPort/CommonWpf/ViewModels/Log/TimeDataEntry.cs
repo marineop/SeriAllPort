@@ -10,5 +10,10 @@
             Time = time;
             Message = message;
         }
+
+        public override string ToString()
+        {
+            return $"{Time:yyyy-MM-dd HH:mm:ss.fff}: {Message}";
+        }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using CommonWpf.EventHandlers;
-using CommonWpf.Extensions;
 using System.ComponentModel;
 using System.IO;
 using System.IO.Ports;
@@ -10,17 +9,16 @@ namespace CommonWpf.Communication.PhysicalInterfaces
     {
         public event ErrorEventHandler? Error;
         public event ConnectionStateChangedEventHandler? ConnectionStateChanged;
-        public event BytesReceivedEventHandler? BytesReceived;
+        public event EventHandler? BytesReceived;
 
         private readonly SerialPort _serialPort = new SerialPort();
-        private readonly object _serialPortRecieveLock = new object();
-        private readonly byte[] _recieveBuffer = new byte[4096];
+        private readonly object _serialPortReceiveLock = new object();
 
         private ConnectionState _connectionState;
         public ConnectionState ConnectionState
         {
             get => _connectionState;
-            set
+            private set
             {
                 if (_connectionState != value)
                 {
@@ -107,19 +105,13 @@ namespace CommonWpf.Communication.PhysicalInterfaces
 
         public void SendBytes(byte[] bytes, int offset, int length)
         {
-            if (offset < 0)
-            {
-                throw new ArgumentOutOfRangeException("offset must not be less than 0");
-            }
+            ArgumentOutOfRangeException.ThrowIfNegative(offset);
 
-            if (length < 0)
-            {
-                throw new ArgumentOutOfRangeException("length must not be less than 0");
-            }
+            ArgumentOutOfRangeException.ThrowIfNegative(length);
 
             if (offset + length >= bytes.Length)
             {
-                throw new ArgumentOutOfRangeException("(offset + length) must be less than bytes.Length");
+                throw new IndexOutOfRangeException("(offset + length) must be less than bytes.Length");
             }
 
             if (length > 0)
@@ -130,12 +122,18 @@ namespace CommonWpf.Communication.PhysicalInterfaces
 
         private void _serialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            lock (_serialPortRecieveLock)
+            BytesReceived?.Invoke(this, EventArgs.Empty);
+        }
+
+        public int ReadBytes(byte[] bytes, int offset, int capacity)
+        {
+            int count = 0;
+            lock (_serialPortReceiveLock)
             {
-                int count = _serialPort.Read(_recieveBuffer, 0, _recieveBuffer.Length);
-                byte[] newData = _recieveBuffer.SubArray(0, count);
-                BytesReceived?.Invoke(this, new BytesReceivedEventArgs(newData, 0, count));
+                count = _serialPort.Read(bytes, offset, capacity - offset);
             }
+
+            return count;
         }
 
         private void OnError(Exception exception)
@@ -149,6 +147,7 @@ namespace CommonWpf.Communication.PhysicalInterfaces
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
         #endregion
 
     }

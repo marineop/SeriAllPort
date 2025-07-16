@@ -4,11 +4,7 @@ namespace CommonWpf
 {
     public class SimpleCommand : ICommand
     {
-        public event EventHandler? CanExecuteChanged
-        {
-            add { }
-            remove { }
-        }
+        public event EventHandler? CanExecuteChanged;
 
         private readonly Action<object?> _whatToDo;
         private readonly Predicate<object?>? _canExecute;
@@ -34,6 +30,11 @@ namespace CommonWpf
         public void Execute(object? parameter)
         {
             _whatToDo?.Invoke(parameter);
+        }
+
+        public void RaiseCanExecuteChangedEvent()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:CommonWpf.Views.Log"
              xmlns:ex="clr-namespace:CommonWpf.Extensions"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -15,13 +16,31 @@
         <WrapPanel Orientation="Horizontal">
             <Button Content="Clear" Command="{Binding ClearCommand}"/>
             <CheckBox Content="Auto Scroll" IsChecked="{Binding AutoScroll}"/>
+            <ItemsControl ItemsSource="{Binding Path=UserControls, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,5"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
         </WrapPanel>
         <ListView Grid.Row="1"
+                  x:Name="uxLogList"
                   FontFamily="Cascadia Code"
                   FontSize="13"
                   ItemsSource="{Binding Entries}"
                   ex:ListViewExtensions.AutoScrollToEnd="{Binding AutoScroll}"
                   >
+            <ListView.Resources>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="VerticalContentAlignment" Value="Top"/>
+                </Style>
+            </ListView.Resources>
+            <ListView.ContextMenu>
+                <ContextMenu x:Name="uxContextMenu">
+                    <MenuItem x:Name="uxCopy" Header="Copy" Click="uxCopy_Click"/>
+                </ContextMenu>
+            </ListView.ContextMenu>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Time" DisplayMemberBinding="{Binding Time, StringFormat=yyyy-MM-dd HH:mm:ss.fff}" Width="190"/>

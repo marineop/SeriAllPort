@@ -11,6 +11,5 @@ namespace CommonWpf
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
         #endregion
-
     }
 }

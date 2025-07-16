@@ -7,11 +7,13 @@ namespace CommonWpf.Communication
     {
         event ErrorEventHandler Error;
         event ConnectionStateChangedEventHandler ConnectionStateChanged;
-        event BytesReceivedEventHandler BytesReceived;
+        event EventHandler BytesReceived;
 
         string Name { get; }
 
-        ConnectionState ConnectionState { get; set; }
+        ConnectionState ConnectionState { get; }
+
+        int ReadBytes(byte[] bytes, int offset, int capacity);
 
         void SendBytes(byte[] bytes);
 

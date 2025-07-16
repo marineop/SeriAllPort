@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="SeriAllPort.Views.ProtocolEditor.PacketFieldControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SeriAllPort.Views.ProtocolEditor"
+             xmlns:con="clr-namespace:CommonWpf.Converters;assembly=CommonWpf"
+             xmlns:pro="clr-namespace:SeriAllPort.ViewModels.Protocols"
+             xmlns:cpro="clr-namespace:CommonWpf.Communication.Protocol;assembly=CommonWpf"
+             xmlns:cwe="clr-namespace:CommonWpf.Extensions;assembly=CommonWpf"
+             
+             mc:Ignorable="d" 
+             d:DesignHeight="60" d:DesignWidth="600"
+             d:Background="White"
+             >
+    <UserControl.Resources>
+        <con:BytesToHexStringConverter x:Key="b2s"/>
+        <con:BoolInverseConverter x:Key="boolInverse"/>
+        <con:LengthModeToLengthEnabledConverter x:Key="L2Le"/>
+        <con:LengthModeToDataEnabledConverter x:Key="L2De"/>
+    </UserControl.Resources>
+    <Border BorderBrush="LightGray" BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Text="Type"/>
+            <TextBlock Grid.Row="1" Text="{Binding TypeName}" MinWidth="80"/>
+
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="Name"/>
+            <TextBox Grid.Row="1" Grid.Column="1" 
+                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+            <ComboBox Grid.Row="0" Grid.Column="2" Width="120"
+                      ItemsSource="{Binding Source={cwe:EnumAll {x:Type cpro:LengthMode}}}" DisplayMemberPath="Description" SelectedValuePath="Value"
+                      SelectedValue="{Binding LengthMode}"
+                      />
+            
+            <TextBox Grid.Row="1" Grid.Column="2" Width="auto" HorizontalAlignment="Stretch"
+                     IsEnabled="{Binding LengthMode, Converter={StaticResource L2Le}}"
+                     Text="{Binding FixedLength, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"/>
+
+            <TextBlock Grid.Row="0" Grid.Column="3" Text="Raw Bytes Data"/>
+            <TextBox Grid.Row="1" Grid.Column="3"
+                     FontFamily="Consolas"
+                     MinWidth="150"
+                     Width="auto"
+                     IsEnabled="{Binding LengthMode, Converter={StaticResource L2De}}"
+                     Text="{Binding Data, Converter={StaticResource b2s}, ValidatesOnExceptions=True}"/>
+
+            <ContentControl Grid.Column="4" Grid.RowSpan="2" DataContext="{Binding}"/>
+        </Grid>
+    </Border>
+</UserControl>
+    

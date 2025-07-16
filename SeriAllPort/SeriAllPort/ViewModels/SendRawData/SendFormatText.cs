@@ -1,21 +1,23 @@
 ﻿using CommonWpf;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace SeriAllPort.ViewModels.SendRawData
 {
-    public class SendFormatString : ViewModel, ITextToBytes
+    public class SendFormatText : ViewModel, ITextToBytes
     {
-        public string Name => "Text";
+        [JsonIgnore]
+        public static string Name => "Text";
 
-        private string? _Text;
+        private string? _text;
         public string? Text
         {
-            get => _Text;
+            get => _text;
             set
             {
-                if (_Text != value)
+                if (_text != value)
                 {
-                    _Text = value;
+                    _text = value;
                     OnPropertyChanged();
                 }
             }
@@ -29,7 +31,7 @@ namespace SeriAllPort.ViewModels.SendRawData
             }
             else
             {
-                return new byte[0];
+                return [];
             }
         }
     }
