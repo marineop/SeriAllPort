@@ -156,6 +156,9 @@ namespace SeriAllPort.ViewModels
                 if (_serialIsDisconnected != value)
                 {
                     _serialIsDisconnected = value;
+
+                    ProtocolEditorCommand.RaiseCanExecuteChangedEvent();
+
                     OnPropertyChanged();
                 }
             }
@@ -192,7 +195,7 @@ namespace SeriAllPort.ViewModels
         private readonly ComPortViewModel _comPortViewModel = new ComPortViewModel();
 
         public ICommand ProfileEditorCommand { get; private set; }
-        public ICommand ProtocolEditorCommand { get; private set; }
+        public SimpleCommand ProtocolEditorCommand { get; private set; }
         public ICommand SendRawDataCommand { get; private set; }
 
         public IShowDialog ShowDialog { get; private set; }
@@ -214,7 +217,9 @@ namespace SeriAllPort.ViewModels
             LogViewModel = new LogViewModel();
 
             ProfileEditorCommand = new SimpleCommand((parameters) => EditProfile());
-            ProtocolEditorCommand = new SimpleCommand((parameters) => EditProtocol());
+            ProtocolEditorCommand = new SimpleCommand(
+                (parameters) => EditProtocol(),
+                (parameters) => SerialIsDisconnected);
             SendRawDataCommand = new SimpleCommand((parameters) => SendBytes());
 
             _comPortViewModel.TrySetPortName(_appSettings.LastComPort);
