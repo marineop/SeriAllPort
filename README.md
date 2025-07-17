@@ -27,6 +27,7 @@ SeriAllPort is a simple UI-based application for inspecting and analyzing data t
 
 ## Protocol System
 ![Application Screenshot](Image/ProtocolEditor.png)
+
 When data is received, it may be displayed across multiple lines if the application does not understand the device’s protocol. For example, a stream like `31 32 0D 0A` might appear as:
 
 ```

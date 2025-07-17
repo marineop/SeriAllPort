@@ -6,8 +6,11 @@ namespace CommonWpf.Communication.Protocol.EventTypes
     {
         public List<PacketField> PacketFields { get; private set; }
 
-        public PacketReceived(List<PacketField> packetFields, byte[] bytes)
-            : base(bytes)
+        public PacketReceived(
+            DateTime time,
+            List<PacketField> packetFields,
+            byte[] bytes)
+            : base(time, bytes)
         {
             PacketFields = packetFields;
         }

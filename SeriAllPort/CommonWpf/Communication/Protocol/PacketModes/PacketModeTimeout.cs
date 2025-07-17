@@ -41,7 +41,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
             _timer.Elapsed += _timer_Elapsed;
         }
 
-        protected override void BytesReceivedInternal()
+        protected override void BytesReceivedInternal(DateTime time)
         {
             _timer.Stop();
             _timer.Start();
@@ -74,9 +74,10 @@ namespace CommonWpf.Communication.Protocol.PacketModes
 
         private void _timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
+            DateTime time = DateTime.Now;
             lock (_lock)
             {
-                Span<byte> windowNow = new Span<byte>(_receiveBuffer, 0, _receiveBufferLength);
+                Span<byte> windowNow = new Span<byte>(ReceiveBuffer, 0, _receiveBufferLength);
 
                 while (true)
                 {
@@ -93,7 +94,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
                             if (preambleIndex > 0)
                             {
                                 byte[] nonPacket = windowNow[..preambleIndex].ToArray();
-                                NonPacketBytesReceived nonPacketBytesEvent = new NonPacketBytesReceived(nonPacket);
+                                NonPacketBytesReceived nonPacketBytesEvent = new NonPacketBytesReceived(time, nonPacket);
                                 EventQueue.Enqueue(nonPacketBytesEvent);
 
                                 windowNow = windowNow[preambleIndex..];
@@ -192,12 +193,12 @@ namespace CommonWpf.Communication.Protocol.PacketModes
 
                         if (fieldsValid)
                         {
-                            PacketReceived packet = new PacketReceived(parsedFields, packetBytes.ToArray());
+                            PacketReceived packet = new PacketReceived(time, parsedFields, packetBytes.ToArray());
                             EventQueue.Enqueue(packet);
                         }
                         else
                         {
-                            NonPacketBytesReceived nonPacketBytesEvent = new NonPacketBytesReceived(packetBytes.ToArray());
+                            NonPacketBytesReceived nonPacketBytesEvent = new NonPacketBytesReceived(time, packetBytes.ToArray());
                             EventQueue.Enqueue(nonPacketBytesEvent);
                         }
                     }

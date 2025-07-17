@@ -57,7 +57,7 @@ namespace SeriAllPort.ViewModels
             get => _currentProfile;
             set
             {
-                if (_currentProfile != value && value != null)
+                if (value != null)
                 {
                     _currentProfile = value;
 
@@ -90,7 +90,7 @@ namespace SeriAllPort.ViewModels
             get => _currentProtocol;
             set
             {
-                if (_currentProtocol != value)
+                if (value != null)
                 {
                     if (_currentProtocol != null)
                     {
@@ -99,34 +99,28 @@ namespace SeriAllPort.ViewModels
 
                     _currentProtocol = value;
 
-                    if (_currentProtocol == null)
+                    _currentProtocol.PacketMode.Serial = Serial;
+
+                    _currentProtocol.PacketMode.PacketReceived += PacketMode_PacketReceived;
+
+                    _currentProtocol.PacketMode.ReceiveBuffer = _receiveBuffer;
+
+                    CurrentProfile.ProtocolId = _currentProtocol.Id;
+
+                    try
                     {
-                        throw new Exception("_currentProtocol can not be null");
+                        CurrentProtocolValidation = string.Empty;
+                        _currentProtocol?.PacketMode.Validate();
+                        CurrentProtocolValidation = string.Empty;
+                        CurrentProtocolIsValid = true;
                     }
-
-                    if (_currentProtocol != null)
+                    catch
                     {
-                        _currentProtocol.PacketMode.Serial = Serial;
-
-                        _currentProtocol.PacketMode.PacketReceived += PacketMode_PacketReceived;
-
-                        CurrentProfile.ProtocolId = _currentProtocol.Id;
+                        CurrentProtocolIsValid = false;
+                        CurrentProtocolValidation = "Invalid";
                     }
 
                     OnPropertyChanged();
-                }
-
-                try
-                {
-                    CurrentProtocolValidation = string.Empty;
-                    _currentProtocol?.PacketMode.Validate();
-                    CurrentProtocolValidation = string.Empty;
-                    CurrentProtocolIsValid = true;
-                }
-                catch
-                {
-                    CurrentProtocolIsValid = false;
-                    CurrentProtocolValidation = "Invalid";
                 }
             }
         }
@@ -156,6 +150,9 @@ namespace SeriAllPort.ViewModels
                 if (_serialIsDisconnected != value)
                 {
                     _serialIsDisconnected = value;
+
+                    ProtocolEditorCommand.RaiseCanExecuteChangedEvent();
+
                     OnPropertyChanged();
                 }
             }
@@ -191,9 +188,9 @@ namespace SeriAllPort.ViewModels
 
         private readonly ComPortViewModel _comPortViewModel = new ComPortViewModel();
 
-        public ICommand ProfileEditorCommand { get; private set; }
-        public ICommand ProtocolEditorCommand { get; private set; }
-        public ICommand SendRawDataCommand { get; private set; }
+        public SimpleCommand ProfileEditorCommand { get; private set; }
+        public SimpleCommand ProtocolEditorCommand { get; private set; }
+        public SimpleCommand SendRawDataCommand { get; private set; }
 
         public IShowDialog ShowDialog { get; private set; }
         public IShowErrorDialog ShowErrorDialog { get; private set; }
@@ -201,6 +198,8 @@ namespace SeriAllPort.ViewModels
         private readonly AppSettings _appSettings;
 
         private readonly object _protocolEventLock = new object();
+
+        private readonly byte[] _receiveBuffer = new byte[4096];
 
         public MainViewModel(
             IShowDialog showDialog,
@@ -214,7 +213,9 @@ namespace SeriAllPort.ViewModels
             LogViewModel = new LogViewModel();
 
             ProfileEditorCommand = new SimpleCommand((parameters) => EditProfile());
-            ProtocolEditorCommand = new SimpleCommand((parameters) => EditProtocol());
+            ProtocolEditorCommand = new SimpleCommand(
+                (parameters) => EditProtocol(),
+                (parameters) => SerialIsDisconnected);
             SendRawDataCommand = new SimpleCommand((parameters) => SendBytes());
 
             _comPortViewModel.TrySetPortName(_appSettings.LastComPort);
@@ -232,7 +233,6 @@ namespace SeriAllPort.ViewModels
             {
                 Protocols = AppDataFolderFileHelper.LoadFiles<Protocol>();
                 Profiles = AppDataFolderFileHelper.LoadFiles<Profile>();
-
             }
             catch (Exception ex)
             {
@@ -334,7 +334,7 @@ namespace SeriAllPort.ViewModels
                 _defaultProtocol.CanNotDelete = true;
                 _defaultProtocol.CanNotEditName = true;
 
-                Protocols.Add(_defaultProtocol);
+                Protocols.Insert(0, _defaultProtocol);
             }
         }
 
@@ -416,6 +416,8 @@ namespace SeriAllPort.ViewModels
         private void SetupSettingsAccordingToCurrentProfile()
         {
             _comPortViewModel.ComPort.Settings = CurrentProfile.ComPortSettings;
+
+            _comPortViewModel.RefreshPortList();
         }
 
         private void EditProfile()
@@ -424,7 +426,12 @@ namespace SeriAllPort.ViewModels
                 Profiles,
                 CurrentProfile,
                 ShowErrorDialog);
-            bool ok = ShowDialog.ShowDialog(profileEditor, "Profile Editor");
+            bool ok = ShowDialog.ShowDialog(
+                profileEditor, 
+                "Profile Editor",
+                ResizeMode.CanResize,
+                SizeToContent.Manual,
+                false);
             if (ok)
             {
                 _defaultProfile = profileEditor.Profiles.First((x) => x.Id == Guid.Empty);
@@ -457,7 +464,12 @@ namespace SeriAllPort.ViewModels
                 Protocols,
                 CurrentProtocol,
                 ShowErrorDialog);
-            bool ok = ShowDialog.ShowDialog(protocolEditor, "Protocol Editor");
+            bool ok = ShowDialog.ShowDialog(
+                protocolEditor, 
+                "Protocol Editor",
+                ResizeMode.CanResize,
+                SizeToContent.Manual,
+                false);
             if (ok)
             {
                 _defaultProtocol = protocolEditor.Protocols.First((x) => x.Id == Guid.Empty);
@@ -578,7 +590,7 @@ namespace SeriAllPort.ViewModels
                             sb.Append($"{bytes.BytesToString()}");
                         }
 
-                        LogViewModel.AppendLog($"{sb}");
+                        LogViewModel.AppendLog(eventNow.Time, $"{sb}");
                     }
                     else
                     {

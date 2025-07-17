@@ -7,10 +7,11 @@
              xmlns:ex="clr-namespace:CommonWpf.Extensions;assembly=CommonWpf"
              xmlns:field="clr-namespace:CommonWpf.Communication.Protocol.PacketFields;assembly=CommonWpf"
              xmlns:con="clr-namespace:CommonWpf.Converters;assembly=CommonWpf"
-             Height="500"
-             Width="710"
+             Height="auto"
+             Width="auto"
              
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             d:DesignHeight="500" d:DesignWidth="500"
              d:Background="White">
     <UserControl.Resources>
         <con:BoolInverseConverter x:Key="boolInverse"/>
@@ -39,7 +40,7 @@
                 <Button Content="New" Command="{Binding ProtocolNewCommand}" Width="auto"/>
                 <Button Content="Delete" Command="{Binding ProtocolDeleteCommand}" Width="auto"/>
             </StackPanel>
-            <ListBox Grid.Row="2" MaxHeight="500"
+            <ListBox Grid.Row="2"
                          SelectedItem="{Binding SelectedProtocol}"
                          SelectedIndex="{Binding SelectedProtocolIndex, Mode=OneWayToSource}"
                          ItemsSource="{Binding Protocols}" DisplayMemberPath="Name"

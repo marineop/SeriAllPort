@@ -97,7 +97,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
             }
         }
 
-        protected override void BytesReceivedInternal()
+        protected override void BytesReceivedInternal(DateTime time)
         {
             if (_eop == null)
             {
@@ -111,7 +111,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
 
             while (windowStartIndexNow < _receiveBufferLength)
             {
-                Span<byte> windowNow = new Span<byte>(_receiveBuffer, windowStartIndexNow, _receiveBufferLength - windowStartIndexNow);
+                Span<byte> windowNow = new Span<byte>(ReceiveBuffer, windowStartIndexNow, _receiveBufferLength - windowStartIndexNow);
 
                 if (_preamble != null)
                 {
@@ -126,7 +126,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
                         if (preambleIndex > 0)
                         {
                             byte[] nonPacket = windowNow[..preambleIndex].ToArray();
-                            NonPacketBytesReceived nonPacketBytesEvent = new NonPacketBytesReceived(nonPacket);
+                            NonPacketBytesReceived nonPacketBytesEvent = new NonPacketBytesReceived(time, nonPacket);
                             EventQueue.Enqueue(nonPacketBytesEvent);
 
                             parsedLength += preambleIndex;
@@ -243,12 +243,12 @@ namespace CommonWpf.Communication.Protocol.PacketModes
 
                         if (fieldsValid)
                         {
-                            PacketReceived packet = new PacketReceived(parsedFields, packetBytes.ToArray());
+                            PacketReceived packet = new PacketReceived(time, parsedFields, packetBytes.ToArray());
                             EventQueue.Enqueue(packet);
                         }
                         else
                         {
-                            NonPacketBytesReceived nonPacketBytesEvent = new NonPacketBytesReceived(packetBytes.ToArray());
+                            NonPacketBytesReceived nonPacketBytesEvent = new NonPacketBytesReceived(time, packetBytes.ToArray());
                             EventQueue.Enqueue(nonPacketBytesEvent);
                         }
 
@@ -263,7 +263,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
                 int remainLength = _receiveBufferLength - parsedLength;
                 if (remainLength > 0)
                 {
-                    Buffer.BlockCopy(_receiveBuffer, parsedLength, _receiveBuffer, 0, remainLength);
+                    Buffer.BlockCopy(ReceiveBuffer, parsedLength, ReceiveBuffer, 0, remainLength);
                 }
 
                 _receiveBufferLength = remainLength;
