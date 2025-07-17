@@ -124,12 +124,6 @@ namespace CommonWpf.ViewModels
             SettingsCommand = new SimpleCommand((parameter) => OpenDetailedSettingsWindow());
             ConnectCommand = new SimpleCommand((parameter) => Connect());
 
-            RefreshPortList();
-            if (ComPort.Settings.PortName == string.Empty && PortNameList.Count > 0)
-            {
-                ComPort.Settings.PortName = PortNameList[0];
-            }
-
             ComPort.ConnectionStateChanged += (o, c) => { ConnectionState = c.ConnectionState; };
         }
 
@@ -163,6 +157,10 @@ namespace CommonWpf.ViewModels
         public void RefreshPortList()
         {
             PortNameList = new ObservableCollection<string>(SerialPort.GetPortNames());
+            if(PortNameList.Count > 0 && string.IsNullOrEmpty(ComPort.Settings.PortName))
+            {
+                ComPort.Settings.PortName = PortNameList[0];
+            }
         }
 
         public void TrySetPortName(string portName)

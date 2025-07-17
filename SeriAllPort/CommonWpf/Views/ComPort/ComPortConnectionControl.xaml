@@ -8,6 +8,7 @@
              xmlns:view="clr-namespace:CommonWpf.Views"
              xmlns:con="clr-namespace:CommonWpf.Converters"            
              mc:Ignorable="d"
+             d:Background="White"
              >
 
     <UserControl.Resources>

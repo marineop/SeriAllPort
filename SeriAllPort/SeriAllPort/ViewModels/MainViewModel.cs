@@ -416,6 +416,8 @@ namespace SeriAllPort.ViewModels
         private void SetupSettingsAccordingToCurrentProfile()
         {
             _comPortViewModel.ComPort.Settings = CurrentProfile.ComPortSettings;
+
+            _comPortViewModel.RefreshPortList();
         }
 
         private void EditProfile()
