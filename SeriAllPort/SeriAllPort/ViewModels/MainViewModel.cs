@@ -57,7 +57,7 @@ namespace SeriAllPort.ViewModels
             get => _currentProfile;
             set
             {
-                if (_currentProfile != value && value != null)
+                if (value != null)
                 {
                     _currentProfile = value;
 
@@ -90,7 +90,7 @@ namespace SeriAllPort.ViewModels
             get => _currentProtocol;
             set
             {
-                if (_currentProtocol != value)
+                if (value != null)
                 {
                     if (_currentProtocol != null)
                     {
@@ -99,34 +99,26 @@ namespace SeriAllPort.ViewModels
 
                     _currentProtocol = value;
 
-                    if (_currentProtocol == null)
+                    _currentProtocol.PacketMode.Serial = Serial;
+
+                    _currentProtocol.PacketMode.PacketReceived += PacketMode_PacketReceived;
+
+                    CurrentProfile.ProtocolId = _currentProtocol.Id;
+
+                    try
                     {
-                        throw new Exception("_currentProtocol can not be null");
+                        CurrentProtocolValidation = string.Empty;
+                        _currentProtocol?.PacketMode.Validate();
+                        CurrentProtocolValidation = string.Empty;
+                        CurrentProtocolIsValid = true;
                     }
-
-                    if (_currentProtocol != null)
+                    catch
                     {
-                        _currentProtocol.PacketMode.Serial = Serial;
-
-                        _currentProtocol.PacketMode.PacketReceived += PacketMode_PacketReceived;
-
-                        CurrentProfile.ProtocolId = _currentProtocol.Id;
+                        CurrentProtocolIsValid = false;
+                        CurrentProtocolValidation = "Invalid";
                     }
 
                     OnPropertyChanged();
-                }
-
-                try
-                {
-                    CurrentProtocolValidation = string.Empty;
-                    _currentProtocol?.PacketMode.Validate();
-                    CurrentProtocolValidation = string.Empty;
-                    CurrentProtocolIsValid = true;
-                }
-                catch
-                {
-                    CurrentProtocolIsValid = false;
-                    CurrentProtocolValidation = "Invalid";
                 }
             }
         }
