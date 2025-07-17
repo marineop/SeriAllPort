@@ -147,14 +147,16 @@ namespace CommonWpf.Communication.Protocol.PacketModes
         {
             lock (_lock)
             {
-                if (Serial != null)
+                if (Serial is null)
                 {
+                    throw new NotImplementedException("Implementation Error, Serial must not be null");
+                }
+
                     _receiveBufferLength += Serial.ReadBytes(_receiveBuffer, _receiveBufferLength, _receiveBuffer.Length - _receiveBufferLength);
 
                     BytesReceivedInternal();
                 }
             }
-        }
 
         public void Terminate()
         {
