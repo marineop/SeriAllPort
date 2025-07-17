@@ -103,6 +103,8 @@ namespace SeriAllPort.ViewModels
 
                     _currentProtocol.PacketMode.PacketReceived += PacketMode_PacketReceived;
 
+                    _currentProtocol.PacketMode.ReceiveBuffer = _receiveBuffer;
+
                     CurrentProfile.ProtocolId = _currentProtocol.Id;
 
                     try
@@ -196,6 +198,8 @@ namespace SeriAllPort.ViewModels
         private readonly AppSettings _appSettings;
 
         private readonly object _protocolEventLock = new object();
+
+        private readonly byte[] _receiveBuffer = new byte[4096];
 
         public MainViewModel(
             IShowDialog showDialog,

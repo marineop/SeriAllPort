@@ -75,7 +75,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
         protected PacketField? _preamble;
 
         protected object _lock = new object();
-        protected byte[] _receiveBuffer = new byte[4096];
+        public byte[] ReceiveBuffer { protected get; set; } = [];
         protected int _receiveBufferLength = 0;
 
         public void Validate()
@@ -152,7 +152,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
                     throw new NotImplementedException("Implementation Error, Serial must not be null");
                 }
 
-                _receiveBufferLength += Serial.ReadBytes(_receiveBuffer, _receiveBufferLength, _receiveBuffer.Length - _receiveBufferLength);
+                _receiveBufferLength += Serial.ReadBytes(ReceiveBuffer, _receiveBufferLength, ReceiveBuffer.Length - _receiveBufferLength);
 
                 BytesReceivedInternal();
             }

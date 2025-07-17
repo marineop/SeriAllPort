@@ -76,7 +76,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
         {
             lock (_lock)
             {
-                Span<byte> windowNow = new Span<byte>(_receiveBuffer, 0, _receiveBufferLength);
+                Span<byte> windowNow = new Span<byte>(ReceiveBuffer, 0, _receiveBufferLength);
 
                 while (true)
                 {
