@@ -590,7 +590,7 @@ namespace SeriAllPort.ViewModels
                             sb.Append($"{bytes.BytesToString()}");
                         }
 
-                        LogViewModel.AppendLog($"{sb}");
+                        LogViewModel.AppendLog(eventNow.Time, $"{sb}");
                     }
                     else
                     {

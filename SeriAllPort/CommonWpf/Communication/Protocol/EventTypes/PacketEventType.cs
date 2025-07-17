@@ -2,10 +2,13 @@
 {
     public abstract class PacketEventType
     {
+        public DateTime Time { get; private set; }
+
         public byte[] Bytes { get; private set; }
 
-        protected PacketEventType(byte[] bytes)
+        protected PacketEventType(DateTime time, byte[] bytes)
         {
+            Time = time;
             Bytes = bytes;
         }
     }

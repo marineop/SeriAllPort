@@ -152,9 +152,11 @@ namespace CommonWpf.Communication.Protocol.PacketModes
                     throw new NotImplementedException("Implementation Error, Serial must not be null");
                 }
 
+                DateTime now = DateTime.Now;
+
                 _receiveBufferLength += Serial.ReadBytes(ReceiveBuffer, _receiveBufferLength, ReceiveBuffer.Length - _receiveBufferLength);
 
-                BytesReceivedInternal();
+                BytesReceivedInternal(now);
             }
         }
 
@@ -187,7 +189,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
 
         protected abstract void ValidateInternal();
 
-        protected abstract void BytesReceivedInternal();
+        protected abstract void BytesReceivedInternal(DateTime now);
 
         protected abstract void TerminateInternal();
 

@@ -97,7 +97,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
             }
         }
 
-        protected override void BytesReceivedInternal()
+        protected override void BytesReceivedInternal(DateTime time)
         {
             if (_eop == null)
             {
@@ -126,7 +126,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
                         if (preambleIndex > 0)
                         {
                             byte[] nonPacket = windowNow[..preambleIndex].ToArray();
-                            NonPacketBytesReceived nonPacketBytesEvent = new NonPacketBytesReceived(nonPacket);
+                            NonPacketBytesReceived nonPacketBytesEvent = new NonPacketBytesReceived(time, nonPacket);
                             EventQueue.Enqueue(nonPacketBytesEvent);
 
                             parsedLength += preambleIndex;
@@ -243,12 +243,12 @@ namespace CommonWpf.Communication.Protocol.PacketModes
 
                         if (fieldsValid)
                         {
-                            PacketReceived packet = new PacketReceived(parsedFields, packetBytes.ToArray());
+                            PacketReceived packet = new PacketReceived(time, parsedFields, packetBytes.ToArray());
                             EventQueue.Enqueue(packet);
                         }
                         else
                         {
-                            NonPacketBytesReceived nonPacketBytesEvent = new NonPacketBytesReceived(packetBytes.ToArray());
+                            NonPacketBytesReceived nonPacketBytesEvent = new NonPacketBytesReceived(time, packetBytes.ToArray());
                             EventQueue.Enqueue(nonPacketBytesEvent);
                         }
 

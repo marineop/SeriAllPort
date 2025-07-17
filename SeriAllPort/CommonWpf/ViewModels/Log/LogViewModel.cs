@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 
@@ -48,7 +49,11 @@ namespace CommonWpf.ViewModels.Log
 
         public void AppendLog(string message)
         {
-            DateTime now = DateTime.Now;
+            AppendLog(DateTime.Now, message);
+        }
+
+        public void AppendLog(DateTime time, string message)
+        {
             Application.Current.Dispatcher.Invoke(() =>
             {
                 if (Entries.Count > 1000)
@@ -56,7 +61,21 @@ namespace CommonWpf.ViewModels.Log
                     Entries.RemoveAt(0);
                 }
 
-                _entries.Add(new LogEntry(now, message));
+                if(Entries.Count <= 0)
+                {
+                    _entries.Add(new LogEntry(time, message));
+                }
+                else
+                {
+                    for (int i = Entries.Count - 1; i >= 0; --i)
+                    {
+                        if (time >= Entries[i].Time)
+                        {
+                            _entries.Insert(i + 1, new LogEntry(time, message));
+                            break;
+                        }
+                    }
+                }
             });
         }
     }
