@@ -152,11 +152,11 @@ namespace CommonWpf.Communication.Protocol.PacketModes
                     throw new NotImplementedException("Implementation Error, Serial must not be null");
                 }
 
-                    _receiveBufferLength += Serial.ReadBytes(_receiveBuffer, _receiveBufferLength, _receiveBuffer.Length - _receiveBufferLength);
+                _receiveBufferLength += Serial.ReadBytes(_receiveBuffer, _receiveBufferLength, _receiveBuffer.Length - _receiveBufferLength);
 
-                    BytesReceivedInternal();
-                }
+                BytesReceivedInternal();
             }
+        }
 
         public void Terminate()
         {

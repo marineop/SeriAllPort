@@ -62,7 +62,6 @@ namespace CommonWpf.Communication.PhysicalInterfaces
 
                 ConnectionState = ConnectionState.Connecting;
                 _serialPort.Open();
-
             }
             catch (Exception ex)
             {
@@ -149,6 +148,5 @@ namespace CommonWpf.Communication.PhysicalInterfaces
         }
 
         #endregion
-
     }
 }

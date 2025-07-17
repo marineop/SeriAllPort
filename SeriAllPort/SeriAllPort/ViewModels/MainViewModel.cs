@@ -237,7 +237,6 @@ namespace SeriAllPort.ViewModels
             {
                 Protocols = AppDataFolderFileHelper.LoadFiles<Protocol>();
                 Profiles = AppDataFolderFileHelper.LoadFiles<Profile>();
-
             }
             catch (Exception ex)
             {
