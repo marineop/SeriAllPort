@@ -34,7 +34,7 @@ namespace CommonWpf.ViewModels.Log
             }
         }
 
-        public ICommand ClearCommand { get; private set; }
+        public SimpleCommand ClearCommand { get; private set; }
 
         public LogViewModel()
         {

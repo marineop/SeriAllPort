@@ -194,9 +194,9 @@ namespace SeriAllPort.ViewModels
 
         private readonly ComPortViewModel _comPortViewModel = new ComPortViewModel();
 
-        public ICommand ProfileEditorCommand { get; private set; }
+        public SimpleCommand ProfileEditorCommand { get; private set; }
         public SimpleCommand ProtocolEditorCommand { get; private set; }
-        public ICommand SendRawDataCommand { get; private set; }
+        public SimpleCommand SendRawDataCommand { get; private set; }
 
         public IShowDialog ShowDialog { get; private set; }
         public IShowErrorDialog ShowErrorDialog { get; private set; }

@@ -112,11 +112,11 @@ namespace CommonWpf.ViewModels
 
         public IShowDialog? ShowDialog { get; set; }
 
-        public ICommand RefreshPortListCommand { get; set; }
+        public SimpleCommand RefreshPortListCommand { get; set; }
 
-        public ICommand SettingsCommand { get; set; }
+        public SimpleCommand SettingsCommand { get; set; }
 
-        public ICommand ConnectCommand { get; set; }
+        public SimpleCommand ConnectCommand { get; set; }
 
         public ComPortViewModel()
         {
