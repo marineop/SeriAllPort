@@ -5,11 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CommonWpf.Views"
         
-        Title="Dialog"
-        ResizeMode="NoResize"
-        ShowInTaskbar="False"
-        SizeToContent="WidthAndHeight"
+        Width="800"
+        Height="600"
         WindowStartupLocation="CenterOwner"
+        
+        Title="Dialog"
+        ResizeMode="CanResize"
+        SizeToContent="Manual"
+        ShowInTaskbar="False"
+        
         
         mc:Ignorable="d"
         d:Height="450" d:Width="800"
@@ -20,8 +24,8 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        
-        <ContentControl Content="{Binding}" Margin="15,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <ContentControl Content="{Binding}" Margin="15,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         
         <StackPanel Grid.Row="1" Margin="15,5" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
             <Button x:Name="uxOk" Content="Ok" Click="uxOk_Click"/>

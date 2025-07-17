@@ -95,12 +95,21 @@ namespace SeriAllPort
             }
         }
 
-        public bool ShowDialog(object dataContext, string title)
+        public bool ShowDialog(
+            object dataContext, 
+            string title,
+            ResizeMode resizeMode,
+            SizeToContent sizeToContent,
+            bool showInTaskbar)
         {
             DialogWindow window = new DialogWindow();
             window.Title = title;
+            window.ResizeMode = resizeMode;
+            window.SizeToContent = sizeToContent;
+            window.ShowInTaskbar = showInTaskbar;
             window.Owner = Window.GetWindow(_mainWindow);
             window.DataContext = dataContext;
+
             bool? ok = window.ShowDialog();
 
             return ok ?? false;
