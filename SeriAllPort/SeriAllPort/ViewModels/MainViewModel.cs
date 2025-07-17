@@ -334,7 +334,7 @@ namespace SeriAllPort.ViewModels
                 _defaultProtocol.CanNotDelete = true;
                 _defaultProtocol.CanNotEditName = true;
 
-                Protocols.Add(_defaultProtocol);
+                Protocols.Insert(0, _defaultProtocol);
             }
         }
 
