@@ -1,13 +1,14 @@
 ﻿using CommonWpf;
 using CommonWpf.Communication.PhysicalInterfaces;
 using CommonWpf.FileHelper;
+using CommonWpf.ViewModels.ListEditor;
 using SeriAllPort.ViewModels.SendRawData;
 using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 
 namespace SeriAllPort.ViewModels.Profiles
 {
-    public class Profile : ViewModel, IAppDataFolderFile
+    public class Profile : ViewModel, IAppDataFolderFile, IListEditorItem
     {
         public static string AppDataSubFolder => "Profiles";
 

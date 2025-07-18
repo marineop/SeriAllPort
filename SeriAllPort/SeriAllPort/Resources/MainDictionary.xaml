@@ -5,10 +5,19 @@
                     xmlns:ProfileEditor="clr-namespace:SeriAllPort.Views.ProfileEditor"
                     xmlns:ProtocolEditor="clr-namespace:SeriAllPort.Views.ProtocolEditor"
                     xmlns:packetField="clr-namespace:CommonWpf.Communication.Protocol.PacketFields;assembly=CommonWpf"
+                    xmlns:commonViews="clr-namespace:CommonWpf.Views;assembly=CommonWpf"
                     >
 
-    <DataTemplate DataType="{x:Type profile:ProfileEditorViewModel}">
+    <DataTemplate DataType="{x:Type profile:ProfileListEditorViewModel}">
+        <commonViews:ListEditorControl/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type profile:Profile}">
         <ProfileEditor:ProfileEditorControl/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type protocol:ProtocolListEditorViewModel}">
+        <commonViews:ListEditorControl/>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type protocol:ProtocolEditorViewModel}">

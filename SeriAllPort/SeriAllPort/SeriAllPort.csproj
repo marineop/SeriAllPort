@@ -9,8 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Icon\Down.png" />
-    <None Remove="Resources\Icon\Up.png" />
+    <Compile Remove="Converters\**" />
+    <EmbeddedResource Remove="Converters\**" />
+    <None Remove="Converters\**" />
+    <Page Remove="Converters\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Resources\Up.png" />
   </ItemGroup>
 
@@ -24,12 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Converters\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Resources\Icon\Down.png" />
-    <Resource Include="Resources\Icon\Up.png" />
+    <Folder Include="Resources\Icon\" />
   </ItemGroup>
 
 </Project>

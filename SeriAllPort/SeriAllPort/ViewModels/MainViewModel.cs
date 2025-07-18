@@ -15,7 +15,6 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Input;
 
 namespace SeriAllPort.ViewModels
 {
@@ -422,16 +421,25 @@ namespace SeriAllPort.ViewModels
 
         private void EditProfile()
         {
-            ProfileEditorViewModel profileEditor = new ProfileEditorViewModel(
-                Profiles,
-                CurrentProfile,
+            List<Profile> profilesCopy = [];
+
+            for (int i = 0; i < Profiles.Count; ++i)
+            {
+                profilesCopy.Add(Profiles[i].CreateClone());
+            }
+
+            ProfileListEditorViewModel profileEditor = new ProfileListEditorViewModel(
+                profilesCopy,
+                Profiles.IndexOf(CurrentProfile),
                 ShowErrorDialog);
+
             bool ok = ShowDialog.ShowDialog(
-                profileEditor, 
+                profileEditor,
                 "Profile Editor",
                 ResizeMode.CanResize,
                 SizeToContent.Manual,
                 false);
+
             if (ok)
             {
                 _defaultProfile = profileEditor.Profiles.First((x) => x.Id == Guid.Empty);
@@ -460,30 +468,44 @@ namespace SeriAllPort.ViewModels
 
         private void EditProtocol()
         {
-            ProtocolEditorViewModel protocolEditor = new ProtocolEditorViewModel(
-                Protocols,
-                CurrentProtocol,
+            List<ProtocolEditorViewModel> protocolEditorViewModels = [];
+            for (int i = 0; i < Protocols.Count; ++i)
+            {
+                protocolEditorViewModels.Add(new ProtocolEditorViewModel(Protocols[i], ShowErrorDialog));
+            }
+
+            ProtocolListEditorViewModel protocolListEditor = new ProtocolListEditorViewModel(
+                protocolEditorViewModels,
+                Protocols.IndexOf(CurrentProtocol),
                 ShowErrorDialog);
+
             bool ok = ShowDialog.ShowDialog(
-                protocolEditor, 
+                protocolListEditor,
                 "Protocol Editor",
                 ResizeMode.CanResize,
                 SizeToContent.Manual,
                 false);
+
             if (ok)
             {
-                _defaultProtocol = protocolEditor.Protocols.First((x) => x.Id == Guid.Empty);
+                _defaultProtocol = protocolListEditor.ProtocolViewModels.First((x) => x.Protocol.Id == Guid.Empty).Protocol;
 
-                if (protocolEditor.SelectedProtocol != null)
+                if (protocolListEditor.SelectedProtocolViewModel != null)
                 {
-                    CurrentProtocol = protocolEditor.SelectedProtocol;
+                    CurrentProtocol = protocolListEditor.SelectedProtocolViewModel.Protocol;
                 }
                 else
                 {
                     CurrentProtocol = _defaultProtocol;
                 }
 
-                Protocols = protocolEditor.Protocols;
+                List<Protocol> newProtocols = [];
+                for (int i = 0; i < protocolListEditor.ProtocolViewModels.Count; ++i)
+                {
+                    newProtocols.Add(protocolListEditor.ProtocolViewModels[i].Protocol);
+                }
+
+                Protocols = new ObservableCollection<Protocol>(newProtocols);
 
                 try
                 {

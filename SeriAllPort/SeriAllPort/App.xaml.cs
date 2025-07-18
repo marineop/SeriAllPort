@@ -96,7 +96,7 @@ namespace SeriAllPort
         }
 
         public bool ShowDialog(
-            object dataContext, 
+            object dataContext,
             string title,
             ResizeMode resizeMode,
             SizeToContent sizeToContent,
