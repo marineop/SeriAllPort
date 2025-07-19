@@ -56,10 +56,15 @@
                  />
         </Grid>
 
-        <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Stretch"/>
+        <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Stretch" Margin="3,0,0,0"/>
 
         <Grid Grid.Column="2" HorizontalAlignment="Stretch">
-            <ContentControl Content="{Binding SelectedItem}"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Properties"/>
+            <ContentControl Grid.Row="1" Margin="3,0,0,0" Content="{Binding SelectedItem}"/>
         </Grid>
     </Grid>
 </UserControl>

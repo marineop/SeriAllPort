@@ -70,7 +70,7 @@ namespace CommonWpf.ViewModels.ListEditor
 
             ShowErrorDialog = showErrorDialog;
 
-            NewCommand = new SimpleCommand((parameter) => ItemNew(parameter));
+            NewCommand = new SimpleCommand(ItemNew);
 
             UpCommand = new SimpleCommand(
                 (parameter) => ItemUp(),
@@ -87,7 +87,10 @@ namespace CommonWpf.ViewModels.ListEditor
                     return SelectedItem != null && !SelectedItem.CanNotDelete;
                 });
 
-            SelectedItem = Items[selectedIndex];
+            if (selectedIndex >= 0 && selectedIndex < Items.Count)
+            {
+                SelectedItem = Items[selectedIndex];
+            }
         }
 
         private void ItemUp()

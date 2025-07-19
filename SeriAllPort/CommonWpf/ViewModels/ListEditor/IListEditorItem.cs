@@ -1,9 +1,7 @@
 ﻿namespace CommonWpf.ViewModels.ListEditor
 {
-    public interface IListEditorItem
+    public interface IListEditorItem : IHasName
     {
-        string Name { get; }
-
         bool CanNotDelete { get; }
     }
 }
