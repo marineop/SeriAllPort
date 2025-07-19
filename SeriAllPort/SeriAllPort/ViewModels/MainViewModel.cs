@@ -9,6 +9,7 @@ using CommonWpf.Extensions;
 using CommonWpf.FileHelper;
 using CommonWpf.ViewModels;
 using CommonWpf.ViewModels.Log;
+using SeriAllPort.ViewModels.Commands;
 using SeriAllPort.ViewModels.Profiles;
 using SeriAllPort.ViewModels.Protocols;
 using System.Collections.ObjectModel;
@@ -185,11 +186,15 @@ namespace SeriAllPort.ViewModels
             }
         }
 
+        private ObservableCollection<Command> Commands => CurrentProfile.Commands;
+
         private readonly ComPortViewModel _comPortViewModel = new ComPortViewModel();
 
         public SimpleCommand ProfileEditorCommand { get; private set; }
         public SimpleCommand ProtocolEditorCommand { get; private set; }
+        public SimpleCommand CommandEditorCommand { get; private set; }
         public SimpleCommand SendRawDataCommand { get; private set; }
+        public SimpleCommand CustomCommand { get; private set; }
 
         public IShowDialog ShowDialog { get; private set; }
         public IShowErrorDialog ShowErrorDialog { get; private set; }
@@ -212,10 +217,16 @@ namespace SeriAllPort.ViewModels
             LogViewModel = new LogViewModel();
 
             ProfileEditorCommand = new SimpleCommand((parameters) => EditProfile());
+
             ProtocolEditorCommand = new SimpleCommand(
                 (parameters) => EditProtocol(),
                 (parameters) => SerialIsDisconnected);
+
+            CommandEditorCommand = new SimpleCommand(EditCommand);
+
             SendRawDataCommand = new SimpleCommand((parameters) => SendBytes());
+
+            CustomCommand = new SimpleCommand(Custom);
 
             _comPortViewModel.TrySetPortName(_appSettings.LastComPort);
             _comPortViewModel.ComPort.Settings.BaudRate = _appSettings.LastBaudRate;
@@ -245,6 +256,28 @@ namespace SeriAllPort.ViewModels
             _currentProtocol = _defaultProtocol;
 
             SetSelectedProfileAndProtocolWithId(_appSettings.ProfileId);
+        }
+
+        private void Custom(object? parameter)
+        {
+            if (parameter is NoProtocolCommand command)
+            {
+                try
+                {
+                    byte[] bytes = command.GetBytes();
+
+                    if (bytes.Length > 0)
+                    {
+                        Serial.SendBytes(bytes);
+
+                        LogViewModel.AppendLog($"Send    : {bytes.BytesToString()}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    OnError(ex);
+                }
+            }
         }
 
         public void SendBytes()
@@ -515,6 +548,44 @@ namespace SeriAllPort.ViewModels
                 {
                     OnError(ex);
                 }
+            }
+        }
+
+        private void EditCommand(object? parameter)
+        {
+            int index = -1;
+            if (parameter is Command editingCommand)
+            {
+                index = Commands.IndexOf(editingCommand);
+            }
+
+            List<CommandEditorViewModel> commandEditorViewModels = [];
+            for (int i = 0; i < Commands.Count; ++i)
+            {
+                commandEditorViewModels.Add(new CommandEditorViewModel(Commands[i].CreateClone(), ShowErrorDialog));
+            }
+
+            CommandListEditorViewModel commandListEditor = new CommandListEditorViewModel(
+                commandEditorViewModels,
+                index,
+                ShowErrorDialog);
+
+            bool ok = ShowDialog.ShowDialog(
+                commandListEditor,
+                "Command Editor",
+                ResizeMode.CanResize,
+                SizeToContent.Manual,
+                false);
+
+            if (ok)
+            {
+                List<Command> newCommands = [];
+                for (int i = 0; i < commandListEditor.CommandViewModels.Count; ++i)
+                {
+                    newCommands.Add(commandListEditor.CommandViewModels[i].Command);
+                }
+
+                CurrentProfile.Commands = new ObservableCollection<Command>(newCommands);
             }
         }
 

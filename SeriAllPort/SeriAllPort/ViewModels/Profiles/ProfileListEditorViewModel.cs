@@ -31,14 +31,7 @@ namespace SeriAllPort.ViewModels.Profiles
 
         public override void ItemNew(object? parameter)
         {
-            List<string> profileNames = [];
-
-            foreach (Profile profile in Profiles)
-            {
-                profileNames.Add(profile.Name);
-            }
-
-            string newProfileName = GetUniqueName(profileNames, "Profile");
+            string newProfileName = NameHelper.GetUniqueName(Profiles, "Profile");
 
             Profile newProfile = new Profile(
                 newProfileName,
@@ -47,31 +40,6 @@ namespace SeriAllPort.ViewModels.Profiles
             Profiles.Add(newProfile);
 
             SelectedProfile = newProfile;
-        }
-
-        private static string GetUniqueName(IList<string> currentList, string prefix)
-        {
-            HashSet<string> table = [];
-            foreach (string s in currentList)
-            {
-                if (s.StartsWith(prefix))
-                {
-                    table.Add(s);
-                }
-            }
-
-            int numberNow = 0;
-            while (true)
-            {
-                ++numberNow;
-                string name = $"{prefix}{numberNow}";
-                if (!table.Contains(name))
-                {
-                    break;
-                }
-            }
-
-            return $"{prefix}{numberNow}";
         }
     }
 }

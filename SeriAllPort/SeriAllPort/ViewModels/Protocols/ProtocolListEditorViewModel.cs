@@ -35,14 +35,7 @@ namespace SeriAllPort.ViewModels.Protocols
         {
             PacketModeTimeout packetMode = new PacketModeTimeout(0);
 
-            List<string> protocolNames = [];
-
-            foreach (ProtocolEditorViewModel protocolViewModel in ProtocolViewModels)
-            {
-                protocolNames.Add(protocolViewModel.Name);
-            }
-
-            string newProtocolName = GetUniqueName(protocolNames, "Protocol");
+            string newProtocolName = NameHelper.GetUniqueName(ProtocolViewModels, "Protocol");
 
             Protocol newProtocol = new Protocol(
                 newProtocolName,
@@ -54,31 +47,6 @@ namespace SeriAllPort.ViewModels.Protocols
             ProtocolViewModels.Add(newProtocolEditorViewModel);
 
             SelectedProtocolViewModel = newProtocolEditorViewModel;
-        }
-
-        private static string GetUniqueName(IList<string> currentList, string prefix)
-        {
-            HashSet<string> table = [];
-            foreach (string s in currentList)
-            {
-                if (s.StartsWith(prefix))
-                {
-                    table.Add(s);
-                }
-            }
-
-            int numberNow = 0;
-            while (true)
-            {
-                ++numberNow;
-                string name = $"{prefix}{numberNow}";
-                if (!table.Contains(name))
-                {
-                    break;
-                }
-            }
-
-            return $"{prefix}{numberNow}";
         }
     }
 }

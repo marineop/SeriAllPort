@@ -6,6 +6,8 @@
                     xmlns:ProtocolEditor="clr-namespace:SeriAllPort.Views.ProtocolEditor"
                     xmlns:packetField="clr-namespace:CommonWpf.Communication.Protocol.PacketFields;assembly=CommonWpf"
                     xmlns:commonViews="clr-namespace:CommonWpf.Views;assembly=CommonWpf"
+                    xmlns:commands="clr-namespace:SeriAllPort.ViewModels.Commands"
+                    xmlns:commandEditor="clr-namespace:SeriAllPort.Views.CommandEditor"
                     >
 
     <DataTemplate DataType="{x:Type profile:ProfileListEditorViewModel}">
@@ -27,5 +29,14 @@
     <DataTemplate DataType="{x:Type packetField:PacketField}">
         <ProtocolEditor:PacketFieldControl/>
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type commands:CommandListEditorViewModel}">
+        <commonViews:ListEditorControl/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type commands:CommandEditorViewModel}">
+        <commandEditor:CommandEditorControl/>
+    </DataTemplate>
+
 
 </ResourceDictionary>
