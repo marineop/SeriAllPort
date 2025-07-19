@@ -9,6 +9,7 @@
         xmlns:view="clr-namespace:SeriAllPort.Views"
         xmlns:ex="clr-namespace:CommonWpf.Extensions;assembly=CommonWpf" 
         xmlns:con="clr-namespace:CommonWpf.Converters;assembly=CommonWpf"
+        xmlns:commands="clr-namespace:SeriAllPort.ViewModels.Commands"
          
         mc:Ignorable="d"
         Title="SeriAllPort" Height="800" Width="850">
@@ -26,6 +27,7 @@
             <MenuItem Header="Edit">
                 <MenuItem Header="Profile" Command="{Binding ProfileEditorCommand}"/>
                 <MenuItem Header="Protocol" Command="{Binding ProtocolEditorCommand}"/>
+                <MenuItem Header="Command" Command="{Binding CommandEditorCommand}"/>
             </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem x:Name="Aobut" Header="About SeriAllPort" Click="Aobut_Click"/>
@@ -49,7 +51,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <StackPanel Orientation="Horizontal" IsEnabled="{Binding SerialIsDisconnected}">
                     <TextBlock Text="Profile"/>
@@ -71,8 +73,36 @@
                 <Grid Grid.Row="1" IsEnabled="{Binding CurrentProtocolIsValid}">
                     <cwv:SerialControl DataContext="{Binding Serial}"/>
                 </Grid>
-                
+
                 <view:SendRawDataControl Grid.Row="2"/>
+
+                <ItemsControl Grid.Row="3"
+                              ItemsSource="{Binding CurrentProfile.Commands}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="commands:NoProtocolCommand">
+                            <Button Width="auto" Padding="5,0"
+                                    Content="{Binding Name}" 
+                                    Command="{Binding DataContext.CustomCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
+                                    CommandParameter="{Binding}"
+                                    Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Window}}"
+                                    >
+                                <Button.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Edit"
+                                                  Command="{Binding PlacementTarget.Tag.CommandEditorCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                  CommandParameter="{Binding}" />
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
         </GroupBox>
 

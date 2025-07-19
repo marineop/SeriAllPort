@@ -8,6 +8,7 @@
              xmlns:pro="clr-namespace:SeriAllPort.ViewModels.Protocols"
              xmlns:cpro="clr-namespace:CommonWpf.Communication.Protocol;assembly=CommonWpf"
              xmlns:cwe="clr-namespace:CommonWpf.Extensions;assembly=CommonWpf"
+             xmlns:TextBytes="clr-namespace:CommonWpf.ViewModels.TextBytes;assembly=CommonWpf"
              
              mc:Ignorable="d" 
              d:DesignHeight="60" d:DesignWidth="600"
@@ -50,13 +51,17 @@
                      IsEnabled="{Binding LengthMode, Converter={StaticResource L2Le}}"
                      Text="{Binding FixedLength, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"/>
 
-            <TextBlock Grid.Row="0" Grid.Column="3" Text="Raw Bytes Data"/>
+            <ComboBox Grid.Row="0" Grid.Column="3"
+                      SelectedValue="{Binding TextBytes.TextRepresentation}"
+                      ItemsSource="{Binding Source={cwe:EnumAll {x:Type TextBytes:TextRepresentation}}}" 
+                      DisplayMemberPath="Description" SelectedValuePath="Value"/>
+            
             <TextBox Grid.Row="1" Grid.Column="3"
                      FontFamily="Consolas"
                      MinWidth="150"
                      Width="auto"
                      IsEnabled="{Binding LengthMode, Converter={StaticResource L2De}}"
-                     Text="{Binding Data, Converter={StaticResource b2s}, ValidatesOnExceptions=True}"/>
+                     Text="{Binding TextBytes.Text, UpdateSourceTrigger=PropertyChanged}"/>
 
             <ContentControl Grid.Column="4" Grid.RowSpan="2" DataContext="{Binding}"/>
         </Grid>

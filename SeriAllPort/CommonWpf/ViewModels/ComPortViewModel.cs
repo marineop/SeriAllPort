@@ -4,7 +4,6 @@ using CommonWpf.EventHandlers;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.IO.Ports;
-using System.Windows.Input;
 
 namespace CommonWpf.ViewModels
 {
@@ -157,7 +156,7 @@ namespace CommonWpf.ViewModels
         public void RefreshPortList()
         {
             PortNameList = new ObservableCollection<string>(SerialPort.GetPortNames());
-            if(PortNameList.Count > 0 && string.IsNullOrEmpty(ComPort.Settings.PortName))
+            if (PortNameList.Count > 0 && string.IsNullOrEmpty(ComPort.Settings.PortName))
             {
                 ComPort.Settings.PortName = PortNameList[0];
             }

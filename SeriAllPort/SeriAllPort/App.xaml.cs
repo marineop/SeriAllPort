@@ -16,7 +16,7 @@ namespace SeriAllPort
 
         private const string _settingsPath = $"settings.bin";
 
-        private readonly MainViewModel _mainViewModel;
+        private MainViewModel? _mainViewModel;
 
         private MainWindow? _mainWindow;
 
@@ -45,8 +45,6 @@ namespace SeriAllPort
 
         public App()
         {
-            _mainViewModel = new MainViewModel(this, this, AppSettings);
-
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             DispatcherUnhandledException += App_DispatcherUnhandledException;
             TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
@@ -75,6 +73,9 @@ namespace SeriAllPort
             base.OnStartup(e);
 
             _mainWindow = new MainWindow();
+
+            _mainViewModel = new MainViewModel(this, this, AppSettings);
+
             _mainWindow.DataContext = _mainViewModel;
 
             _mainWindow.Show();
@@ -84,7 +85,7 @@ namespace SeriAllPort
         {
             base.OnExit(e);
 
-            _mainViewModel.OnClose();
+            _mainViewModel?.OnClose();
 
             try
             {
@@ -96,7 +97,7 @@ namespace SeriAllPort
         }
 
         public bool ShowDialog(
-            object dataContext, 
+            object dataContext,
             string title,
             ResizeMode resizeMode,
             SizeToContent sizeToContent,

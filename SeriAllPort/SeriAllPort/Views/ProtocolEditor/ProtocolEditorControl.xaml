@@ -2,9 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SeriAllPort.Views.ProtocolEditor"
-             xmlns:ex="clr-namespace:CommonWpf.Extensions;assembly=CommonWpf"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:field="clr-namespace:CommonWpf.Communication.Protocol.PacketFields;assembly=CommonWpf"
              xmlns:con="clr-namespace:CommonWpf.Converters;assembly=CommonWpf"
              Height="auto"
@@ -16,114 +14,77 @@
     <UserControl.Resources>
         <con:BoolInverseConverter x:Key="boolInverse"/>
     </UserControl.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="30*" MinWidth="150"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="70*" MinWidth="200"/>
-        </Grid.ColumnDefinitions>
+
+    <Grid HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Protocols"/>
-            <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Command="{Binding ProtocolUpCommand}" Width="auto">
-                    <Image Source="/Resources/Icon/Up.png"/>
-                </Button>
-                <Button Command="{Binding ProtocolDownCommand}" Width="auto">
-                    <Image Source="/Resources/Icon/Down.png"/>
-                </Button>
-                <Button Content="New" Command="{Binding ProtocolNewCommand}" Width="auto"/>
-                <Button Content="Delete" Command="{Binding ProtocolDeleteCommand}" Width="auto"/>
-            </StackPanel>
-            <ListBox Grid.Row="2"
-                         SelectedItem="{Binding SelectedProtocol}"
-                         SelectedIndex="{Binding SelectedProtocolIndex, Mode=OneWayToSource}"
-                         ItemsSource="{Binding Protocols}" DisplayMemberPath="Name"
-                         />
-        </Grid>
-
-        <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Stretch"/>
-
-        <Grid Grid.Column="2" HorizontalAlignment="Stretch">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <TextBlock Text="Properties"/>
-
-            <Grid Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Name"/>
-                <TextBox Grid.Column="1" 
-                         Text="{Binding SelectedProtocol.Name}" 
-                         IsEnabled="{Binding SelectedProtocol.CanNotEditName, Converter={StaticResource boolInverse}}"
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Name"/>
+            <TextBox Grid.Column="1" 
+                         Text="{Binding Name}" 
+                         IsEnabled="{Binding Protocol.CanNotEditName, Converter={StaticResource boolInverse}}"
                          Width="auto" HorizontalAlignment="Stretch"/>
 
-                <TextBlock Grid.Row="1" Text="Idle Timeout (ms)"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedProtocol.PacketMode.IdleTimeoutMs,
-                                                                     UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Grid.Row="1" Text="Idle Timeout (ms)"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Protocol.PacketMode.IdleTimeoutMs, UpdateSourceTrigger=PropertyChanged}"/>
 
-                <TextBlock Grid.Row="2" Text="Packet Mode"/>
-                <ComboBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" Width="auto"
-                      SelectedItem="{Binding SelectedProtocol.PacketMode}"
+            <TextBlock Grid.Row="2" Text="Packet Mode"/>
+            <ComboBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" Width="auto"
+                      SelectedItem="{Binding Protocol.PacketMode}"
                       ItemsSource="{Binding PacketModes}"
                       DisplayMemberPath="Name"
                       />
+        </Grid>
+
+        <Separator Grid.Row="1" Height="auto"/>
+
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Fields"/>
+            <Grid Grid.Row="1">
+                <ToolBar ToolBarTray.IsLocked="True" HorizontalAlignment="Stretch" Height="34">
+                    <Button Command="{Binding FieldUpCommand}">
+                        <Image Source="/CommonWpf;component/Resources/Icon/Up.png"/>
+                    </Button>
+                    <Button Command="{Binding FieldDownCommand}" Width="auto">
+                        <Image Source="/CommonWpf;component/Resources/Icon/Down.png"/>
+                    </Button>
+                    <Menu VerticalAlignment="Center">
+                        <MenuItem Header="Add">
+                            <MenuItem Header="Field" Command="{Binding FieldNewCommand}" CommandParameter="{x:Type field:PacketField}"/>
+                            <MenuItem Header="End of Packet" Command="{Binding FieldNewCommand}" CommandParameter="{x:Type field:EndOfPacketSymbol}"/>
+                            <MenuItem Header="Preamble" Command="{Binding FieldNewCommand}" CommandParameter="{x:Type field:Preamble}"/>
+                        </MenuItem>
+                    </Menu>
+                    <Separator/>
+                    <Button Content="Delete" Command="{Binding FieldDeleteCommand}" Width="auto"/>
+                    <Separator/>
+                    <Button Content="Validate" Command="{Binding FieldValidateCommand}" Width="auto"/>
+                    <TextBlock Text="{Binding ValidateResult}"/>
+                </ToolBar>
             </Grid>
-
-            <Separator Grid.Row="2" Height="auto"/>
-
-            <Grid Grid.Row="3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <TextBlock Text="Fields"/>
-                <Grid Grid.Row="1">
-                    <ToolBar ToolBarTray.IsLocked="True" HorizontalAlignment="Stretch" Height="34">
-                        <Button Command="{Binding FieldUpCommand}">
-                            <Image Source="/Resources/Icon/Up.png"/>
-                        </Button>
-                        <Button Command="{Binding FieldDownCommand}" Width="auto">
-                            <Image Source="/Resources/Icon/Down.png"/>
-                        </Button>
-                        <Menu VerticalAlignment="Center">
-
-                            <MenuItem Header="Add">
-                                <MenuItem Header="Field" Command="{Binding FieldNewCommand}" CommandParameter="{x:Type field:PacketField}"/>
-                                <MenuItem Header="End of Packet" Command="{Binding FieldNewCommand}" CommandParameter="{x:Type field:EndOfPacketSymbol}"/>
-                                <MenuItem Header="Preamble" Command="{Binding FieldNewCommand}" CommandParameter="{x:Type field:Preamble}"/>
-                            </MenuItem>
-                        </Menu>
-                        <Separator/>
-                        <Button Content="Delete" Command="{Binding FieldDeleteCommand}" Width="auto"/>
-                        <Separator/>
-                        <Button Content="Validate" Command="{Binding FieldValidateCommand}" Width="auto"/>
-                        <TextBlock Text="{Binding ValidateResult}"/>
-                    </ToolBar>
-                </Grid>
-                <ListBox Grid.Row="2"
-                         ItemsSource="{Binding SelectedProtocol.PacketMode.Fields}"
+            <ListBox Grid.Row="2"
+                         ItemsSource="{Binding Protocol.PacketMode.Fields}"
                          SelectedItem="{Binding SelectedPacketField}"
                          SelectedIndex="{Binding SelectedPacketFieldIndex}"
                          />
-            </Grid>
         </Grid>
     </Grid>
 </UserControl>

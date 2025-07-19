@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using CommonWpf.ViewModels.TextBytes;
+using System.Text.Json.Serialization;
 
 namespace CommonWpf.Communication.Protocol.PacketFields
 {
@@ -31,9 +32,11 @@ namespace CommonWpf.Communication.Protocol.PacketFields
                 {
                     _lengthMode = value;
 
+                    byte[] newBytes = TextBytes.Bytes;
+
                     if (_lengthMode == LengthMode.FixedLength)
                     {
-                        Data = [];
+                        newBytes = [];
                         if (FixedLength <= 1)
                         {
                             FixedLength = 1;
@@ -41,56 +44,44 @@ namespace CommonWpf.Communication.Protocol.PacketFields
                     }
                     else if (_lengthMode == LengthMode.FixedData)
                     {
-                        if (Data == null || Data.Length < 1)
+                        if (newBytes == null || newBytes.Length < 1)
                         {
-                            Data = new byte[1];
+                            newBytes = new byte[1];
                         }
                     }
                     else
                     {
                         FixedLength = 0;
-                        Data = [];
+                        newBytes = [];
                     }
+
+                    TextBytes.Bytes = newBytes;
+                    TextBytes.SetTextWithCurrentBytes();
 
                     OnPropertyChanged();
                 }
             }
         }
 
-        private byte[] _data = [];
-        public byte[] Data
+        private TextBytesViewModel _textBytes = new();
+        public TextBytesViewModel TextBytes
         {
-            get => _data;
+            get => _textBytes;
             set
             {
-                if (_data != value)
+                if (_textBytes != value)
                 {
-                    byte[] newData = value;
-
-                    if (LengthMode == LengthMode.FixedData)
-                    {
-                        if (_data == null)
-                        {
-                            throw new Exception("Invalid Data");
-                        }
-
-                        if (newData.Length <= 0)
-                        {
-                            newData = new byte[1];
-                        }
-
-                        _data = newData;
-
-                        FixedLength = _data.Length;
-                    }
-                    else
-                    {
-                        _data = [];
-                    }
-
+                    _textBytes = value;
                     OnPropertyChanged();
                 }
             }
+        }
+
+        [JsonIgnore]
+        public byte[] Data
+        {
+            get => TextBytes.Bytes;
+            set => TextBytes.Bytes = value;
         }
 
         private int _fixedLength = 0;
@@ -112,7 +103,7 @@ namespace CommonWpf.Communication.Protocol.PacketFields
                     }
                     else if (LengthMode == LengthMode.FixedData)
                     {
-                        newValue = Data.Length;
+                        newValue = TextBytes.Bytes.Length;
                     }
                     else
                     {
@@ -143,20 +134,28 @@ namespace CommonWpf.Communication.Protocol.PacketFields
         [JsonIgnore]
         public virtual string TypeName { get; } = "Field";
 
-        public PacketField(string name, LengthMode lengthMode, byte[] data, int fixedLength)
+        public PacketField(string name, LengthMode lengthMode, TextBytesViewModel textBytes, int fixedLength)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             LengthMode = lengthMode;
-            Data = data ?? throw new ArgumentNullException(nameof(data));
+
+            TextBytes = textBytes ?? throw new ArgumentNullException(nameof(textBytes));
+            TextBytes.SetTextWithCurrentBytes();
+            TextBytes.PreviewUpdateBytesHook += UpdateBytesCheck;
+            TextBytes.PostUpdateBytesHook += BytesUpdated;
+
             FixedLength = fixedLength;
         }
 
         public virtual PacketField CreateClone()
         {
+            TextBytesViewModel newTextBytes = TextBytes.CreateClone();
+            newTextBytes.SetTextWithCurrentBytes();
+
             PacketField newPacketField = new PacketField(
                 Name,
                 LengthMode,
-                Data = (byte[])Data.Clone(),
+                newTextBytes,
                 FixedLength);
 
             return newPacketField;
@@ -165,9 +164,47 @@ namespace CommonWpf.Communication.Protocol.PacketFields
         protected void AssignWithSelfValue(PacketField packetField)
         {
             packetField.Name = Name;
-            packetField.Data = (byte[])Data.Clone();
+
+            packetField.TextBytes = TextBytes.CreateClone();
+            packetField.TextBytes.SetTextWithCurrentBytes();
+            packetField.TextBytes.PreviewUpdateBytesHook += UpdateBytesCheck;
+            packetField.TextBytes.PostUpdateBytesHook += BytesUpdated;
+
             packetField.FixedLength = FixedLength;
             packetField.Value = Value;
+        }
+
+        internal void RefreshValues()
+        {
+            TextBytes.SetTextWithCurrentBytes();
+            OnPropertyChanged(nameof(FixedLength));
+        }
+
+        private byte[] UpdateBytesCheck(byte[] newData)
+        {
+            byte[] answer = [];
+
+            if (LengthMode == LengthMode.FixedData)
+            {
+                if (newData == null)
+                {
+                    throw new Exception("Invalid Data");
+                }
+
+                if (newData.Length <= 0)
+                {
+                    newData = new byte[1];
+                }
+
+                answer = newData;
+            }
+
+            return answer;
+        }
+
+        private void BytesUpdated()
+        {
+            FixedLength = TextBytes.Bytes.Length;
         }
     }
 }

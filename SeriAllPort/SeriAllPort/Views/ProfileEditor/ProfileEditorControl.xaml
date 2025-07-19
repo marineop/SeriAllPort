@@ -15,12 +15,11 @@
     <UserControl.Resources>
         <con:BoolInverseConverter x:Key="boolInverse"/>
     </UserControl.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="30*" MinWidth="150"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="70*" MinWidth="200"/>
-        </Grid.ColumnDefinitions>
+
+    <Grid HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
         <Grid>
             <Grid.RowDefinitions>
@@ -28,64 +27,28 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Profiles"/>
-            <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Command="{Binding ProfileUpCommand}" Width="auto">
-                    <Image Source="/Resources/Icon/Up.png"/>
-                </Button>
-                <Button Command="{Binding ProfileDownCommand}" Width="auto">
-                    <Image Source="/Resources/Icon/Down.png"/>
-                </Button>
-                <Button Content="New" Command="{Binding ProfileNewCommand}" Width="auto"/>
-                <Button Content="Delete" Command="{Binding ProfileDeleteCommand}" Width="auto"/>
-            </StackPanel>
-            <ListBox Grid.Row="2"
-                     SelectedItem="{Binding SelectedProfile}"
-                     SelectedIndex="{Binding SelectedProfileIndex, Mode=OneWayToSource}"
-                     ItemsSource="{Binding Profiles}" DisplayMemberPath="Name"
-                     />
-        </Grid>
-
-        <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Stretch"/>
-
-        <Grid Grid.Column="2" HorizontalAlignment="Stretch">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-            <TextBlock Text="Properties"/>
-
-            <Grid Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Name"/>
-                <TextBox Grid.Column="1" 
-                     Text="{Binding SelectedProfile.Name}" 
-                     IsEnabled="{Binding SelectedProfile.CanNotEditName, Converter={StaticResource boolInverse}}"
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Name"/>
+            <TextBox Grid.Column="1" 
+                     Text="{Binding Name}" 
+                     IsEnabled="{Binding CanNotEditName, Converter={StaticResource boolInverse}}"
                      Width="auto" HorizontalAlignment="Stretch"/>
 
-                <TextBlock Grid.Row="1" Text="Description"/>
-                <TextBox Grid.Row="2" Grid.ColumnSpan="2" 
+            <TextBlock Grid.Row="1" Text="Description"/>
+            <TextBox Grid.Row="2" Grid.ColumnSpan="2" 
                          Width="auto" HorizontalAlignment="Stretch"
                          Height="auto" VerticalAlignment="Stretch"
                          VerticalContentAlignment="Top"
-                         TextWrapping="Wrap"
                          AcceptsReturn="True"
                          VerticalScrollBarVisibility="Visible"
-                         
-                         Text="{Binding SelectedProfile.Description}"/>
+                         HorizontalScrollBarVisibility="Auto"
+                         FontFamily="Consolas"
+                         Text="{Binding Description}"/>
 
-            </Grid>
         </Grid>
-
     </Grid>
 </UserControl>
 

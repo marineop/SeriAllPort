@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Input;
 
 namespace CommonWpf.ViewModels.Log
 {
@@ -61,7 +59,7 @@ namespace CommonWpf.ViewModels.Log
                     Entries.RemoveAt(0);
                 }
 
-                if(Entries.Count <= 0)
+                if (Entries.Count <= 0)
                 {
                     _entries.Add(new LogEntry(time, message));
                 }

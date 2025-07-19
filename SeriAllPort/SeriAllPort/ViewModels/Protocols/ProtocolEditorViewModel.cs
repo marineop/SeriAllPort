@@ -3,74 +3,54 @@ using CommonWpf.Communication.Protocol;
 using CommonWpf.Communication.Protocol.PacketFields;
 using CommonWpf.Communication.Protocol.PacketModes;
 using CommonWpf.FileHelper;
+using CommonWpf.ViewModels.ListEditor;
+using CommonWpf.ViewModels.TextBytes;
 using System.Collections.ObjectModel;
 
 namespace SeriAllPort.ViewModels.Protocols
 {
-    public class ProtocolEditorViewModel : ViewModel
+    public class ProtocolEditorViewModel : ViewModel, IListEditorItem, IAppDataFolderFile
     {
-        private ObservableCollection<Protocol> _protocols = [];
-        public ObservableCollection<Protocol> Protocols
+        public string Name
         {
-            get => _protocols;
+            get => Protocol.Name;
             set
             {
-                if (_protocols != value)
+                if (Protocol.Name != value)
                 {
-                    _protocols = value;
+                    Protocol.Name = value;
                     OnPropertyChanged();
                 }
             }
         }
 
-        private Protocol? _selectedProtocol;
-        public Protocol? SelectedProtocol
+        public bool CanNotDelete => Protocol.CanNotDelete;
+
+        public static string AppDataSubFolder => Protocol.AppDataSubFolder;
+
+        public static string FileExtensionName => Protocol.FileExtensionName;
+
+        public Guid Id
         {
-            get => _selectedProtocol;
-            set
-            {
-                if (_selectedProtocol != value)
-                {
-                    _selectedProtocol = value;
-                    OnPropertyChanged();
-
-                    ProtocolUpCommand.RaiseCanExecuteChangedEvent();
-                    ProtocolDownCommand.RaiseCanExecuteChangedEvent();
-                    ProtocolDeleteCommand.RaiseCanExecuteChangedEvent();
-
-                    FieldValidateCommand.RaiseCanExecuteChangedEvent();
-
-                    if (_selectedProtocol != null)
-                    {
-                        PacketModes =
-                        [
-                            new PacketModeTimeout(0),
-                            new PacketModeEndOfPacketSymbol([(byte)'\r', (byte)'\n']),
-                            _selectedProtocol.PacketMode,
-                        ];
-
-                        for (int i = 0; i < PacketModes.Count; ++i)
-                        {
-                            if (PacketModes[i].GetType() == _selectedProtocol.PacketMode.GetType())
-                            {
-                                PacketModes.RemoveAt(i);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
+            get => Protocol.Id;
+            set => Protocol.Id = value;
         }
 
-        private int _selectedProtocolIndex;
-        public int SelectedProtocolIndex
+        public int Order
         {
-            get => _selectedProtocolIndex;
+            get => Protocol.Order;
+            set => Protocol.Order = value;
+        }
+
+        private Protocol _protocol;
+        public Protocol Protocol
+        {
+            get => _protocol;
             set
             {
-                if (_selectedProtocolIndex != value)
+                if (_protocol != value)
                 {
-                    _selectedProtocolIndex = value;
+                    _protocol = value;
                     OnPropertyChanged();
                 }
             }
@@ -122,7 +102,7 @@ namespace SeriAllPort.ViewModels.Protocols
             }
         }
 
-        private ObservableCollection<PacketMode> _packetModes;
+        private ObservableCollection<PacketMode> _packetModes = [];
         public ObservableCollection<PacketMode> PacketModes
         {
             get => _packetModes;
@@ -136,12 +116,7 @@ namespace SeriAllPort.ViewModels.Protocols
             }
         }
 
-        private IShowErrorDialog ShowErrorDialog { get; set; }
-
-        public SimpleCommand ProtocolUpCommand { get; private set; }
-        public SimpleCommand ProtocolDownCommand { get; private set; }
-        public SimpleCommand ProtocolNewCommand { get; private set; }
-        public SimpleCommand ProtocolDeleteCommand { get; private set; }
+        protected IShowErrorDialog ShowErrorDialog { get; set; }
 
         public SimpleCommand FieldUpCommand { get; private set; }
         public SimpleCommand FieldDownCommand { get; private set; }
@@ -149,41 +124,10 @@ namespace SeriAllPort.ViewModels.Protocols
         public SimpleCommand FieldDeleteCommand { get; private set; }
         public SimpleCommand FieldValidateCommand { get; private set; }
 
-        public ProtocolEditorViewModel(
-            IList<Protocol> protocols,
-            Protocol currentProtocol,
-            IShowErrorDialog showErrorDialog)
+        public ProtocolEditorViewModel(Protocol protocol, IShowErrorDialog showErrorDialog)
         {
-            Protocol? selectedProtocol = null;
-            foreach (Protocol protocol in protocols)
-            {
-                Protocol copy = protocol.CreateClone();
-                Protocols.Add(copy);
-
-                if (protocol.Id == currentProtocol.Id)
-                {
-                    selectedProtocol = copy;
-                }
-            }
-
+            _protocol = protocol;
             ShowErrorDialog = showErrorDialog;
-
-            ProtocolNewCommand = new SimpleCommand((parameter) => ProtocolNew());
-
-            ProtocolUpCommand = new SimpleCommand(
-                (parameter) => ProtocolUp(),
-                (parameter) => SelectedProtocol != null);
-
-            ProtocolDownCommand = new SimpleCommand(
-                (parameter) => ProtocolDown(),
-                (parameter) => SelectedProtocol != null);
-
-            ProtocolDeleteCommand = new SimpleCommand(
-                (parameter) => ProtocolDelete(),
-                (parameter) =>
-                {
-                    return SelectedProtocol != null && !SelectedProtocol.CanNotDelete;
-                });
 
             FieldUpCommand = new SimpleCommand(
                 (parameter) => FieldUp(),
@@ -201,93 +145,30 @@ namespace SeriAllPort.ViewModels.Protocols
                 (parameter) => SelectedPacketField != null);
 
             FieldValidateCommand = new SimpleCommand(
-                (parameter) => FieldValidate(),
-                (parameter) => SelectedProtocol != null);
+                (parameter) => FieldValidate());
 
-            _packetModes =
+            PacketModes =
             [
-                new PacketModeTimeout(0),
+                 new PacketModeTimeout(0),
                 new PacketModeEndOfPacketSymbol([(byte)'\r', (byte)'\n']),
+                Protocol.PacketMode,
             ];
 
-            SelectedProtocol = selectedProtocol;
-        }
-
-        private void ProtocolUp()
-        {
-            if (SelectedProtocolIndex >= 0)
+            for (int i = 0; i < PacketModes.Count; ++i)
             {
-                ObservableCollection<Protocol> protocols = Protocols;
-                int index = SelectedProtocolIndex;
-
-                if (index > 0)
+                if (PacketModes[i].GetType() == Protocol.PacketMode.GetType())
                 {
-                    Protocol selectedProtocolPrevious = protocols[index - 1];
-                    protocols.RemoveAt(index - 1);
-                    protocols.Insert(index, selectedProtocolPrevious);
-                }
-            }
-        }
-
-        private void ProtocolDown()
-        {
-            if (SelectedProtocolIndex >= 0)
-            {
-                ObservableCollection<Protocol> protocols = Protocols;
-                int index = SelectedProtocolIndex;
-
-                if (index < protocols.Count - 1)
-                {
-                    Protocol selectedProtocolNext = protocols[index + 1];
-                    protocols.RemoveAt(index + 1);
-                    protocols.Insert(index, selectedProtocolNext);
-                }
-            }
-        }
-
-        private void ProtocolNew()
-        {
-            PacketModeTimeout packetMode = new PacketModeTimeout(0);
-
-            List<string> protocolNames = [];
-
-            foreach (Protocol protocol in Protocols)
-            {
-                protocolNames.Add(protocol.Name);
-            }
-
-            string newProtocolName = GetUniqueName(protocolNames, "Protocol");
-
-            Protocol newProtocol = new Protocol(
-                newProtocolName,
-                AppDataFolderFileHelper.GenerateUnusedId(Protocols),
-                packetMode);
-
-            Protocols.Add(newProtocol);
-
-            SelectedProtocol = newProtocol;
-        }
-
-        private void ProtocolDelete()
-        {
-            if (SelectedProtocol != null)
-            {
-                if (SelectedProtocol.CanNotDelete)
-                {
-                    ShowErrorDialog.ShowError("Error", $"The {SelectedProtocol.Name} Protocol can not be deleted.");
-                }
-                else
-                {
-                    Protocols.Remove(SelectedProtocol);
+                    PacketModes.RemoveAt(i);
+                    break;
                 }
             }
         }
 
         private void FieldUp()
         {
-            if (SelectedProtocol != null && SelectedPacketField != null)
+            if (SelectedPacketField != null)
             {
-                ObservableCollection<PacketField> fields = SelectedProtocol.PacketMode.Fields;
+                ObservableCollection<PacketField> fields = Protocol.PacketMode.Fields;
                 int index = SelectedPacketFieldIndex;
 
                 if (index > 0)
@@ -301,9 +182,9 @@ namespace SeriAllPort.ViewModels.Protocols
 
         private void FieldDown()
         {
-            if (SelectedProtocol != null && SelectedPacketField != null)
+            if (Protocol != null && SelectedPacketField != null)
             {
-                ObservableCollection<PacketField> fields = SelectedProtocol.PacketMode.Fields;
+                ObservableCollection<PacketField> fields = Protocol.PacketMode.Fields;
                 int index = SelectedPacketFieldIndex;
 
                 if (index < fields.Count - 1)
@@ -323,9 +204,9 @@ namespace SeriAllPort.ViewModels.Protocols
             }
             else
             {
-                if (SelectedProtocol != null)
+                if (Protocol != null)
                 {
-                    ObservableCollection<PacketField> fields = SelectedProtocol.PacketMode.Fields;
+                    ObservableCollection<PacketField> fields = Protocol.PacketMode.Fields;
                     int selectedNextIndex = fields.Count;
                     if (SelectedPacketField != null)
                     {
@@ -338,22 +219,22 @@ namespace SeriAllPort.ViewModels.Protocols
                         newPacketField = new PacketField(
                             "Data",
                             LengthMode.FixedLength,
-                            [],
-                            0);
+                            new TextBytesViewModel(),
+                            1);
                         fields.Insert(selectedNextIndex, newPacketField);
                     }
                     else if (type == typeof(EndOfPacketSymbol))
                     {
                         newPacketField = new EndOfPacketSymbol(
                             "EOP",
-                            [(byte)'\r', (byte)'\n']);
+                            new TextBytesViewModel(TextRepresentation.Bytes, [(byte)'\r', (byte)'\n']));
                         fields.Insert(fields.Count, newPacketField);
                     }
                     else if (type == typeof(Preamble))
                     {
                         newPacketField = new Preamble(
                             "Preamble",
-                            [0x00]);
+                             new TextBytesViewModel(TextRepresentation.Bytes, [0x00]));
                         fields.Insert(0, newPacketField);
                     }
 
@@ -371,6 +252,34 @@ namespace SeriAllPort.ViewModels.Protocols
                         SelectedPacketField = newPacketField;
                     }
                 }
+            }
+        }
+
+        private void FieldDelete()
+        {
+            if (Protocol != null && SelectedPacketField != null)
+            {
+                ObservableCollection<PacketField> fields = Protocol.PacketMode.Fields;
+                fields.RemoveAt(SelectedPacketFieldIndex);
+            }
+        }
+
+        private void FieldValidate()
+        {
+            try
+            {
+                ValidateResult = "N/A";
+
+                SelectedPacketField = null;
+
+                Protocol?.PacketMode.Validate();
+
+                ValidateResult = "OK";
+            }
+            catch (Exception ex)
+            {
+                ValidateResult = "Invalid";
+                ShowErrorDialog.ShowError("Invalid Protocol", ex.Message);
             }
         }
 
@@ -397,34 +306,6 @@ namespace SeriAllPort.ViewModels.Protocols
             }
 
             return $"{prefix}{numberNow}";
-        }
-
-        private void FieldDelete()
-        {
-            if (SelectedProtocol != null && SelectedPacketField != null)
-            {
-                ObservableCollection<PacketField> fields = SelectedProtocol.PacketMode.Fields;
-                fields.RemoveAt(SelectedPacketFieldIndex);
-            }
-        }
-
-        private void FieldValidate()
-        {
-            try
-            {
-                ValidateResult = "N/A";
-
-                SelectedPacketField = null;
-
-                SelectedProtocol?.PacketMode.Validate();
-
-                ValidateResult = "OK";
-            }
-            catch (Exception ex)
-            {
-                ValidateResult = "Invalid";
-                ShowErrorDialog.ShowError("Invalid Protocol", ex.Message);
-            }
         }
     }
 }

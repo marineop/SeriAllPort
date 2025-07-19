@@ -1,13 +1,15 @@
 ﻿using CommonWpf;
 using CommonWpf.Communication.PhysicalInterfaces;
 using CommonWpf.FileHelper;
+using CommonWpf.ViewModels.ListEditor;
+using SeriAllPort.ViewModels.Commands;
 using SeriAllPort.ViewModels.SendRawData;
 using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 
 namespace SeriAllPort.ViewModels.Profiles
 {
-    public class Profile : ViewModel, IAppDataFolderFile
+    public class Profile : ViewModel, IAppDataFolderFile, IListEditorItem
     {
         public static string AppDataSubFolder => "Profiles";
 
@@ -158,6 +160,20 @@ namespace SeriAllPort.ViewModels.Profiles
                 if (_comPortSettings != value)
                 {
                     _comPortSettings = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private ObservableCollection<Command> _commands = [];
+        public ObservableCollection<Command> Commands
+        {
+            get => _commands;
+            set
+            {
+                if (_commands != value)
+                {
+                    _commands = value;
                     OnPropertyChanged();
                 }
             }

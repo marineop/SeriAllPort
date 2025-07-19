@@ -1,9 +1,10 @@
 ﻿using CommonWpf.Communication.Protocol.PacketModes;
 using CommonWpf.FileHelper;
+using CommonWpf.ViewModels.ListEditor;
 
 namespace CommonWpf.Communication.Protocol
 {
-    public class Protocol : ViewModel, IAppDataFolderFile
+    public class Protocol : ViewModel, IAppDataFolderFile, IListEditorItem
     {
         public static string AppDataSubFolder => "Protocols";
 

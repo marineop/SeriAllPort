@@ -1,5 +1,6 @@
 ﻿using CommonWpf.Communication.Protocol.EventTypes;
 using CommonWpf.Communication.Protocol.PacketFields;
+using CommonWpf.ViewModels.TextBytes;
 using System.Text.Json.Serialization;
 
 namespace CommonWpf.Communication.Protocol.PacketModes
@@ -26,7 +27,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
             PacketField packetField = new PacketField(
                 "Data",
                 LengthMode.VariableLength,
-                [],
+                new TextBytesViewModel(),
                 0);
 
             Fields.Add(packetField);
@@ -49,7 +50,9 @@ namespace CommonWpf.Communication.Protocol.PacketModes
 
         protected override void ValidateInternal()
         {
+            _timer.Enabled = true;
             _timer.Interval = IdleTimeoutMs;
+            _timer.Enabled = false;
 
             foreach (PacketField field in Fields)
             {
@@ -165,15 +168,17 @@ namespace CommonWpf.Communication.Protocol.PacketModes
 
                             if (indexNow + fieldLength <= packetBytes.Length)
                             {
-                                newField.Data = packetBytes.Slice(indexNow, fieldLength).ToArray();
+                                byte[] newData = packetBytes.Slice(indexNow, fieldLength).ToArray();
 
                                 if (newField.LengthMode == LengthMode.FixedData
-                                    && !newField.Data.SequenceEqual(Fields[i].Data))
+                                    && !newData.SequenceEqual(Fields[i].Data))
                                 {
-                                    // fixed length field data must equal to actual data
+                                    // fixed data field, data must be equal to expected data
                                     fieldsValid = false;
                                     break;
                                 }
+
+                                newField.Value = newData;
 
                                 indexNow += fieldLength;
                             }

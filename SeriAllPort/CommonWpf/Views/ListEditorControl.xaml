@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="CommonWpf.Views.ListEditorControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CommonWpf.Views"
+             xmlns:con="clr-namespace:CommonWpf.Converters"
+             Height="auto"
+             Width="auto"
+             
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="600"
+             d:Background="White"
+             >
+    <UserControl.Resources>
+        <con:BoolInverseConverter x:Key="boolInverse"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30*" MinWidth="150"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="70*" MinWidth="200"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding Name}"/>
+            <ToolBar Grid.Row="1" ToolBarTray.IsLocked="True" HorizontalAlignment="Stretch" Height="34">
+                <Button Command="{Binding UpCommand}" Width="auto">
+                    <Image Source="/CommonWpf;component/Resources/Icon/Up.png"/>
+                </Button>
+                <Button Command="{Binding DownCommand}" Width="auto">
+                    <Image Source="/CommonWpf;component/Resources/Icon/Down.png"/>
+                </Button>
+                <Menu VerticalAlignment="Center">
+                    <MenuItem Header="Add" ItemsSource="{Binding NewTypes}">
+                        <MenuItem.ItemContainerStyle>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="Header" Value="{Binding Item1}"/>
+                                <Setter Property="Command" Value="{Binding DataContext.NewCommand, RelativeSource={RelativeSource AncestorType={x:Type Menu}}}"/>
+                                <Setter Property="CommandParameter" Value="{Binding Item2}" />
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
+                    </MenuItem>
+                </Menu>
+                <Button Content="Delete" Command="{Binding DeleteCommand}" Width="auto"/>
+            </ToolBar>
+            <ListBox Grid.Row="2"
+                 SelectedItem="{Binding SelectedItem}"
+                 SelectedIndex="{Binding SelectedItemIndex, Mode=OneWayToSource}"
+                 ItemsSource="{Binding Items}" DisplayMemberPath="Name"
+                 />
+        </Grid>
+
+        <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Stretch" Margin="3,0,0,0"/>
+
+        <Grid Grid.Column="2" HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Properties"/>
+            <ContentControl Grid.Row="1" Margin="3,0,0,0" Content="{Binding SelectedItem}"/>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -23,6 +23,9 @@ SeriAllPort is a simple UI-based application for inspecting and analyzing data t
 - Send plain text encoded in UTF-8.  
   _Example:_ `text`
 
+## Create custom Command Button  
+- Each button is linked to a predefined command, enabling fast and intuitive interaction with your devices.
+  ![Application Screenshot](Image/CommandEditor.png)
 ---
 
 ## Protocol System
