@@ -50,7 +50,9 @@ namespace CommonWpf.Communication.Protocol.PacketModes
 
         protected override void ValidateInternal()
         {
+            _timer.Enabled = true;
             _timer.Interval = IdleTimeoutMs;
+            _timer.Enabled = false;
 
             foreach (PacketField field in Fields)
             {
