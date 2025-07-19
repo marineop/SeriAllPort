@@ -54,15 +54,49 @@ namespace CommonWpf.ViewModels.TextBytes
             }
         }
 
+        [JsonIgnore]
+        public Func<byte[], byte[]>? PreviewUpdateBytesHook { get; set; }
+
+        [JsonIgnore]
+        public Action? PostUpdateBytesHook { get; set; }
+
+        public TextBytesViewModel()
+        {
+            TextRepresentation = TextRepresentation.Bytes;
+            Bytes = [];
+        }
+
+        public TextBytesViewModel(TextRepresentation textRepresentation, byte[] bytes)
+        {
+            TextRepresentation = textRepresentation;
+            Bytes = bytes;
+        }
+
         public TextBytesViewModel CreateClone()
         {
             TextBytesViewModel copy = new TextBytesViewModel();
+
             copy.TextRepresentation = TextRepresentation;
             copy.Text = Text;
             copy.Bytes = Bytes;
+
             copy.SetTextWithCurrentBytes();
+            copy.PreviewUpdateBytesHook = PreviewUpdateBytesHook;
+            copy.PostUpdateBytesHook = PostUpdateBytesHook;
 
             return copy;
+        }
+
+        public void SetTextWithCurrentBytes()
+        {
+            if (TextRepresentation == TextRepresentation.Text)
+            {
+                Text = Encoding.UTF8.GetString(Bytes);
+            }
+            else
+            {
+                Text = Bytes.BytesToString();
+            }
         }
 
         private void ValidateText()
@@ -86,31 +120,24 @@ namespace CommonWpf.ViewModels.TextBytes
             {
                 try
                 {
+                    byte[] newBytes = [];
                     if (TextRepresentation == TextRepresentation.Bytes)
                     {
-                        Bytes = _text.HexStringToBytes();
+                        newBytes = _text.HexStringToBytes();
                     }
                     else if (TextRepresentation == TextRepresentation.Text)
                     {
-                        Bytes = Encoding.UTF8.GetBytes(_text);
+                        newBytes = Encoding.UTF8.GetBytes(_text);
                     }
+
+                    Bytes = PreviewUpdateBytesHook?.Invoke(newBytes) ?? newBytes;
+
+                    PostUpdateBytesHook?.Invoke();
                 }
                 catch (Exception ex)
                 {
                     AddError(nameof(Text), ex.Message);
                 }
-            }
-        }
-
-        public void SetTextWithCurrentBytes()
-        {
-            if (TextRepresentation == TextRepresentation.Text)
-            {
-                Text = Encoding.UTF8.GetString(Bytes);
-            }
-            else
-            {
-                Text = Bytes.BytesToString();
             }
         }
     }

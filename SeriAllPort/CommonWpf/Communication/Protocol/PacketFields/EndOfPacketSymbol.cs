@@ -1,4 +1,6 @@
-﻿namespace CommonWpf.Communication.Protocol.PacketFields
+﻿using CommonWpf.ViewModels.TextBytes;
+
+namespace CommonWpf.Communication.Protocol.PacketFields
 {
     public class EndOfPacketSymbol : PacketField
     {
@@ -10,14 +12,14 @@
             set => base.LengthMode = LengthMode.FixedData;
         }
 
-        public EndOfPacketSymbol(string name, byte[] data)
-            : base(name, LengthMode.FixedData, data, data.Length)
+        public EndOfPacketSymbol(string name, TextBytesViewModel textBytes)
+            : base(name, LengthMode.FixedData, textBytes, textBytes.Bytes.Length)
         {
         }
 
         public override PacketField CreateClone()
         {
-            EndOfPacketSymbol newPacketField = new EndOfPacketSymbol(Name, Data);
+            EndOfPacketSymbol newPacketField = new EndOfPacketSymbol(Name, TextBytes);
 
             AssignWithSelfValue(newPacketField);
 

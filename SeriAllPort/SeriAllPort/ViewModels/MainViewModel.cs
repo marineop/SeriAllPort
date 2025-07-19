@@ -504,7 +504,7 @@ namespace SeriAllPort.ViewModels
             List<ProtocolEditorViewModel> protocolEditorViewModels = [];
             for (int i = 0; i < Protocols.Count; ++i)
             {
-                protocolEditorViewModels.Add(new ProtocolEditorViewModel(Protocols[i], ShowErrorDialog));
+                protocolEditorViewModels.Add(new ProtocolEditorViewModel(Protocols[i].CreateClone(), ShowErrorDialog));
             }
 
             ProtocolListEditorViewModel protocolListEditor = new ProtocolListEditorViewModel(

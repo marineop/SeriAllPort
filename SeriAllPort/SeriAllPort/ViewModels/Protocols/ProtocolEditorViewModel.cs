@@ -4,6 +4,7 @@ using CommonWpf.Communication.Protocol.PacketFields;
 using CommonWpf.Communication.Protocol.PacketModes;
 using CommonWpf.FileHelper;
 using CommonWpf.ViewModels.ListEditor;
+using CommonWpf.ViewModels.TextBytes;
 using System.Collections.ObjectModel;
 
 namespace SeriAllPort.ViewModels.Protocols
@@ -218,22 +219,22 @@ namespace SeriAllPort.ViewModels.Protocols
                         newPacketField = new PacketField(
                             "Data",
                             LengthMode.FixedLength,
-                            [],
-                            0);
+                            new TextBytesViewModel(),
+                            1);
                         fields.Insert(selectedNextIndex, newPacketField);
                     }
                     else if (type == typeof(EndOfPacketSymbol))
                     {
                         newPacketField = new EndOfPacketSymbol(
                             "EOP",
-                            [(byte)'\r', (byte)'\n']);
+                            new TextBytesViewModel(TextRepresentation.Bytes, [(byte)'\r', (byte)'\n']));
                         fields.Insert(fields.Count, newPacketField);
                     }
                     else if (type == typeof(Preamble))
                     {
                         newPacketField = new Preamble(
                             "Preamble",
-                            [0x00]);
+                             new TextBytesViewModel(TextRepresentation.Bytes, [0x00]));
                         fields.Insert(0, newPacketField);
                     }
 

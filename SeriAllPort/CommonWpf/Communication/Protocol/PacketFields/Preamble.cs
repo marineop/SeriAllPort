@@ -1,4 +1,6 @@
-﻿namespace CommonWpf.Communication.Protocol.PacketFields
+﻿using CommonWpf.ViewModels.TextBytes;
+
+namespace CommonWpf.Communication.Protocol.PacketFields
 {
     public class Preamble : PacketField
     {
@@ -10,14 +12,14 @@
             set => base.LengthMode = LengthMode.FixedData;
         }
 
-        public Preamble(string name, byte[] data)
-             : base(name, LengthMode.FixedData, data, data.Length)
+        public Preamble(string name, TextBytesViewModel textBytes)
+             : base(name, LengthMode.FixedData, textBytes, textBytes.Bytes.Length)
         {
         }
 
         public override PacketField CreateClone()
         {
-            Preamble newPacketField = new Preamble(Name, Data);
+            Preamble newPacketField = new Preamble(Name, TextBytes);
 
             AssignWithSelfValue(newPacketField);
 

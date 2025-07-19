@@ -1,5 +1,6 @@
 ﻿using CommonWpf.Communication.Protocol.EventTypes;
 using CommonWpf.Communication.Protocol.PacketFields;
+using CommonWpf.ViewModels.TextBytes;
 using System.Text.Json.Serialization;
 
 namespace CommonWpf.Communication.Protocol.PacketModes
@@ -26,7 +27,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
             PacketField packetField = new PacketField(
                 "Data",
                 LengthMode.VariableLength,
-                [],
+                new TextBytesViewModel(),
                 0);
 
             Fields.Add(packetField);

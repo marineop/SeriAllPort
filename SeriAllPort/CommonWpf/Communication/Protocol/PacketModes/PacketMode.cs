@@ -94,6 +94,9 @@ namespace CommonWpf.Communication.Protocol.PacketModes
             for (int i = 0; i < Fields.Count; ++i)
             {
                 PacketField field = Fields[i];
+
+                field.RefreshValues();
+
                 if (field is Preamble)
                 {
                     if (i != 0)
