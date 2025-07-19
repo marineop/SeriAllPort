@@ -42,10 +42,10 @@
                          Width="auto" HorizontalAlignment="Stretch"
                          Height="auto" VerticalAlignment="Stretch"
                          VerticalContentAlignment="Top"
-                         TextWrapping="Wrap"
                          AcceptsReturn="True"
                          VerticalScrollBarVisibility="Visible"
-                         
+                         HorizontalScrollBarVisibility="Auto"
+                         FontFamily="Consolas"
                          Text="{Binding Description}"/>
 
         </Grid>
