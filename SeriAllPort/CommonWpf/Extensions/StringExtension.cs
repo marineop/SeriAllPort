@@ -28,7 +28,7 @@
 
                 // First nibble
                 char c1 = text[i++];
-                if (!IsHexDigit(c1))
+                if (!c1.IsHexDigit())
                 {
                     throw new FormatException($"Invalid hex character: {c1}");
                 }
@@ -43,7 +43,7 @@
 
                 int lowNibble;
 
-                if (i < length && IsHexDigit(text[i]))
+                if (i < length && text[i].IsHexDigit())
                 {
                     char c2 = text[i++];
                     lowNibble = HexValue(c2);
@@ -58,13 +58,6 @@
             }
 
             return bytes.ToArray();
-        }
-
-        private static bool IsHexDigit(char c)
-        {
-            return (c >= '0' && c <= '9')
-                || (c >= 'A' && c <= 'F')
-                || (c >= 'a' && c <= 'f');
         }
 
         private static int HexValue(char c)

@@ -13,6 +13,22 @@
     </Style>
 
     <Style TargetType="TextBox">
+        <Style.Resources>
+            <ControlTemplate x:Key="validationTemplate">
+                <StackPanel Orientation="Vertical" Height="200">
+                    <Border BorderBrush="Red" BorderThickness="1">
+                        <AdornedElementPlaceholder/>
+                    </Border>
+                    <ItemsControl ItemsSource="{Binding}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ErrorContent}" Foreground="Red"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </ControlTemplate>
+        </Style.Resources>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -20,6 +36,12 @@
         <Setter Property="Height" Value="24"/>
         <Setter Property="Width" Value="100"/>
         <Setter Property="Padding" Value="3"/>
+
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="Validation.ErrorTemplate" Value="{StaticResource validationTemplate}"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style TargetType="TextBlock">
