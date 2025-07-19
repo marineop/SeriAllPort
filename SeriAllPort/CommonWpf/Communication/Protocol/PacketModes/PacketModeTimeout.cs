@@ -168,15 +168,17 @@ namespace CommonWpf.Communication.Protocol.PacketModes
 
                             if (indexNow + fieldLength <= packetBytes.Length)
                             {
-                                newField.Data = packetBytes.Slice(indexNow, fieldLength).ToArray();
+                                byte[] newData = packetBytes.Slice(indexNow, fieldLength).ToArray();
 
                                 if (newField.LengthMode == LengthMode.FixedData
-                                    && !newField.Data.SequenceEqual(Fields[i].Data))
+                                    && !newData.SequenceEqual(Fields[i].Data))
                                 {
-                                    // fixed length field data must equal to actual data
+                                    // fixed data field, data must be equal to expected data
                                     fieldsValid = false;
                                     break;
                                 }
+
+                                newField.Value = newData;
 
                                 indexNow += fieldLength;
                             }
