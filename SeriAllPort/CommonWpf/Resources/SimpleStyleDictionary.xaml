@@ -15,11 +15,11 @@
     <Style TargetType="TextBox">
         <Style.Resources>
             <ControlTemplate x:Key="validationTemplate">
-                <StackPanel Orientation="Vertical" Height="200">
-                    <Border BorderBrush="Red" BorderThickness="1">
+                <StackPanel>
+                    <Border BorderBrush="Red" BorderThickness="1" HorizontalAlignment="Left">
                         <AdornedElementPlaceholder/>
                     </Border>
-                    <ItemsControl ItemsSource="{Binding}">
+                    <ItemsControl ItemsSource="{Binding}" DockPanel.Dock="Bottom">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding ErrorContent}" Foreground="Red"/>
