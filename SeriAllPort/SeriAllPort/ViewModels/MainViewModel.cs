@@ -242,6 +242,14 @@ namespace SeriAllPort.ViewModels
             try
             {
                 Protocols = AppDataFolderFileHelper.LoadFiles<Protocol>();
+            }
+            catch (Exception ex)
+            {
+                OnError(ex);
+            }
+
+            try
+            {
                 Profiles = AppDataFolderFileHelper.LoadFiles<Profile>();
             }
             catch (Exception ex)
@@ -695,7 +703,7 @@ namespace SeriAllPort.ViewModels
 
         private void OnError(Exception exception)
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            Application.Current.Dispatcher.BeginInvoke(() =>
             {
                 LastErrorMessage = exception.Message;
                 LogViewModel.AppendLog($"Error: {LastErrorMessage}");
