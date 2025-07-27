@@ -11,8 +11,14 @@ namespace CommonWpf.Communication.Protocol.PacketFields
         public override LengthMode LengthMode
         {
             get => base.LengthMode;
-            set => base.LengthMode = LengthMode.FixedLength;
+            set
+            {
+                base.LengthMode = LengthMode.FixedLength;
+            }
         }
+
+        [JsonIgnore]
+        public override bool CanEditLengthMode { get; } = false;
 
         private int _startFieldIndex = 0;
         public int StartFieldIndex

@@ -46,6 +46,7 @@
 
         <ComboBox Grid.Row="0" Grid.Column="3" Width="120"
                       ItemsSource="{Binding Source={cwe:EnumAll {x:Type cpro:LengthMode}}}" DisplayMemberPath="Description" SelectedValuePath="Value"
+                      IsEnabled="{Binding CanEditLengthMode}"
                       SelectedValue="{Binding LengthMode}"
                       />
 

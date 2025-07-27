@@ -58,11 +58,14 @@ namespace CommonWpf.Communication.Protocol.PacketFields
 
                     TextBytes.Bytes = newBytes;
                     TextBytes.SetTextWithCurrentBytes();
-
-                    OnPropertyChanged();
                 }
+
+                OnPropertyChanged();
             }
         }
+
+        [JsonIgnore]
+        public virtual bool CanEditLengthMode { get; } = true;
 
         private TextBytesViewModel _textBytes = new();
         public TextBytesViewModel TextBytes
