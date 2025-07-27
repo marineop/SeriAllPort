@@ -30,33 +30,36 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Type"/>
-        <TextBlock Grid.Row="1" Text="{Binding TypeName}" MinWidth="80"/>
+        <TextBlock Text="{Binding Index}" Grid.RowSpan="2" Margin="0,0,10,0"/>
 
-        <TextBlock Grid.Row="0" Grid.Column="1" Text="Name"/>
-        <TextBox Grid.Row="1" Grid.Column="1" 
+        <TextBlock Grid.Row="0" Text="Type" Grid.Column="1"/>
+        <TextBlock Grid.Row="1" Text="{Binding TypeName}" MinWidth="80" Grid.Column="1"/>
+
+        <TextBlock Grid.Row="0" Grid.Column="2" Text="Name"/>
+        <TextBox Grid.Row="1" Grid.Column="2" 
                      Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
 
 
-        <ComboBox Grid.Row="0" Grid.Column="2" Width="120"
+        <ComboBox Grid.Row="0" Grid.Column="3" Width="120"
                       ItemsSource="{Binding Source={cwe:EnumAll {x:Type cpro:LengthMode}}}" DisplayMemberPath="Description" SelectedValuePath="Value"
                       SelectedValue="{Binding LengthMode}"
                       />
 
-        <TextBox Grid.Row="1" Grid.Column="2" Width="auto" HorizontalAlignment="Stretch"
+        <TextBox Grid.Row="1" Grid.Column="3" Width="auto" HorizontalAlignment="Stretch"
                      IsEnabled="{Binding LengthMode, Converter={StaticResource L2Le}}"
                      Text="{Binding FixedLength, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"/>
 
-        <ComboBox Grid.Row="0" Grid.Column="3"
+        <ComboBox Grid.Row="0" Grid.Column="4"
                       SelectedValue="{Binding TextBytes.TextRepresentation}"
                       ItemsSource="{Binding Source={cwe:EnumAll {x:Type TextBytes:TextRepresentation}}}" 
                       DisplayMemberPath="Description" SelectedValuePath="Value"
                       Width="auto"  HorizontalAlignment="Stretch"/>
 
-        <TextBox Grid.Row="1" Grid.Column="3"
+        <TextBox Grid.Row="1" Grid.Column="4"
                      FontFamily="Consolas"
                      MinWidth="100"
                      Width="auto"

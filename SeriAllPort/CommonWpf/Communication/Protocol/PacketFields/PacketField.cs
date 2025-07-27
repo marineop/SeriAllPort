@@ -143,6 +143,21 @@ namespace CommonWpf.Communication.Protocol.PacketFields
         [JsonIgnore]
         public virtual string TypeName { get; } = "Field";
 
+        private int _index;
+        [JsonIgnore]
+        public int Index
+        {
+            get => _index;
+            set
+            {
+                if (_index != value)
+                {
+                    _index = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public PacketField(string name, LengthMode lengthMode, TextBytesViewModel? textBytes, int fixedLength)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));

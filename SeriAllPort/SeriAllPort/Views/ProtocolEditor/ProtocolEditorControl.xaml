@@ -82,8 +82,7 @@
             <ListBox Grid.Row="2"
                      ItemsSource="{Binding Protocol.PacketMode.Fields}"
                      SelectedItem="{Binding SelectedPacketField}"
-                     SelectedIndex="{Binding SelectedPacketFieldIndex}"
-                     AlternationCount="1000000">
+                     SelectedIndex="{Binding SelectedPacketFieldIndex}">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
                         <Setter Property="Template">
@@ -103,9 +102,6 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             
-                                            <TextBlock Margin="0,0,10,0"
-                                                Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}, Path=(ItemsControl.AlternationIndex)}"/>
-                                        
                                             <ContentPresenter Grid.Column="1"/>
                                         </Grid>
                                     </Border>
