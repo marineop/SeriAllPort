@@ -42,6 +42,8 @@ namespace CommonWpf.Communication.Protocol.PacketFields
                         {
                             FixedLength = 1;
                         }
+
+                        CanEditTextBytes = false;
                     }
                     else if (_lengthMode == LengthMode.FixedData)
                     {
@@ -49,20 +51,27 @@ namespace CommonWpf.Communication.Protocol.PacketFields
                         {
                             newBytes = new byte[1];
                         }
+
+                        CanEditTextBytes = true;
                     }
                     else
                     {
                         FixedLength = 0;
                         newBytes = [];
+
+                        CanEditTextBytes = false;
                     }
 
                     TextBytes.Bytes = newBytes;
                     TextBytes.SetTextWithCurrentBytes();
-
-                    OnPropertyChanged();
                 }
+
+                OnPropertyChanged();
             }
         }
+
+        [JsonIgnore]
+        public virtual bool CanEditLengthMode { get; } = true;
 
         private TextBytesViewModel _textBytes = new();
         public TextBytesViewModel TextBytes
@@ -73,6 +82,21 @@ namespace CommonWpf.Communication.Protocol.PacketFields
                 if (_textBytes != value)
                 {
                     _textBytes = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private bool _CanEditTextBytes = true;
+        [JsonIgnore]
+        public bool CanEditTextBytes
+        {
+            get => _CanEditTextBytes;
+            set
+            {
+                if (_CanEditTextBytes != value)
+                {
+                    _CanEditTextBytes = value;
                     OnPropertyChanged();
                 }
             }
@@ -143,6 +167,21 @@ namespace CommonWpf.Communication.Protocol.PacketFields
         [JsonIgnore]
         public virtual string TypeName { get; } = "Field";
 
+        private int _index;
+        [JsonIgnore]
+        public int Index
+        {
+            get => _index;
+            set
+            {
+                if (_index != value)
+                {
+                    _index = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public PacketField(string name, LengthMode lengthMode, TextBytesViewModel? textBytes, int fixedLength)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
@@ -153,12 +192,14 @@ namespace CommonWpf.Communication.Protocol.PacketFields
                 FixedLength = fixedLength;
                 if (textBytes == null)
                 {
-                    TextBytes.Bytes = new byte[FixedLength];
+                    TextBytes.Bytes = [];
                 }
                 else
                 {
                     TextBytes = textBytes;
                 }
+
+                CanEditTextBytes = false;
             }
             else if (LengthMode == LengthMode.FixedData)
             {
@@ -169,10 +210,14 @@ namespace CommonWpf.Communication.Protocol.PacketFields
 
                 TextBytes = textBytes;
                 FixedLength = TextBytes.Bytes.Length;
+
+                CanEditTextBytes = true;
             }
             else if (LengthMode == LengthMode.VariableLength)
             {
                 FixedLength = 0;
+                TextBytes.Bytes = [];
+                CanEditTextBytes = false;
             }
 
             TextBytes.SetTextWithCurrentBytes();

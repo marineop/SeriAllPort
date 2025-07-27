@@ -13,6 +13,9 @@ namespace CommonWpf.Communication.Protocol.PacketFields
             set => base.LengthMode = LengthMode.FixedData;
         }
 
+        [JsonIgnore]
+        public override bool CanEditLengthMode { get; } = false;
+
         public Preamble(string name, byte[] bytes)
              : base(name,
                    LengthMode.FixedData,

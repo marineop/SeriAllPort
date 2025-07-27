@@ -66,7 +66,12 @@ namespace CommonWpf.Communication.Protocol.PacketModes
             {
                 if (_fields != value)
                 {
+                    _fields.CollectionChanged -= _fields_CollectionChanged;
+
                     _fields = value;
+
+                    _fields.CollectionChanged += _fields_CollectionChanged;
+
                     OnPropertyChanged();
                 }
             }
@@ -91,6 +96,8 @@ namespace CommonWpf.Communication.Protocol.PacketModes
         {
             _timer.AutoReset = false;
             _timer.Elapsed += _timer_Elapsed;
+
+            _fields.CollectionChanged += _fields_CollectionChanged;
         }
 
         public PacketMode CreateClone()
@@ -781,6 +788,14 @@ namespace CommonWpf.Communication.Protocol.PacketModes
         private void _timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
             ParsePackets(DateTime.Now, true);
+        }
+
+        private void _fields_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            for (int i = 0; i < Fields.Count; ++i)
+            {
+                Fields[i].Index = i;
+            }
         }
     }
 }
