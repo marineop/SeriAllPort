@@ -164,21 +164,21 @@ namespace CommonWpf.Communication.Protocol.PacketFields
         public PacketField(string name, LengthMode lengthMode, TextBytesViewModel? textBytes, int fixedLength)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
-            LengthMode = lengthMode;
+            _lengthMode = lengthMode;
 
-            if (LengthMode == LengthMode.FixedLength)
+            if (_lengthMode == LengthMode.FixedLength)
             {
-                FixedLength = fixedLength;
+                _fixedLength = fixedLength;
                 if (textBytes == null)
                 {
-                    TextBytes.Bytes = new byte[FixedLength];
+                    TextBytes.Bytes = [];
                 }
                 else
                 {
                     TextBytes = textBytes;
                 }
             }
-            else if (LengthMode == LengthMode.FixedData)
+            else if (_lengthMode == LengthMode.FixedData)
             {
                 if (textBytes == null)
                 {
@@ -186,11 +186,12 @@ namespace CommonWpf.Communication.Protocol.PacketFields
                 }
 
                 TextBytes = textBytes;
-                FixedLength = TextBytes.Bytes.Length;
+                _fixedLength = TextBytes.Bytes.Length;
             }
-            else if (LengthMode == LengthMode.VariableLength)
+            else if (_lengthMode == LengthMode.VariableLength)
             {
-                FixedLength = 0;
+                _fixedLength = 0;
+                TextBytes.Bytes = [];
             }
 
             TextBytes.SetTextWithCurrentBytes();
