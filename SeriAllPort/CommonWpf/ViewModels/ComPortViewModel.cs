@@ -9,7 +9,7 @@ namespace CommonWpf.ViewModels
 {
     public class ComPortViewModel : ViewModel, ISerial
     {
-        public event ErrorEventHandler Error
+        public event ErrorEventHandler? Error
         {
             add
             {
@@ -20,7 +20,7 @@ namespace CommonWpf.ViewModels
                 _comPort.Error -= value;
             }
         }
-        public event ConnectionStateChangedEventHandler ConnectionStateChanged
+        public event ConnectionStateChangedEventHandler? ConnectionStateChanged
         {
             add
             {

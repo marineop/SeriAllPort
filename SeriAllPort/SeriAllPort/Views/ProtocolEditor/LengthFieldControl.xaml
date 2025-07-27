@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="SeriAllPort.Views.ProtocolEditor.LengthFieldControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SeriAllPort.Views.ProtocolEditor"
+             
+             mc:Ignorable="d" 
+             d:DesignHeight="70" d:DesignWidth="700"
+             d:Background="White">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <local:PacketFieldControl />
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Start Index"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Width="35" Text="{Binding StartFieldIndex}"/>
+
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="End Index"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Width="35" Text="{Binding EndFieldIndex}"/>
+
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="Value Offset"/>
+            <TextBox Grid.Row="1" Grid.Column="2" Width="80" Text="{Binding ValueOffset}"/>
+        </Grid>
+
+    </Grid>
+</UserControl>

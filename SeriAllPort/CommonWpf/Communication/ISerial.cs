@@ -5,9 +5,9 @@ namespace CommonWpf.Communication
 {
     public interface ISerial
     {
-        event ErrorEventHandler Error;
-        event ConnectionStateChangedEventHandler ConnectionStateChanged;
-        event EventHandler BytesReceived;
+        event ErrorEventHandler? Error;
+        event ConnectionStateChangedEventHandler? ConnectionStateChanged;
+        event EventHandler? BytesReceived;
 
         string Name { get; }
 

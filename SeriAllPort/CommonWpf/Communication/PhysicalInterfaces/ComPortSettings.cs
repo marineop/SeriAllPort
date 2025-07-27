@@ -1,9 +1,8 @@
-﻿using System.ComponentModel;
-using System.IO.Ports;
+﻿using System.IO.Ports;
 
 namespace CommonWpf.Communication.PhysicalInterfaces
 {
-    public class ComPortSettings : INotifyPropertyChanged
+    public class ComPortSettings : ViewModel
     {
         private string _portName = string.Empty;
         public string PortName
@@ -86,13 +85,5 @@ namespace CommonWpf.Communication.PhysicalInterfaces
 
             return copy;
         }
-
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string? name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-        #endregion
     }
 }

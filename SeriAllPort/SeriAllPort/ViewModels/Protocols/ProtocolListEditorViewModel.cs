@@ -33,7 +33,7 @@ namespace SeriAllPort.ViewModels.Protocols
 
         public override void ItemNew(object? parameter)
         {
-            PacketModeTimeout packetMode = new PacketModeTimeout(0);
+            PacketModeTimeout packetMode = PacketModeTimeout.CreateDefault();
 
             string newProtocolName = NameHelper.GetUniqueName(ProtocolViewModels, "Protocol");
 

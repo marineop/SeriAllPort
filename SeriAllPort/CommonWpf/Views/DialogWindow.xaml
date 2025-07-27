@@ -5,14 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CommonWpf.Views"
         
-        Width="800"
-        Height="600"
+
         WindowStartupLocation="CenterOwner"
         
-        Title="Dialog"
-        ResizeMode="CanResize"
-        SizeToContent="Manual"
-        ShowInTaskbar="False"
+
         
         
         mc:Ignorable="d"

@@ -11,7 +11,7 @@
              xmlns:TextBytes="clr-namespace:CommonWpf.ViewModels.TextBytes;assembly=CommonWpf"
              
              mc:Ignorable="d" 
-             d:DesignHeight="60" d:DesignWidth="600"
+             d:DesignWidth="600"
              d:Background="White"
              >
     <UserControl.Resources>
@@ -20,51 +20,48 @@
         <con:LengthModeToLengthEnabledConverter x:Key="L2Le"/>
         <con:LengthModeToDataEnabledConverter x:Key="L2De"/>
     </UserControl.Resources>
-    <Border BorderBrush="LightGray" BorderThickness="1">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="0" Text="Type"/>
-            <TextBlock Grid.Row="1" Text="{Binding TypeName}" MinWidth="80"/>
+        <TextBlock Grid.Row="0" Text="Type"/>
+        <TextBlock Grid.Row="1" Text="{Binding TypeName}" MinWidth="80"/>
 
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="Name"/>
-            <TextBox Grid.Row="1" Grid.Column="1" 
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="Name"/>
+        <TextBox Grid.Row="1" Grid.Column="1" 
                      Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
 
 
-            <ComboBox Grid.Row="0" Grid.Column="2" Width="120"
+        <ComboBox Grid.Row="0" Grid.Column="2" Width="120"
                       ItemsSource="{Binding Source={cwe:EnumAll {x:Type cpro:LengthMode}}}" DisplayMemberPath="Description" SelectedValuePath="Value"
                       SelectedValue="{Binding LengthMode}"
                       />
-            
-            <TextBox Grid.Row="1" Grid.Column="2" Width="auto" HorizontalAlignment="Stretch"
+
+        <TextBox Grid.Row="1" Grid.Column="2" Width="auto" HorizontalAlignment="Stretch"
                      IsEnabled="{Binding LengthMode, Converter={StaticResource L2Le}}"
                      Text="{Binding FixedLength, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"/>
 
-            <ComboBox Grid.Row="0" Grid.Column="3"
+        <ComboBox Grid.Row="0" Grid.Column="3"
                       SelectedValue="{Binding TextBytes.TextRepresentation}"
                       ItemsSource="{Binding Source={cwe:EnumAll {x:Type TextBytes:TextRepresentation}}}" 
-                      DisplayMemberPath="Description" SelectedValuePath="Value"/>
-            
-            <TextBox Grid.Row="1" Grid.Column="3"
+                      DisplayMemberPath="Description" SelectedValuePath="Value"
+                      Width="auto"  HorizontalAlignment="Stretch"/>
+
+        <TextBox Grid.Row="1" Grid.Column="3"
                      FontFamily="Consolas"
-                     MinWidth="150"
+                     MinWidth="100"
                      Width="auto"
                      IsEnabled="{Binding LengthMode, Converter={StaticResource L2De}}"
                      Text="{Binding TextBytes.Text, UpdateSourceTrigger=PropertyChanged}"/>
-
-            <ContentControl Grid.Column="4" Grid.RowSpan="2" DataContext="{Binding}"/>
-        </Grid>
-    </Border>
+    </Grid>
 </UserControl>
     

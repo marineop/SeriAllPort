@@ -57,7 +57,7 @@
                 bytes.Add((byte)((highNibble << 4) | lowNibble));
             }
 
-            return bytes.ToArray();
+            return [.. bytes];
         }
 
         private static int HexValue(char c)
