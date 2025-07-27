@@ -10,9 +10,13 @@
 
   <ItemGroup>
     <Compile Remove="Converters\**" />
+    <Compile Remove="Resources\Icon\**" />
     <EmbeddedResource Remove="Converters\**" />
+    <EmbeddedResource Remove="Resources\Icon\**" />
     <None Remove="Converters\**" />
+    <None Remove="Resources\Icon\**" />
     <Page Remove="Converters\**" />
+    <Page Remove="Resources\Icon\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,10 +30,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CommonWpf\CommonWpf.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Resources\Icon\" />
   </ItemGroup>
 
 </Project>

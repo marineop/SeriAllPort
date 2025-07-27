@@ -1,11 +1,10 @@
 ﻿using CommonWpf.EventHandlers;
-using System.ComponentModel;
 using System.IO;
 using System.IO.Ports;
 
 namespace CommonWpf.Communication.PhysicalInterfaces
 {
-    public class ComPort : INotifyPropertyChanged, ISerial
+    public class ComPort : ViewModel, ISerial
     {
         public event ErrorEventHandler? Error;
         public event ConnectionStateChangedEventHandler? ConnectionStateChanged;
@@ -119,11 +118,6 @@ namespace CommonWpf.Communication.PhysicalInterfaces
             }
         }
 
-        private void _serialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {
-            BytesReceived?.Invoke(this, EventArgs.Empty);
-        }
-
         public int ReadBytes(byte[] bytes, int offset, int capacity)
         {
             int count = 0;
@@ -135,18 +129,14 @@ namespace CommonWpf.Communication.PhysicalInterfaces
             return count;
         }
 
+        private void _serialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            BytesReceived?.Invoke(this, EventArgs.Empty);
+        }
+
         private void OnError(Exception exception)
         {
             Error?.Invoke(this, new ErrorEventArgs(exception));
         }
-
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string? name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-        #endregion
     }
 }

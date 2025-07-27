@@ -101,15 +101,21 @@ namespace SeriAllPort
             string title,
             ResizeMode resizeMode,
             SizeToContent sizeToContent,
-            bool showInTaskbar)
+            bool showInTaskbar,
+            double width,
+            double height)
         {
             DialogWindow window = new DialogWindow();
             window.Title = title;
             window.ResizeMode = resizeMode;
             window.SizeToContent = sizeToContent;
             window.ShowInTaskbar = showInTaskbar;
+
             window.Owner = Window.GetWindow(_mainWindow);
             window.DataContext = dataContext;
+
+            window.Width = width;
+            window.Height = height;
 
             bool? ok = window.ShowDialog();
 

@@ -1,14 +1,14 @@
-﻿using CommonWpf.Communication.Protocol.PacketFields;
+﻿using CommonWpf.Communication.Protocol.ParseData;
 
 namespace CommonWpf.Communication.Protocol.EventTypes
 {
     public class PacketReceived : PacketEventType
     {
-        public List<PacketField> PacketFields { get; private set; }
+        public List<ParsePacketField> PacketFields { get; private set; }
 
-        public PacketReceived(
+        internal PacketReceived(
             DateTime time,
-            List<PacketField> packetFields,
+            List<ParsePacketField> packetFields,
             byte[] bytes)
             : base(time, bytes)
         {

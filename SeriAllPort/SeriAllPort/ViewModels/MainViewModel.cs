@@ -5,6 +5,7 @@ using CommonWpf.Communication.Protocol;
 using CommonWpf.Communication.Protocol.EventTypes;
 using CommonWpf.Communication.Protocol.PacketFields;
 using CommonWpf.Communication.Protocol.PacketModes;
+using CommonWpf.Communication.Protocol.ParseData;
 using CommonWpf.Extensions;
 using CommonWpf.FileHelper;
 using CommonWpf.ViewModels;
@@ -94,14 +95,14 @@ namespace SeriAllPort.ViewModels
                 {
                     if (_currentProtocol != null)
                     {
-                        _currentProtocol.PacketMode.PacketReceived -= PacketMode_PacketReceived;
+                        _currentProtocol.PacketMode.DataReceived -= PacketMode_PacketReceived;
                     }
 
                     _currentProtocol = value;
 
                     _currentProtocol.PacketMode.Serial = Serial;
 
-                    _currentProtocol.PacketMode.PacketReceived += PacketMode_PacketReceived;
+                    _currentProtocol.PacketMode.DataReceived += PacketMode_PacketReceived;
 
                     _currentProtocol.PacketMode.ReceiveBuffer = _receiveBuffer;
 
@@ -369,7 +370,7 @@ namespace SeriAllPort.ViewModels
                 _defaultProtocol = new Protocol(
                 "Default",
                 Guid.Empty,
-                new PacketModeTimeout(0));
+                PacketModeTimeout.CreateDefault());
 
                 _defaultProtocol.CanNotDelete = true;
                 _defaultProtocol.CanNotEditName = true;
@@ -525,7 +526,8 @@ namespace SeriAllPort.ViewModels
                 "Protocol Editor",
                 ResizeMode.CanResize,
                 SizeToContent.Manual,
-                false);
+                false,
+                900, 600);
 
             if (ok)
             {
@@ -671,15 +673,15 @@ namespace SeriAllPort.ViewModels
                             if (CurrentProfile.LogDisplayParsed)
                             {
                                 sb.Append($"{newLine}Parsed Bytes:");
-                                List<PacketField> fields = packetReceived.PacketFields;
+                                List<ParsePacketField> fields = packetReceived.PacketFields;
 
                                 for (int i = 0; i < fields.Count; ++i)
                                 {
-                                    PacketField field = fields[i];
-                                    if (field is not EndOfPacketSymbol
-                                        && field is not Preamble)
+                                    ParsePacketField field = fields[i];
+                                    if (field.Field is not EndOfPacketSymbol
+                                        && field.Field is not Preamble)
                                     {
-                                        byte[]? fieldBytes = field.Value as byte[];
+                                        byte[]? fieldBytes = field.ActualData;
                                         sb.Append($"\r\n\t{field.Name}: {fieldBytes?.BytesToString()}");
                                     }
                                 }

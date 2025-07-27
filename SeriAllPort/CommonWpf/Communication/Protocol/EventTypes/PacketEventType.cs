@@ -6,7 +6,7 @@
 
         public byte[] Bytes { get; private set; }
 
-        protected PacketEventType(DateTime time, byte[] bytes)
+        internal PacketEventType(DateTime time, byte[] bytes)
         {
             Time = time;
             Bytes = bytes;

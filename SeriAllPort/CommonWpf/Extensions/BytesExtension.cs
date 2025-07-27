@@ -25,7 +25,6 @@ namespace CommonWpf.Extensions
             return sb.ToString();
         }
 
-        // Convert a specific range in the byte array to hex string
         public static string BytesToString(this byte[] bytes, int offset, int length)
         {
             ArgumentOutOfRangeException.ThrowIfNegative(offset);
@@ -58,6 +57,26 @@ namespace CommonWpf.Extensions
             Array.Copy(bytes, offset, answer, 0, length);
 
             return answer;
+        }
+
+        public static int ToInt(this byte[] bytes, int startIndex, int length, Endianness endian = Endianness.LittleEndian)
+        {
+            return (new ReadOnlySpan<byte>(bytes)).ToInt(startIndex, length, endian);
+        }
+
+        public static long ToLong(this byte[] bytes, int startIndex, int length, Endianness endian = Endianness.LittleEndian)
+        {
+            return (new ReadOnlySpan<byte>(bytes)).ToLong(startIndex, length, endian);
+        }
+
+        public static uint ToUint(this byte[] bytes, int startIndex, int length, Endianness endian = Endianness.LittleEndian)
+        {
+            return (new ReadOnlySpan<byte>(bytes)).ToUint(startIndex, length, endian);
+        }
+
+        public static ulong ToUlong(this byte[] bytes, int startIndex, int length, Endianness endian = Endianness.LittleEndian)
+        {
+            return (new ReadOnlySpan<byte>(bytes)).ToUlong(startIndex, length, endian);
         }
     }
 }

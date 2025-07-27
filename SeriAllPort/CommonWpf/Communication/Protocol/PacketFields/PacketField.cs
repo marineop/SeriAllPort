@@ -6,6 +6,7 @@ namespace CommonWpf.Communication.Protocol.PacketFields
     [JsonDerivedType(typeof(PacketField), typeDiscriminator: "PacketField")]
     [JsonDerivedType(typeof(EndOfPacketSymbol), typeDiscriminator: "EOP")]
     [JsonDerivedType(typeof(Preamble), typeDiscriminator: "Preamble")]
+    [JsonDerivedType(typeof(LengthField), typeDiscriminator: "LengthField")]
     public class PacketField : ViewModel
     {
         private string _name = string.Empty;
@@ -116,35 +117,90 @@ namespace CommonWpf.Communication.Protocol.PacketFields
             }
         }
 
-        private object? _value = null;
         [JsonIgnore]
-        public object? Value
+        public int KnownLength
         {
-            get => _value;
-            set
+            get
             {
-                if (_value != value)
+                if (LengthMode == LengthMode.FixedLength)
                 {
-                    _value = value;
-                    OnPropertyChanged();
+                    return FixedLength;
+                }
+                else if (LengthMode == LengthMode.FixedData)
+                {
+                    return Data.Length;
+                }
+                else
+                {
+                    return -1;
                 }
             }
         }
 
         [JsonIgnore]
+        internal bool CoveredByLengthField { get; set; }
+
+        [JsonIgnore]
         public virtual string TypeName { get; } = "Field";
 
-        public PacketField(string name, LengthMode lengthMode, TextBytesViewModel textBytes, int fixedLength)
+        public PacketField(string name, LengthMode lengthMode, TextBytesViewModel? textBytes, int fixedLength)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             LengthMode = lengthMode;
 
-            TextBytes = textBytes ?? throw new ArgumentNullException(nameof(textBytes));
+            if (LengthMode == LengthMode.FixedLength)
+            {
+                FixedLength = fixedLength;
+                if (textBytes == null)
+                {
+                    TextBytes.Bytes = new byte[FixedLength];
+                }
+                else
+                {
+                    TextBytes = textBytes;
+                }
+            }
+            else if (LengthMode == LengthMode.FixedData)
+            {
+                if (textBytes == null)
+                {
+                    throw new Exception("Fixed-Data field must specify textBytes.");
+                }
+
+                TextBytes = textBytes;
+                FixedLength = TextBytes.Bytes.Length;
+            }
+            else if (LengthMode == LengthMode.VariableLength)
+            {
+                FixedLength = 0;
+            }
+
             TextBytes.SetTextWithCurrentBytes();
             TextBytes.PreviewUpdateBytesHook += UpdateBytesCheck;
             TextBytes.PostUpdateBytesHook += BytesUpdated;
+        }
 
-            FixedLength = fixedLength;
+        public static PacketField CreateFixedLength(string name, int fixedLength)
+        {
+            TextBytesViewModel textBytes = new TextBytesViewModel(TextRepresentation.Bytes, new byte[fixedLength]);
+            PacketField packetField = new PacketField(name, LengthMode.FixedLength, textBytes, fixedLength);
+
+            return packetField;
+        }
+
+        public static PacketField CreateFixedData(string name, byte[] fixedData)
+        {
+            TextBytesViewModel textBytes = new TextBytesViewModel(TextRepresentation.Bytes, fixedData);
+            PacketField packetField = new PacketField(name, LengthMode.FixedData, textBytes, fixedData.Length);
+
+            return packetField;
+        }
+
+        public static PacketField CreateVariableLength(string name)
+        {
+            PacketField packetField = new PacketField(name, LengthMode.VariableLength, new TextBytesViewModel(), 0);
+
+            return packetField;
         }
 
         public virtual PacketField CreateClone()
@@ -157,6 +213,8 @@ namespace CommonWpf.Communication.Protocol.PacketFields
                 LengthMode,
                 newTextBytes,
                 FixedLength);
+
+            newPacketField.CoveredByLengthField = CoveredByLengthField;
 
             return newPacketField;
         }
@@ -171,7 +229,6 @@ namespace CommonWpf.Communication.Protocol.PacketFields
             packetField.TextBytes.PostUpdateBytesHook += BytesUpdated;
 
             packetField.FixedLength = FixedLength;
-            packetField.Value = Value;
         }
 
         internal void RefreshValues()

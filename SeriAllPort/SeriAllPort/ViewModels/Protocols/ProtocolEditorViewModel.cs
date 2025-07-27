@@ -149,8 +149,10 @@ namespace SeriAllPort.ViewModels.Protocols
 
             PacketModes =
             [
-                 new PacketModeTimeout(0),
+
+                PacketModeTimeout.CreateDefault(),
                 new PacketModeEndOfPacketSymbol([(byte)'\r', (byte)'\n']),
+                PacketModeLengthField.CreateDefault(),
                 Protocol.PacketMode,
             ];
 
@@ -236,6 +238,16 @@ namespace SeriAllPort.ViewModels.Protocols
                             "Preamble",
                              new TextBytesViewModel(TextRepresentation.Bytes, [0x00]));
                         fields.Insert(0, newPacketField);
+                    }
+                    else if (type == typeof(LengthField))
+                    {
+                        newPacketField = new LengthField(
+                            "Length Field",
+                             1,
+                             0,
+                             Protocol.PacketMode.Fields.Count >= 1 ? Protocol.PacketMode.Fields.Count - 1 : 0,
+                             0);
+                        fields.Insert(selectedNextIndex, newPacketField);
                     }
 
                     if (newPacketField != null)

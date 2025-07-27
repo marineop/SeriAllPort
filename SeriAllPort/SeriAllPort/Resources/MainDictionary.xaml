@@ -30,6 +30,10 @@
         <ProtocolEditor:PacketFieldControl/>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type packetField:LengthField}">
+        <ProtocolEditor:LengthFieldControl/>
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type commands:CommandListEditorViewModel}">
         <commonViews:ListEditorControl/>
     </DataTemplate>

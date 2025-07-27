@@ -2,7 +2,7 @@
 {
     public class NonPacketBytesReceived : PacketEventType
     {
-        public NonPacketBytesReceived(DateTime time, byte[] bytes)
+        internal NonPacketBytesReceived(DateTime time, byte[] bytes)
             : base(time, bytes)
         {
         }

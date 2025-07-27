@@ -8,6 +8,8 @@ namespace CommonWpf
             string title = "Dialog",
             ResizeMode resizeMode = ResizeMode.NoResize,
             SizeToContent sizeToContent = SizeToContent.WidthAndHeight,
-            bool showInTaskbar = false);
+            bool showInTaskbar = false,
+            double width = 800,
+            double height = 600);
     }
 }

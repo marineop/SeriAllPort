@@ -5,8 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:field="clr-namespace:CommonWpf.Communication.Protocol.PacketFields;assembly=CommonWpf"
              xmlns:con="clr-namespace:CommonWpf.Converters;assembly=CommonWpf"
-             Height="auto"
-             Width="auto"
              
              mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="500"
@@ -15,7 +13,7 @@
         <con:BoolInverseConverter x:Key="boolInverse"/>
     </UserControl.Resources>
 
-    <Grid HorizontalAlignment="Stretch">
+    <Grid HorizontalAlignment="Stretch" Width="auto">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -71,6 +69,7 @@
                             <MenuItem Header="Field" Command="{Binding FieldNewCommand}" CommandParameter="{x:Type field:PacketField}"/>
                             <MenuItem Header="End of Packet" Command="{Binding FieldNewCommand}" CommandParameter="{x:Type field:EndOfPacketSymbol}"/>
                             <MenuItem Header="Preamble" Command="{Binding FieldNewCommand}" CommandParameter="{x:Type field:Preamble}"/>
+                            <MenuItem Header="Length Field" Command="{Binding FieldNewCommand}" CommandParameter="{x:Type field:LengthField}"/>
                         </MenuItem>
                     </Menu>
                     <Separator/>
@@ -81,10 +80,52 @@
                 </ToolBar>
             </Grid>
             <ListBox Grid.Row="2"
-                         ItemsSource="{Binding Protocol.PacketMode.Fields}"
-                         SelectedItem="{Binding SelectedPacketField}"
-                         SelectedIndex="{Binding SelectedPacketFieldIndex}"
-                         />
+                     ItemsSource="{Binding Protocol.PacketMode.Fields}"
+                     SelectedItem="{Binding SelectedPacketField}"
+                     SelectedIndex="{Binding SelectedPacketFieldIndex}"
+                     AlternationCount="1000000">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border x:Name="ItemBorder"
+                                            BorderBrush="Gray"
+                                            BorderThickness="1"
+                                            CornerRadius="3"
+                                            Padding="10,0"
+                                            Margin="3"
+                                            Background="Transparent"
+                                            >
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <TextBlock Margin="0,0,10,0"
+                                                Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}, Path=(ItemsControl.AlternationIndex)}"/>
+                                        
+                                            <ContentPresenter Grid.Column="1"/>
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="ItemBorder" Property="BorderBrush" Value="DodgerBlue"/>
+                        
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="ItemBorder" Property="BorderBrush" Value="Blue"/>
+                                            <Setter TargetName="ItemBorder" Property="Background" Value="#CBEBF6"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+
+            </ListBox>
         </Grid>
     </Grid>
 </UserControl>

@@ -17,9 +17,9 @@
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="30*" MinWidth="150"/>
+            <ColumnDefinition Width="20*" MinWidth="150"/>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="70*" MinWidth="200"/>
+            <ColumnDefinition Width="80*" MinWidth="200"/>
         </Grid.ColumnDefinitions>
 
         <Grid>
