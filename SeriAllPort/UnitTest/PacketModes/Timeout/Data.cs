@@ -8,9 +8,9 @@ namespace UnitTest.PacketModes.Timeout
     [TestClass]
     public sealed class Data
     {
-        public void Initialize(PacketModeTimeout _packetMode, SimulatedSerial _simulatedSerial)
+        public static void Initialize(PacketModeTimeout _packetMode, SimulatedSerial _simulatedSerial)
         {
-            _packetMode.ReceiveBuffer = new byte[4096];
+            
             _packetMode.IdleTimeoutMs = 0;
             _packetMode.Fields.Clear();
 
@@ -33,7 +33,7 @@ namespace UnitTest.PacketModes.Timeout
             List<byte> bytes = [];
             bytes.AddRange(data);
 
-            simulatedSerial.SimulateReceive(bytes.ToArray());
+            simulatedSerial.SimulateReceive([.. bytes]);
             packetMode.BytesReceived();
             packetMode.ParsePackets(DateTime.Now, true);
 

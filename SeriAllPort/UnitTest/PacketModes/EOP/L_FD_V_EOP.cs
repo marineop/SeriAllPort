@@ -8,9 +8,8 @@ namespace UnitTest.PacketModes.EOP
     [TestClass]
     public sealed class L_FD_V_EOP
     {
-        public void Initialize(PacketModeEndOfPacketSymbol _packetMode, SimulatedSerial _simulatedSerial)
+        public static void Initialize(PacketModeEndOfPacketSymbol _packetMode, SimulatedSerial _simulatedSerial)
         {
-            _packetMode.ReceiveBuffer = new byte[4096];
             _packetMode.IdleTimeoutMs = 0;
             _packetMode.Fields.Clear();
 
@@ -42,7 +41,7 @@ namespace UnitTest.PacketModes.EOP
             bytes.AddRange(data2);
             bytes.AddRange(eop);
 
-            simulatedSerial.SimulateReceive(bytes.ToArray());
+            simulatedSerial.SimulateReceive([.. bytes]);
             packetMode.BytesReceived();
             packetMode.ParsePackets(DateTime.Now, true);
 
