@@ -14,6 +14,7 @@ using SeriAllPort.ViewModels.Commands;
 using SeriAllPort.ViewModels.Profiles;
 using SeriAllPort.ViewModels.Protocols;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -602,11 +603,21 @@ namespace SeriAllPort.ViewModels
 
         private void Serial_ConnectionStateChanged(object? sender, CommonWpf.EventHandlers.ConnectionStateChangedEventArgs e)
         {
-            SerialIsDisconnected = (e.ConnectionState == ConnectionState.Disconnected);
-            if (e.ConnectionState == ConnectionState.Disconnected)
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                CurrentProtocol.PacketMode.Terminate();
-            }
+                SerialIsDisconnected = (e.ConnectionState == ConnectionState.Disconnected);
+
+                if (e.ConnectionState == ConnectionState.Connected
+                    || e.ConnectionState == ConnectionState.Disconnected)
+                {
+                    LogViewModel.AppendLog($"Connection State: {e.ConnectionState}");
+                }
+
+                if (e.ConnectionState == ConnectionState.Disconnected)
+                {
+                    CurrentProtocol.PacketMode.Terminate();
+                }
+            });
         }
 
         private void Serial_BytesReceived(object? sender, EventArgs e)

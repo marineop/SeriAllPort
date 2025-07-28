@@ -235,14 +235,9 @@ namespace CommonWpf.Communication.Protocol.PacketModes
                     _receiveBuffer = new byte[4096];
                 }
 
-                while (true)
+                int count = Serial.ReadBytes(_receiveBuffer, _receiveBufferLength, _receiveBuffer.Length - _receiveBufferLength);
+                if (count > 0)
                 {
-                    int count = Serial.ReadBytes(_receiveBuffer, _receiveBufferLength, _receiveBuffer.Length - _receiveBufferLength);
-                    if (count <= 0)
-                    {
-                        break;
-                    }
-
                     _receiveBufferLength += count;
 
                     if (_receiveBufferLength > (_receiveBuffer.Length >> 1))
@@ -558,11 +553,12 @@ namespace CommonWpf.Communication.Protocol.PacketModes
                             fieldLength = field.FixedLength;
                             if (field.Field is LengthField lengthField)
                             {
-                                if(bytesIndex + lengthField.FixedLength > packetBytes.Length)
+                                if (bytesIndex + lengthField.FixedLength > packetBytes.Length)
                                 {
                                     result = ParseResult.WaitForFullPacket;
                                     goto Finish;
                                 }
+
                                 int lengthValue = ((int)packetBytes.ToUint(bytesIndex, lengthField.FixedLength)) + lengthField.ValueOffset;
                                 pendingLengthFields.Add(new LengthInfo(lengthField, lengthValue));
                             }
