@@ -96,6 +96,8 @@ namespace CommonWpf.Communication.PhysicalInterfaces
         {
             try
             {
+                ConnectionState = ConnectionState.Disconnecting;
+
                 _serialPort.Close();
             }
             catch (Exception ex)
