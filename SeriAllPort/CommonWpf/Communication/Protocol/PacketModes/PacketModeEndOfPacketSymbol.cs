@@ -23,14 +23,14 @@ namespace CommonWpf.Communication.Protocol.PacketModes
             PacketField data = new PacketField(
                 "Data",
                 LengthMode.VariableLength,
-                new TextBytesViewModel(),
+                new TextBytes(),
                 0);
 
             Fields.Add(data);
 
             EndOfPacketSymbol eop = new EndOfPacketSymbol(
                 "EOP",
-                new TextBytesViewModel(TextRepresentation.Bytes, symbol));
+                new TextBytes(TextRepresentation.Bytes, symbol));
 
             Fields.Add(eop);
         }

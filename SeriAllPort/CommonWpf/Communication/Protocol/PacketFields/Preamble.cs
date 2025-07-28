@@ -19,13 +19,13 @@ namespace CommonWpf.Communication.Protocol.PacketFields
         public Preamble(string name, byte[] bytes)
              : base(name,
                    LengthMode.FixedData,
-                   new TextBytesViewModel(TextRepresentation.Bytes, bytes),
+                   new TextBytes(TextRepresentation.Bytes, bytes),
                    bytes.Length)
         {
         }
 
         [JsonConstructor]
-        public Preamble(string name, TextBytesViewModel textBytes)
+        public Preamble(string name, TextBytes textBytes)
              : base(name, LengthMode.FixedData, textBytes, textBytes.Bytes.Length)
         {
         }

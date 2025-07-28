@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace CommonWpf.ViewModels.TextBytes
 {
-    public class TextBytesViewModel : NotifyErrorViewModel
+    public class TextBytes : NotifyErrorViewModel
     {
         private TextRepresentation _textRepresentation;
         public TextRepresentation TextRepresentation
@@ -60,21 +60,21 @@ namespace CommonWpf.ViewModels.TextBytes
         [JsonIgnore]
         public Action? PostUpdateBytesHook { get; set; }
 
-        public TextBytesViewModel()
+        public TextBytes()
         {
             TextRepresentation = TextRepresentation.Bytes;
             Bytes = [];
         }
 
-        public TextBytesViewModel(TextRepresentation textRepresentation, byte[] bytes)
+        public TextBytes(TextRepresentation textRepresentation, byte[] bytes)
         {
             TextRepresentation = textRepresentation;
             Bytes = bytes;
         }
 
-        public TextBytesViewModel CreateClone()
+        public TextBytes CreateClone()
         {
-            TextBytesViewModel copy = new TextBytesViewModel();
+            TextBytes copy = new TextBytes();
 
             copy.TextRepresentation = TextRepresentation;
             copy.Text = Text;

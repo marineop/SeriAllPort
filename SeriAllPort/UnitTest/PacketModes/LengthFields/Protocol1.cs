@@ -8,9 +8,9 @@ namespace UnitTest.PacketModes.LengthFields
     [TestClass]
     public sealed class Protocol1
     {
-        public void Initialize(PacketModeLengthField _packetMode, SimulatedSerial _simulatedSerial)
+        public static void Initialize(PacketModeLengthField _packetMode, SimulatedSerial _simulatedSerial)
         {
-            _packetMode.ReceiveBuffer = new byte[4096];
+            
             _packetMode.IdleTimeoutMs = 0;
             _packetMode.Fields.Clear();
 
@@ -36,7 +36,7 @@ namespace UnitTest.PacketModes.LengthFields
             bytes.AddRange(length);
             bytes.AddRange(data);
 
-            simulatedSerial.SimulateReceive(bytes.ToArray());
+            simulatedSerial.SimulateReceive([.. bytes]);
             packetMode.BytesReceived();
             packetMode.ParsePackets(DateTime.Now, true);
 
@@ -71,7 +71,7 @@ namespace UnitTest.PacketModes.LengthFields
             bytes.AddRange(data);
             bytes.AddRange(additionalByte);
 
-            simulatedSerial.SimulateReceive(bytes.ToArray());
+            simulatedSerial.SimulateReceive([.. bytes]);
             packetMode.BytesReceived();
             packetMode.ParsePackets(DateTime.Now, true);
 

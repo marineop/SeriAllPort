@@ -5,8 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SeriAllPort.Views.ProfileEditor"
              xmlns:con="clr-namespace:CommonWpf.Converters;assembly=CommonWpf"
-             Height="auto"
-             Width="auto"
              
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="500"

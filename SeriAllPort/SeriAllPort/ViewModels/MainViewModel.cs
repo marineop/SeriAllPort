@@ -101,10 +101,8 @@ namespace SeriAllPort.ViewModels
                     _currentProtocol = value;
 
                     _currentProtocol.PacketMode.Serial = Serial;
-
                     _currentProtocol.PacketMode.DataReceived += PacketMode_PacketReceived;
 
-                    _currentProtocol.PacketMode.ReceiveBuffer = _receiveBuffer;
 
                     CurrentProfile.ProtocolId = _currentProtocol.Id;
 
@@ -203,8 +201,6 @@ namespace SeriAllPort.ViewModels
         private readonly AppSettings _appSettings;
 
         private readonly object _protocolEventLock = new object();
-
-        private readonly byte[] _receiveBuffer = new byte[4096];
 
         public MainViewModel(
             IShowDialog showDialog,
@@ -470,7 +466,7 @@ namespace SeriAllPort.ViewModels
                 profilesCopy.Add(Profiles[i].CreateClone());
             }
 
-            ProfileListEditorViewModel profileEditor = new ProfileListEditorViewModel(
+            ProfileListEditor profileEditor = new ProfileListEditor(
                 profilesCopy,
                 Profiles.IndexOf(CurrentProfile),
                 ShowErrorDialog);
@@ -510,13 +506,13 @@ namespace SeriAllPort.ViewModels
 
         private void EditProtocol()
         {
-            List<ProtocolEditorViewModel> protocolEditorViewModels = [];
+            List<ProtocolEditor> protocolEditorViewModels = [];
             for (int i = 0; i < Protocols.Count; ++i)
             {
-                protocolEditorViewModels.Add(new ProtocolEditorViewModel(Protocols[i].CreateClone(), ShowErrorDialog));
+                protocolEditorViewModels.Add(new ProtocolEditor(Protocols[i].CreateClone(), ShowErrorDialog));
             }
 
-            ProtocolListEditorViewModel protocolListEditor = new ProtocolListEditorViewModel(
+            ProtocolListEditor protocolListEditor = new ProtocolListEditor(
                 protocolEditorViewModels,
                 Protocols.IndexOf(CurrentProtocol),
                 ShowErrorDialog);
@@ -569,13 +565,13 @@ namespace SeriAllPort.ViewModels
                 index = Commands.IndexOf(editingCommand);
             }
 
-            List<CommandEditorViewModel> commandEditorViewModels = [];
+            List<CommandEditor> commandEditorViewModels = [];
             for (int i = 0; i < Commands.Count; ++i)
             {
-                commandEditorViewModels.Add(new CommandEditorViewModel(Commands[i].CreateClone(), ShowErrorDialog));
+                commandEditorViewModels.Add(new CommandEditor(Commands[i].CreateClone(), ShowErrorDialog));
             }
 
-            CommandListEditorViewModel commandListEditor = new CommandListEditorViewModel(
+            CommandListEditor commandListEditor = new CommandListEditor(
                 commandEditorViewModels,
                 index,
                 ShowErrorDialog);

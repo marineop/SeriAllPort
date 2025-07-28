@@ -7,11 +7,11 @@ using System.Collections.ObjectModel;
 
 namespace SeriAllPort.ViewModels.Protocols
 {
-    public class ProtocolListEditorViewModel : ListEditorViewModel<ProtocolEditorViewModel>
+    public class ProtocolListEditor : ListEditorViewModel<ProtocolEditor>
     {
-        public ObservableCollection<ProtocolEditorViewModel> ProtocolViewModels => Items;
+        public ObservableCollection<ProtocolEditor> ProtocolViewModels => Items;
 
-        public ProtocolEditorViewModel? SelectedProtocolViewModel
+        public ProtocolEditor? SelectedProtocolViewModel
         {
             get => SelectedItem;
             set => SelectedItem = value;
@@ -24,7 +24,7 @@ namespace SeriAllPort.ViewModels.Protocols
            Tuple.Create<string,object>("Protocol", 0)
         ];
 
-        public ProtocolListEditorViewModel(IList<ProtocolEditorViewModel> protocols,
+        public ProtocolListEditor(IList<ProtocolEditor> protocols,
                                        int selectedIndex,
                                        IShowErrorDialog showErrorDialog)
             : base(protocols, selectedIndex, showErrorDialog)
@@ -42,7 +42,7 @@ namespace SeriAllPort.ViewModels.Protocols
                 AppDataFolderFileHelper.GenerateUnusedId(ProtocolViewModels),
                 packetMode);
 
-            ProtocolEditorViewModel newProtocolEditorViewModel = new ProtocolEditorViewModel(newProtocol, ShowErrorDialog);
+            ProtocolEditor newProtocolEditorViewModel = new ProtocolEditor(newProtocol, ShowErrorDialog);
 
             ProtocolViewModels.Add(newProtocolEditorViewModel);
 

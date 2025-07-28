@@ -8,9 +8,9 @@ namespace UnitTest.PacketModes.LengthFields
     [TestClass]
     public sealed class L_V_FD_Data
     {
-        public void Initialize(PacketModeLengthField _packetMode, SimulatedSerial _simulatedSerial)
+        public static void Initialize(PacketModeLengthField _packetMode, SimulatedSerial _simulatedSerial)
         {
-            _packetMode.ReceiveBuffer = new byte[4096];
+            
             _packetMode.IdleTimeoutMs = 0;
             _packetMode.Fields.Clear();
 
@@ -42,7 +42,7 @@ namespace UnitTest.PacketModes.LengthFields
             bytes.AddRange(delimiter);
             bytes.AddRange(data2);
 
-            simulatedSerial.SimulateReceive(bytes.ToArray());
+            simulatedSerial.SimulateReceive([.. bytes]);
             packetMode.BytesReceived();
             packetMode.ParsePackets(DateTime.Now, true);
 

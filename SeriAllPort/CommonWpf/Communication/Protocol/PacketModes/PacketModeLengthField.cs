@@ -22,14 +22,14 @@ namespace CommonWpf.Communication.Protocol.PacketModes
 
             Preamble preamble = new Preamble(
                 "Preamble",
-                new TextBytesViewModel(TextRepresentation.Bytes, [0x00]));
+                new TextBytes(TextRepresentation.Bytes, [0x00]));
 
             packetModeLengthField.Fields.Add(preamble);
 
             PacketField type = new PacketField(
                "Type",
                LengthMode.FixedLength,
-               new TextBytesViewModel(),
+               new TextBytes(),
                1);
 
             packetModeLengthField.Fields.Add(type);
@@ -44,7 +44,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
             PacketField data = new PacketField(
                "Data",
                LengthMode.VariableLength,
-               new TextBytesViewModel(),
+               new TextBytes(),
                0);
 
             packetModeLengthField.Fields.Add(data);

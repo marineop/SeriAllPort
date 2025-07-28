@@ -82,9 +82,9 @@ namespace CommonWpf.Communication.Protocol.PacketModes
 
         protected PacketField? _preamble;
 
-        protected object _lock = new object();
-        public byte[] ReceiveBuffer { protected get; set; } = [];
-        protected int _receiveBufferLength = 0;
+        private readonly object _lock = new object();
+        private byte[] _receiveBuffer = [];
+        private int _receiveBufferLength = 0;
 
         private readonly System.Timers.Timer _timer = new System.Timers.Timer();
 
@@ -230,9 +230,34 @@ namespace CommonWpf.Communication.Protocol.PacketModes
 
                 DateTime now = DateTime.Now;
 
-                _receiveBufferLength += Serial.ReadBytes(ReceiveBuffer, _receiveBufferLength, ReceiveBuffer.Length - _receiveBufferLength);
+                if (_receiveBuffer.Length <= 0)
+                {
+                    _receiveBuffer = new byte[4096];
+                }
 
-                BytesReceivedInternal(now);
+                while (true)
+                {
+                    int count = Serial.ReadBytes(_receiveBuffer, _receiveBufferLength, _receiveBuffer.Length - _receiveBufferLength);
+                    if (count <= 0)
+                    {
+                        break;
+                    }
+
+                    _receiveBufferLength += count;
+
+                    if (_receiveBufferLength > (_receiveBuffer.Length >> 1))
+                    {
+                        if (_receiveBuffer.Length < (1 << 30))
+                        {
+                            int newLength = _receiveBuffer.Length << 1;
+                            byte[] newBuffer = new byte[newLength];
+                            Buffer.BlockCopy(_receiveBuffer, 0, newBuffer, 0, _receiveBufferLength);
+                            _receiveBuffer = newBuffer;
+                        }
+                    }
+
+                    BytesReceivedInternal(now);
+                }
             }
         }
 
@@ -264,7 +289,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
 
                     // setup current window
                     ReadOnlySpan<byte> window = new ReadOnlySpan<byte>(
-                          ReceiveBuffer,
+                          _receiveBuffer,
                           _parseWindowStart,
                           _receiveBufferLength - _parseWindowStart);
 
@@ -304,7 +329,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
                         // bytes before a valid packet are non-packet bytes
                         if (_parseWindowStart - lastPacketTail > 0)
                         {
-                            EnqueueNonPacketBytesEvent(time, ReceiveBuffer[lastPacketTail.._parseWindowStart]);
+                            EnqueueNonPacketBytesEvent(time, _receiveBuffer[lastPacketTail.._parseWindowStart]);
                         }
 
                         EnqueuePacketEvent(time, _parsedFields, window[0.._parseResultData.PacketLength].ToArray());
@@ -322,7 +347,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
                     {
                         if (_parseResultData.ParseErrorType == ParseErrorType.EopAndFieldsConflict)
                         {
-                            EnqueueNonPacketBytesEvent(time, ReceiveBuffer[lastPacketTail..(_parseWindowStart + _parseResultData.PacketLength)]);
+                            EnqueueNonPacketBytesEvent(time, _receiveBuffer[lastPacketTail..(_parseWindowStart + _parseResultData.PacketLength)]);
                             _parseWindowStart += _parseResultData.PacketLength;
                             lastPacketTail = _parseWindowStart;
                         }
@@ -344,7 +369,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
                     // bytes before preamble are non-packet bytes
                     if (_parseWindowStart - lastPacketTail > 0)
                     {
-                        EnqueueNonPacketBytesEvent(time, ReceiveBuffer[lastPacketTail.._parseWindowStart]);
+                        EnqueueNonPacketBytesEvent(time, _receiveBuffer[lastPacketTail.._parseWindowStart]);
                     }
 
                     remainStartIndex = _parseWindowStart;
@@ -359,7 +384,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
                     int remainLength = _receiveBufferLength - remainStartIndex;
                     if (remainLength > 0)
                     {
-                        Buffer.BlockCopy(ReceiveBuffer, remainStartIndex, ReceiveBuffer, 0, remainLength);
+                        Buffer.BlockCopy(_receiveBuffer, remainStartIndex, _receiveBuffer, 0, remainLength);
                     }
 
                     _receiveBufferLength = remainLength;
@@ -370,7 +395,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
                 // if timeout than empty the ReceiveBuffer
                 if (isTimeout && _receiveBufferLength > 0)
                 {
-                    EnqueueNonPacketBytesEvent(time, ReceiveBuffer[0.._receiveBufferLength]);
+                    EnqueueNonPacketBytesEvent(time, _receiveBuffer[0.._receiveBufferLength]);
 
                     _receiveBufferLength = 0;
                     _parseWindowStart = 0;
@@ -500,7 +525,8 @@ namespace CommonWpf.Communication.Protocol.PacketModes
 
             int modePacketLength = ComputePacketLength(packetBytes);
 
-            if (modePacketLength > 0 && packetBytes.Length < modePacketLength)
+            if (modePacketLength < 0
+                || (modePacketLength > 0 && packetBytes.Length < modePacketLength))
             {
                 result = ParseResult.WaitForFullPacket;
             }
@@ -532,6 +558,11 @@ namespace CommonWpf.Communication.Protocol.PacketModes
                             fieldLength = field.FixedLength;
                             if (field.Field is LengthField lengthField)
                             {
+                                if(bytesIndex + lengthField.FixedLength > packetBytes.Length)
+                                {
+                                    result = ParseResult.WaitForFullPacket;
+                                    goto Finish;
+                                }
                                 int lengthValue = ((int)packetBytes.ToUint(bytesIndex, lengthField.FixedLength)) + lengthField.ValueOffset;
                                 pendingLengthFields.Add(new LengthInfo(lengthField, lengthValue));
                             }

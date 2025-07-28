@@ -73,8 +73,8 @@ namespace CommonWpf.Communication.Protocol.PacketFields
         [JsonIgnore]
         public virtual bool CanEditLengthMode { get; } = true;
 
-        private TextBytesViewModel _textBytes = new();
-        public TextBytesViewModel TextBytes
+        private TextBytes _textBytes = new();
+        public TextBytes TextBytes
         {
             get => _textBytes;
             set
@@ -182,7 +182,7 @@ namespace CommonWpf.Communication.Protocol.PacketFields
             }
         }
 
-        public PacketField(string name, LengthMode lengthMode, TextBytesViewModel? textBytes, int fixedLength)
+        public PacketField(string name, LengthMode lengthMode, TextBytes? textBytes, int fixedLength)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             LengthMode = lengthMode;
@@ -227,7 +227,7 @@ namespace CommonWpf.Communication.Protocol.PacketFields
 
         public static PacketField CreateFixedLength(string name, int fixedLength)
         {
-            TextBytesViewModel textBytes = new TextBytesViewModel(TextRepresentation.Bytes, new byte[fixedLength]);
+            TextBytes textBytes = new TextBytes(TextRepresentation.Bytes, new byte[fixedLength]);
             PacketField packetField = new PacketField(name, LengthMode.FixedLength, textBytes, fixedLength);
 
             return packetField;
@@ -235,7 +235,7 @@ namespace CommonWpf.Communication.Protocol.PacketFields
 
         public static PacketField CreateFixedData(string name, byte[] fixedData)
         {
-            TextBytesViewModel textBytes = new TextBytesViewModel(TextRepresentation.Bytes, fixedData);
+            TextBytes textBytes = new TextBytes(TextRepresentation.Bytes, fixedData);
             PacketField packetField = new PacketField(name, LengthMode.FixedData, textBytes, fixedData.Length);
 
             return packetField;
@@ -243,14 +243,14 @@ namespace CommonWpf.Communication.Protocol.PacketFields
 
         public static PacketField CreateVariableLength(string name)
         {
-            PacketField packetField = new PacketField(name, LengthMode.VariableLength, new TextBytesViewModel(), 0);
+            PacketField packetField = new PacketField(name, LengthMode.VariableLength, new TextBytes(), 0);
 
             return packetField;
         }
 
         public virtual PacketField CreateClone()
         {
-            TextBytesViewModel newTextBytes = TextBytes.CreateClone();
+            TextBytes newTextBytes = TextBytes.CreateClone();
             newTextBytes.SetTextWithCurrentBytes();
 
             PacketField newPacketField = new PacketField(

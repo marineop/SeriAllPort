@@ -82,7 +82,7 @@ namespace CommonWpf.Communication.Protocol.PacketFields
         [JsonConstructor]
         public LengthField(
             string name,
-            TextBytesViewModel textBytes,
+            TextBytes textBytes,
             int startFieldIndex,
             int endFieldIndex,
             int valueOffset)
