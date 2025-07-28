@@ -36,6 +36,7 @@ namespace CommonWpf.Communication.PhysicalInterfaces
                 copyLength = Math.Min(_receiveBufferLength, capacity);
                 Buffer.BlockCopy(_receiveBuffer, 0, bytes, offset, copyLength);
                 _receiveBufferLength -= copyLength;
+                Buffer.BlockCopy(_receiveBuffer, copyLength, _receiveBuffer, 0, _receiveBufferLength);
             }
 
             return copyLength;
