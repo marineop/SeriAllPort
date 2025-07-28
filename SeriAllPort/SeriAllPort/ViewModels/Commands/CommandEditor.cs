@@ -3,7 +3,7 @@ using CommonWpf.ViewModels.ListEditor;
 
 namespace SeriAllPort.ViewModels.Commands
 {
-    public class CommandEditorViewModel : ViewModel, IListEditorItem
+    public class CommandEditor : ViewModel, IListEditorItem
     {
         public string TypeName => Command.TypeName;
 
@@ -38,7 +38,7 @@ namespace SeriAllPort.ViewModels.Commands
 
         protected IShowErrorDialog ShowErrorDialog { get; set; }
 
-        public CommandEditorViewModel(Command command, IShowErrorDialog showErrorDialog)
+        public CommandEditor(Command command, IShowErrorDialog showErrorDialog)
         {
             _command = command;
             ShowErrorDialog = showErrorDialog;

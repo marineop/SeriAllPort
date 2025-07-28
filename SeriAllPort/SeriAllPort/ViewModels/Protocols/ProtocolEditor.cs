@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 
 namespace SeriAllPort.ViewModels.Protocols
 {
-    public class ProtocolEditorViewModel : ViewModel, IListEditorItem, IAppDataFolderFile
+    public class ProtocolEditor : ViewModel, IListEditorItem, IAppDataFolderFile
     {
         public string Name
         {
@@ -124,7 +124,7 @@ namespace SeriAllPort.ViewModels.Protocols
         public SimpleCommand FieldDeleteCommand { get; private set; }
         public SimpleCommand FieldValidateCommand { get; private set; }
 
-        public ProtocolEditorViewModel(Protocol protocol, IShowErrorDialog showErrorDialog)
+        public ProtocolEditor(Protocol protocol, IShowErrorDialog showErrorDialog)
         {
             _protocol = protocol;
             ShowErrorDialog = showErrorDialog;
@@ -221,7 +221,7 @@ namespace SeriAllPort.ViewModels.Protocols
                         newPacketField = new PacketField(
                             "Data",
                             LengthMode.FixedLength,
-                            new TextBytesViewModel(),
+                            new TextBytes(),
                             1);
                         fields.Insert(selectedNextIndex, newPacketField);
                     }
@@ -229,14 +229,14 @@ namespace SeriAllPort.ViewModels.Protocols
                     {
                         newPacketField = new EndOfPacketSymbol(
                             "EOP",
-                            new TextBytesViewModel(TextRepresentation.Bytes, [(byte)'\r', (byte)'\n']));
+                            new TextBytes(TextRepresentation.Bytes, [(byte)'\r', (byte)'\n']));
                         fields.Insert(fields.Count, newPacketField);
                     }
                     else if (type == typeof(Preamble))
                     {
                         newPacketField = new Preamble(
                             "Preamble",
-                             new TextBytesViewModel(TextRepresentation.Bytes, [0x00]));
+                             new TextBytes(TextRepresentation.Bytes, [0x00]));
                         fields.Insert(0, newPacketField);
                     }
                     else if (type == typeof(LengthField))

@@ -19,13 +19,13 @@ namespace CommonWpf.Communication.Protocol.PacketFields
         public EndOfPacketSymbol(string name, byte[] bytes)
             : base(name,
                   LengthMode.FixedData,
-                  new TextBytesViewModel(TextRepresentation.Bytes, bytes),
+                  new TextBytes(TextRepresentation.Bytes, bytes),
                   bytes.Length)
         {
         }
 
         [JsonConstructor]
-        public EndOfPacketSymbol(string name, TextBytesViewModel textBytes)
+        public EndOfPacketSymbol(string name, TextBytes textBytes)
             : base(name, LengthMode.FixedData, textBytes, textBytes.Bytes.Length)
         {
         }

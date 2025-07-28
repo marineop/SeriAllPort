@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace SeriAllPort.ViewModels.SendRawData
 {
-    public class SendRawDataViewModel : ViewModel
+    public class SendRawData : ViewModel
     {
         private ITextToBytes _sendFormat;
         public ITextToBytes SendFormat
@@ -33,7 +33,7 @@ namespace SeriAllPort.ViewModels.SendRawData
             }
         }
 
-        public SendRawDataViewModel()
+        public SendRawData()
         {
             _sendFormats =
             [

@@ -10,7 +10,7 @@
                     xmlns:commandEditor="clr-namespace:SeriAllPort.Views.CommandEditor"
                     >
 
-    <DataTemplate DataType="{x:Type profile:ProfileListEditorViewModel}">
+    <DataTemplate DataType="{x:Type profile:ProfileListEditor}">
         <commonViews:ListEditorControl/>
     </DataTemplate>
 
@@ -18,11 +18,11 @@
         <ProfileEditor:ProfileEditorControl/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type protocol:ProtocolListEditorViewModel}">
+    <DataTemplate DataType="{x:Type protocol:ProtocolListEditor}">
         <commonViews:ListEditorControl/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type protocol:ProtocolEditorViewModel}">
+    <DataTemplate DataType="{x:Type protocol:ProtocolEditor}">
         <ProtocolEditor:ProtocolEditorControl/>
     </DataTemplate>
 
@@ -34,11 +34,11 @@
         <ProtocolEditor:LengthFieldControl/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type commands:CommandListEditorViewModel}">
+    <DataTemplate DataType="{x:Type commands:CommandListEditor}">
         <commonViews:ListEditorControl/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type commands:CommandEditorViewModel}">
+    <DataTemplate DataType="{x:Type commands:CommandEditor}">
         <commandEditor:CommandEditorControl/>
     </DataTemplate>
 

@@ -8,8 +8,8 @@ namespace SeriAllPort.ViewModels.Commands
         [JsonIgnore]
         public override string TypeName => "No Protocol";
 
-        private TextBytesViewModel _textBytes = new();
-        public TextBytesViewModel TextBytes
+        private TextBytes _textBytes = new();
+        public TextBytes TextBytes
         {
             get => _textBytes;
             set

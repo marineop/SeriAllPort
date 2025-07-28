@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SeriAllPort.Views"
         ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight"
         ShowInTaskbar="False"
         WindowStartupLocation="CenterOwner"
         mc:Ignorable="d"
-        Title="About SeriAllPort"
-        Height="220" Width="380">
+        Title="About SeriAllPort">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -20,7 +20,7 @@
             HorizontalAlignment="Stretch" Width="auto"
             VerticalAlignment="Stretch" Height="auto"
             BorderThickness="0"
-            Margin="20,5"
+            Margin="20,10"
             Text="This software is released under the MIT License.&#xA;
             &#xA;Copyright © 2025 Simon Chang&#xD;&#xA;
             &#xA;You can find the full source code and more details on

@@ -21,7 +21,7 @@ namespace CommonWpf.Communication.Protocol.PacketModes
             PacketField packetField = new PacketField(
                 "Data",
                 LengthMode.VariableLength,
-                new TextBytesViewModel(),
+                new TextBytes(),
                 0);
 
             packetModeTimeout.Fields.Add(packetField);

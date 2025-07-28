@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace SeriAllPort.ViewModels.Profiles
 {
-    public class ProfileListEditorViewModel : ListEditorViewModel<Profile>
+    public class ProfileListEditor : ListEditorViewModel<Profile>
     {
         public override string Name => "Profiles";
 
@@ -22,7 +22,7 @@ namespace SeriAllPort.ViewModels.Profiles
            Tuple.Create<string,object>("Profile", 0)
         ];
 
-        public ProfileListEditorViewModel(IList<Profile> items,
+        public ProfileListEditor(IList<Profile> items,
                                       int selectedIndex,
                                       IShowErrorDialog showErrorDialog)
             : base(items, selectedIndex, showErrorDialog)

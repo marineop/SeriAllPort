@@ -4,11 +4,11 @@ using System.Collections.ObjectModel;
 
 namespace SeriAllPort.ViewModels.Commands
 {
-    public class CommandListEditorViewModel : ListEditorViewModel<CommandEditorViewModel>
+    public class CommandListEditor : ListEditorViewModel<CommandEditor>
     {
-        public ObservableCollection<CommandEditorViewModel> CommandViewModels => Items;
+        public ObservableCollection<CommandEditor> CommandViewModels => Items;
 
-        public CommandEditorViewModel? SelectedCommandViewModel
+        public CommandEditor? SelectedCommandViewModel
         {
             get => SelectedItem;
             set => SelectedItem = value;
@@ -21,27 +21,23 @@ namespace SeriAllPort.ViewModels.Commands
            Tuple.Create<string,object>("No Protocol Command", 0)
         ];
 
-        public CommandListEditorViewModel(IList<CommandEditorViewModel> commandViewModels,
-                               int selectedIndex,
-                               IShowErrorDialog showErrorDialog)
+        public CommandListEditor(IList<CommandEditor> commandViewModels,
+                                 int selectedIndex,
+                                 IShowErrorDialog showErrorDialog)
                 : base(commandViewModels, selectedIndex, showErrorDialog)
         {
         }
 
         public override void ItemNew(object? parameter)
         {
-            List<string> names = [];
-            if (parameter != null && parameter is int)
+            if (parameter != null && parameter is int id)
             {
-                string newProtocolName = NameHelper.GetUniqueName(CommandViewModels, "Command");
-
-                int id = (int)parameter;
-
                 if (id == 0)
                 {
                     NoProtocolCommand noProtocolCommand = new NoProtocolCommand();
+                    string newProtocolName = NameHelper.GetUniqueName(CommandViewModels, "Command");
                     noProtocolCommand.Name = newProtocolName;
-                    CommandEditorViewModel commandEditorViewModel = new CommandEditorViewModel(noProtocolCommand, ShowErrorDialog);
+                    CommandEditor commandEditorViewModel = new CommandEditor(noProtocolCommand, ShowErrorDialog);
 
                     CommandViewModels.Add(commandEditorViewModel);
 
