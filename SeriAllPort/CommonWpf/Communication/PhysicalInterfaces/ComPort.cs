@@ -47,6 +47,21 @@ namespace CommonWpf.Communication.PhysicalInterfaces
         public ComPort()
         {
             _serialPort.DataReceived += _serialPort_DataReceived;
+
+            Task.Factory.StartNew(() => 
+            {
+                while (true)
+                {
+                    if (ConnectionState == ConnectionState.Connected)
+                    {
+                        if (!_serialPort.IsOpen)
+                        {
+                            ConnectionState = ConnectionState.Disconnected;
+                        }
+                    }
+                    Thread.Sleep(1000);
+                }
+            }, TaskCreationOptions.LongRunning);
         }
 
         public void Connect()

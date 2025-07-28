@@ -602,11 +602,14 @@ namespace SeriAllPort.ViewModels
 
         private void Serial_ConnectionStateChanged(object? sender, CommonWpf.EventHandlers.ConnectionStateChangedEventArgs e)
         {
-            SerialIsDisconnected = (e.ConnectionState == ConnectionState.Disconnected);
-            if (e.ConnectionState == ConnectionState.Disconnected)
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                CurrentProtocol.PacketMode.Terminate();
-            }
+                SerialIsDisconnected = (e.ConnectionState == ConnectionState.Disconnected);
+                if (e.ConnectionState == ConnectionState.Disconnected)
+                {
+                    CurrentProtocol.PacketMode.Terminate();
+                }
+            });
         }
 
         private void Serial_BytesReceived(object? sender, EventArgs e)
