@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using CommonWpf.Communication;
+using System.Text;
 
 namespace CommonWpf.Extensions
 {
