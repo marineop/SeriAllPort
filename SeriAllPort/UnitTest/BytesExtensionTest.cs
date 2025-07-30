@@ -1,4 +1,5 @@
-﻿using CommonWpf.Extensions;
+﻿using CommonWpf.Communication;
+using CommonWpf.Extensions;
 
 namespace UnitTest
 {
