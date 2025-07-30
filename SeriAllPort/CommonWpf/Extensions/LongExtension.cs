@@ -1,4 +1,6 @@
 ﻿
+using CommonWpf.Communication;
+
 namespace CommonWpf.Extensions
 {
     public static class LongExtension

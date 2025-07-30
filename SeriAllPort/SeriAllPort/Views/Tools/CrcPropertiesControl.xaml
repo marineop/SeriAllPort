@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="SeriAllPort.Views.Tools.CrcPropertiesControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SeriAllPort.Views.Tools"
+             xmlns:con="clr-namespace:CommonWpf.Converters;assembly=CommonWpf"
+             
+             mc:Ignorable="d" 
+             d:Background="white">
+    <UserControl.Resources>
+        <con:BoolInverseConverter x:Key="boolInverse"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Polynomial "/>
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding PolynomialText}" Width="200"
+                 IsReadOnly="{Binding CanEdit, Converter={StaticResource boolInverse}}"/>
+
+        <TextBlock Grid.Row="1" Text="Polynomial Size (bit)"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding PolynomialSize}" Width="200"
+                 IsReadOnly="{Binding CanEdit, Converter={StaticResource boolInverse}}"/>
+
+        <TextBlock Grid.Row="2" Text="Initial Value"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding InitialValueText}" Width="200"
+                 IsReadOnly="{Binding CanEdit, Converter={StaticResource boolInverse}}"/>
+
+        <CheckBox Grid.Row="3" Content="Bit-Reverse Input Bytes" IsChecked="{Binding ReverseIn}"
+                  IsEnabled="{Binding CanEdit}"/>
+        <CheckBox Grid.Row="3" Grid.Column="1" Content="Bit-Reverse Output CRC" IsChecked="{Binding ReverseOut}"
+                  IsEnabled="{Binding CanEdit}"/>
+
+        <TextBlock Grid.Row="4" Text="XOR Output"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding XorOutText}" Width="200"
+                 IsReadOnly="{Binding CanEdit, Converter={StaticResource boolInverse}}"/>
+    </Grid>
+</UserControl>

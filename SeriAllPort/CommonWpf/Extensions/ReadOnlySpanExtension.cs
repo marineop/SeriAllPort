@@ -1,4 +1,6 @@
-﻿namespace CommonWpf.Extensions
+﻿using CommonWpf.Communication;
+
+namespace CommonWpf.Extensions
 {
     public static class ReadOnlySpanExtension
     {

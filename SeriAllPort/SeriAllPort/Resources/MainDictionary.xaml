@@ -8,6 +8,9 @@
                     xmlns:commonViews="clr-namespace:CommonWpf.Views;assembly=CommonWpf"
                     xmlns:commands="clr-namespace:SeriAllPort.ViewModels.Commands"
                     xmlns:commandEditor="clr-namespace:SeriAllPort.Views.CommandEditor"
+                    xmlns:toolvm="clr-namespace:SeriAllPort.ViewModels.Tools"
+                    xmlns:toolv="clr-namespace:SeriAllPort.Views.Tools"
+                    xmlns:errorDetection="clr-namespace:CommonWpf.Communication.ErrorDetection;assembly=CommonWpf"
                     >
 
     <DataTemplate DataType="{x:Type profile:ProfileListEditor}">
@@ -42,5 +45,12 @@
         <commandEditor:CommandEditorControl/>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type toolvm:CrcCalculator}">
+        <toolv:CrcCalculatorControl/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type errorDetection:CRC}">
+        <toolv:CrcPropertiesControl/>
+    </DataTemplate>
 
 </ResourceDictionary>

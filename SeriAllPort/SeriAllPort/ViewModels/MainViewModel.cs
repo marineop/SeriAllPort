@@ -193,6 +193,7 @@ namespace SeriAllPort.ViewModels
         public SimpleCommand ProfileEditorCommand { get; private set; }
         public SimpleCommand ProtocolEditorCommand { get; private set; }
         public SimpleCommand CommandEditorCommand { get; private set; }
+        public SimpleCommand CrcCalculatorCommand { get; private set; }
         public SimpleCommand SendRawDataCommand { get; private set; }
         public SimpleCommand CustomCommand { get; private set; }
 
@@ -221,6 +222,8 @@ namespace SeriAllPort.ViewModels
                 (parameters) => SerialIsDisconnected);
 
             CommandEditorCommand = new SimpleCommand(EditCommand);
+
+            CrcCalculatorCommand = new SimpleCommand(StartCrcCalculator);
 
             SendRawDataCommand = new SimpleCommand((parameters) => SendBytes());
 
@@ -593,6 +596,22 @@ namespace SeriAllPort.ViewModels
                 }
 
                 CurrentProfile.Commands = new ObservableCollection<Command>(newCommands);
+            }
+        }
+
+        private void StartCrcCalculator(object? obj)
+        {
+            SeriAllPort.ViewModels.Tools.CrcCalculator crcCalculator = new Tools.CrcCalculator();
+
+            bool ok = ShowDialog.ShowDialog(
+                crcCalculator,
+                "CRC Calculator",
+                ResizeMode.CanResize,
+                SizeToContent.Manual,
+                false);
+
+            if (ok)
+            {
             }
         }
 
