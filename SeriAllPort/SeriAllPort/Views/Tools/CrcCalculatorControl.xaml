@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="SeriAllPort.Views.Tools.CrcCalculatorControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SeriAllPort.Views.Tools"
+             xmlns:cwe="clr-namespace:CommonWpf.Extensions;assembly=CommonWpf"
+             xmlns:com="clr-namespace:CommonWpf.Communication;assembly=CommonWpf"
+             xmlns:TextBytes="clr-namespace:CommonWpf.ViewModels.TextBytes;assembly=CommonWpf"
+             
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:Background="White">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="28*" MinWidth="150"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="72*" MinWidth="200" />
+        </Grid.ColumnDefinitions>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="CRC List"/>
+            <ListBox Grid.Row="1"
+                SelectedItem="{Binding SelectedCrc}"
+                ItemsSource="{Binding CrcList}" DisplayMemberPath="Name"
+             />
+        </Grid>
+
+        <GridSplitter Grid.Column="1" Width="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="3,0,0,0"/>
+
+        <Grid Grid.Column="2" HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="CRC Value"/>
+            <TextBox Grid.Column="1" Text="{Binding CrcValue, Mode=OneWay}" 
+                     IsReadOnly="true" Width="250" FontFamily="Consolas"/>
+
+            <TextBlock Grid.Row="1" Text="Endianness"/>
+            <ComboBox Grid.Row="1" Grid.Column="1"
+                      Width="120"
+                      ItemsSource="{Binding Source={cwe:EnumAll {x:Type com:Endianness}}}" DisplayMemberPath="Description" SelectedValuePath="Value" 
+                      SelectedValue="{Binding Endianness}"/>
+
+            <TextBlock Grid.Row="2" Text="Input"/>
+            <ComboBox Grid.Row="2" Grid.Column="1"
+                      Width="120"
+                      ItemsSource="{Binding Source={cwe:EnumAll {x:Type TextBytes:TextRepresentation}}}"  DisplayMemberPath="Description" SelectedValuePath="Value"
+                      SelectedValue="{Binding InputData.TextRepresentation}"/>
+
+            <TextBox Grid.Row="3" Grid.ColumnSpan="2"
+                     Text="{Binding InputData.Text, UpdateSourceTrigger=PropertyChanged}"
+                     Width="auto" HorizontalAlignment="Stretch" Height="auto" VerticalAlignment="Stretch"
+                     TextWrapping="Wrap" VerticalContentAlignment="Top"
+                     FontFamily="Consolas"/>
+
+            <ContentControl Grid.Row="4" Grid.ColumnSpan="2" Margin="3,0,0,0" Content="{Binding SelectedCrc}"
+                            />
+        </Grid>
+    </Grid>
+</UserControl>

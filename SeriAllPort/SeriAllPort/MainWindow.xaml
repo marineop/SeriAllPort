@@ -29,6 +29,9 @@
                 <MenuItem Header="Protocol" Command="{Binding ProtocolEditorCommand}"/>
                 <MenuItem Header="Command" Command="{Binding CommandEditorCommand}"/>
             </MenuItem>
+            <MenuItem Header="Tools">
+                <MenuItem Header="CRC Calculator" Command="{Binding CrcCalculatorCommand}"/>
+            </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem x:Name="Aobut" Header="About SeriAllPort" Click="Aobut_Click"/>
             </MenuItem>
