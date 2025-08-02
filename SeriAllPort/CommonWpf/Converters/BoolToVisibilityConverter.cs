@@ -19,7 +19,7 @@ namespace CommonWpf.Converters
                 else
                 {
                     answer = Visibility.Collapsed;
-                }    
+                }
             }
             else
             {

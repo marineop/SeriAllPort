@@ -10,7 +10,7 @@ namespace UnitTest.PacketModes.Timeout
     {
         public static void Initialize(PacketModeTimeout _packetMode, SimulatedSerial _simulatedSerial)
         {
-            
+
             _packetMode.IdleTimeoutMs = 0;
             _packetMode.Fields.Clear();
 

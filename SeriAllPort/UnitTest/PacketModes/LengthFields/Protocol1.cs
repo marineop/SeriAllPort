@@ -10,7 +10,7 @@ namespace UnitTest.PacketModes.LengthFields
     {
         public static void Initialize(PacketModeLengthField _packetMode, SimulatedSerial _simulatedSerial)
         {
-            
+
             _packetMode.IdleTimeoutMs = 0;
             _packetMode.Fields.Clear();
 

@@ -87,7 +87,6 @@
                     _xorOut = value;
                     OnPropertyChanged();
 
-                    
                 }
 
                 XorOutText = ToHexString(_xorOut);

@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="SeriAllPort.Views.Tools.ChecksumPropertiesControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SeriAllPort.Views.Tools"
+             xmlns:con="clr-namespace:CommonWpf.Converters;assembly=CommonWpf"
+             
+             mc:Ignorable="d" 
+             d:Background="White">
+    <UserControl.Resources>
+        <con:BoolInverseConverter x:Key="boolInverse"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Bit Count"/>
+        <TextBox Grid.Row="0" Grid.Column="1" Width="200"
+                 Text="{Binding BitCount, UpdateSourceTrigger=PropertyChanged}"
+                 IsReadOnly="{Binding CanEdit, Converter={StaticResource boolInverse}}"/>
+
+        <CheckBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Content="One's Complement"
+                  IsChecked="{Binding OnesComplement}"
+                  IsEnabled="{Binding CanEdit}"/>
+
+    </Grid>
+</UserControl>

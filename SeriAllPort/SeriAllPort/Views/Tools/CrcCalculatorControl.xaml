@@ -23,7 +23,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="CRC List"/>
+            <TextBlock Text="Error Detection Code List"/>
             <ListBox Grid.Row="1"
                 SelectedItem="{Binding SelectedCrc}"
                 ItemsSource="{Binding CrcList}" DisplayMemberPath="Name"
@@ -45,7 +45,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="CRC Value"/>
+            <TextBlock Text="Error Detection Code"/>
             <TextBox Grid.Column="1" Text="{Binding CrcValue, Mode=OneWay}" 
                      IsReadOnly="true" Width="250" FontFamily="Consolas"/>
 

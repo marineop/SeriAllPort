@@ -48,7 +48,7 @@ namespace CommonWpf.Communication.PhysicalInterfaces
         {
             _serialPort.DataReceived += _serialPort_DataReceived;
 
-            Task.Factory.StartNew(() => 
+            Task.Factory.StartNew(() =>
             {
                 while (true)
                 {
@@ -59,6 +59,7 @@ namespace CommonWpf.Communication.PhysicalInterfaces
                             ConnectionState = ConnectionState.Disconnected;
                         }
                     }
+
                     Thread.Sleep(1000);
                 }
             }, TaskCreationOptions.LongRunning);
