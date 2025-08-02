@@ -53,4 +53,12 @@
         <toolv:CrcPropertiesControl/>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type errorDetection:Checksum}">
+        <toolv:ChecksumPropertiesControl/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type errorDetection:Xor}">
+        <toolv:ChecksumPropertiesControl/>
+    </DataTemplate>
+
 </ResourceDictionary>

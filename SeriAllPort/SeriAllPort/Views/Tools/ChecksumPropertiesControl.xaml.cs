@@ -3,11 +3,11 @@
 namespace SeriAllPort.Views.Tools
 {
     /// <summary>
-    /// Interaction logic for CrcPropertiesControl.xaml
+    /// Interaction logic for ChecksumPropertiesControl.xaml
     /// </summary>
-    public partial class CrcPropertiesControl : UserControl
+    public partial class ChecksumPropertiesControl : UserControl
     {
-        public CrcPropertiesControl()
+        public ChecksumPropertiesControl()
         {
             InitializeComponent();
         }

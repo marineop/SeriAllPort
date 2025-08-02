@@ -10,7 +10,7 @@ namespace UnitTest.PacketModes.EOP
     {
         public static void Initialize(PacketModeEndOfPacketSymbol _packetMode, SimulatedSerial _simulatedSerial)
         {
-            
+
             _packetMode.IdleTimeoutMs = 0;
             _packetMode.Fields.Clear();
 

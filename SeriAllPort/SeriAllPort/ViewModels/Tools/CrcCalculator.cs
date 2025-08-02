@@ -9,8 +9,8 @@ namespace SeriAllPort.ViewModels.Tools
 {
     public class CrcCalculator : ViewModel
     {
-        private ObservableCollection<CRC> _crcList = [];
-        public ObservableCollection<CRC> CrcList
+        private ObservableCollection<IErrorDetection> _crcList = [];
+        public ObservableCollection<IErrorDetection> CrcList
         {
             get => _crcList;
             set
@@ -87,6 +87,8 @@ namespace SeriAllPort.ViewModels.Tools
         {
             InputData.PropertyChanged += InputData_PropertyChanged;
 
+            CrcList.Add(new Checksum());
+            CrcList.Add(new Xor());
             CrcList.Add(new CRC() { Name = "CRC-3/GSM", CanEdit = false, Polynomial = 0x3, PolynomialSize = 3, InitialValue = 0x0, ReverseIn = false, ReverseOut = false, XorOut = 0x7 });
             CrcList.Add(new CRC() { Name = "CRC-3/ROHC", CanEdit = false, Polynomial = 0x3, PolynomialSize = 3, InitialValue = 0x7, ReverseIn = true, ReverseOut = true, XorOut = 0x0 });
             CrcList.Add(new CRC() { Name = "CRC-4/G-704", CanEdit = false, Polynomial = 0x3, PolynomialSize = 4, InitialValue = 0x0, ReverseIn = true, ReverseOut = true, XorOut = 0x0 });
@@ -200,7 +202,19 @@ namespace SeriAllPort.ViewModels.Tools
             CrcList.Add(new CRC() { Name = "CRC-64/WE", CanEdit = false, Polynomial = 0x42F0E1EBA9EA3693, PolynomialSize = 64, InitialValue = 0xFFFFFFFFFFFFFFFF, ReverseIn = false, ReverseOut = false, XorOut = 0xFFFFFFFFFFFFFFFF });
             CrcList.Add(new CRC() { Name = "CRC-64/XZ", CanEdit = false, Polynomial = 0x42F0E1EBA9EA3693, PolynomialSize = 64, InitialValue = 0xFFFFFFFFFFFFFFFF, ReverseIn = true, ReverseOut = true, XorOut = 0xFFFFFFFFFFFFFFFF });
 
+            foreach (IErrorDetection crc in CrcList)
+            {
+                crc.PropertyChanged += Crc_PropertyChanged;
+            }
+
             _selectedCrc = CrcList[0];
+
+            UpdateCrc();
+        }
+
+        private void Crc_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            UpdateCrc();
         }
 
         private void InputData_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)

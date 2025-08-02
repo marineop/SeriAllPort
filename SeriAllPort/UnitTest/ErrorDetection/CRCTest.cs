@@ -22,14 +22,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x04 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -53,14 +51,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x06 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -84,14 +80,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x07 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -115,14 +109,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x0B }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -146,14 +138,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x00 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -177,14 +167,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x07 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -208,14 +196,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x19 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -239,14 +225,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x0D }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -270,14 +254,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x3B }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -301,14 +283,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x26 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -332,14 +312,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x06 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -363,14 +341,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x13 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -394,14 +370,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x75 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -425,14 +399,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x53 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -456,14 +428,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x61 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -487,14 +457,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xDF }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -518,14 +486,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x26 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -549,14 +515,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xDA }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -580,14 +544,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x15 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -611,14 +573,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xBC }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -642,14 +602,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x37 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -673,14 +631,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x94 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -704,14 +660,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xB4 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -735,14 +689,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xA1 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -766,14 +718,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x7E }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -797,14 +747,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xEA }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -828,14 +776,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xA1 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -859,14 +805,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x99 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -890,14 +834,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xF7 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -921,14 +863,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x3E }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -952,14 +892,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xD0 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -983,14 +921,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x4B }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -1014,14 +950,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xF4 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -1045,14 +979,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x97 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -1076,14 +1008,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x25 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[1];
@@ -1107,14 +1037,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x99, 0x01 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1138,14 +1066,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x33, 0x02 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1169,14 +1095,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x2A, 0x01 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1200,14 +1124,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xA3, 0x05 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1231,14 +1153,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x61, 0x00 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1262,14 +1182,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x4D, 0x0D }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1293,14 +1211,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x5B, 0x0F }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1324,14 +1240,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x34, 0x0B }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1355,14 +1269,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xAF, 0x0D }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1386,14 +1298,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xFA, 0x04 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1417,14 +1327,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x2D, 0x08 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1448,14 +1356,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xAE, 0x30 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1479,14 +1385,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x9E, 0x05 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1510,14 +1414,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x66, 0x25 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1541,14 +1443,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x3D, 0xBB }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1572,14 +1472,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x06, 0x4C }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1603,14 +1501,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xE7, 0xAE }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1634,14 +1530,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xCF, 0x9E }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1665,14 +1559,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x7E, 0x00 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1696,14 +1588,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x7F, 0x00 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1727,14 +1617,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x82, 0xEA }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1758,14 +1646,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xB7, 0xC2 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1789,14 +1675,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x4E, 0xD6 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1820,14 +1704,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x3C, 0xCE }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1851,14 +1733,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xB1, 0x29 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1882,14 +1762,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x6E, 0x90 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1913,14 +1791,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x05, 0xBF }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1944,14 +1820,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x89, 0x21 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -1975,14 +1849,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xF4, 0xBD }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -2006,14 +1878,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x2B, 0x77 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -2037,14 +1907,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xC2, 0x44 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -2068,14 +1936,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x91, 0x6F }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -2099,14 +1965,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x37, 0x4B }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -2130,14 +1994,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x66, 0xA0 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -2161,14 +2023,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x38, 0x5D }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -2192,14 +2052,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xFE, 0x20 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -2223,14 +2081,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x19, 0xA8 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -2254,14 +2110,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xD0, 0x63 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -2285,14 +2139,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xCC, 0xE5 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -2316,14 +2168,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xDB, 0xD0 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -2347,14 +2197,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xB3, 0x0F }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -2378,14 +2226,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xB1, 0x26 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -2409,14 +2255,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xE8, 0xFE }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -2440,14 +2284,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xC8, 0xB4 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -2471,14 +2313,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xC3, 0x31 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[2];
@@ -2502,14 +2342,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[3];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x03, 0x4F, 0x00 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[3];
@@ -2533,14 +2371,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[3];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x41, 0xD8, 0x0E }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[3];
@@ -2564,14 +2400,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[3];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x56, 0x5A, 0xC2 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[3];
@@ -2595,14 +2429,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[3];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xBD, 0x79, 0x79 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[3];
@@ -2626,14 +2458,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[3];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xB8, 0x23, 0x1F }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[3];
@@ -2657,14 +2487,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[3];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xE6, 0xF3, 0xB4 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[3];
@@ -2688,14 +2516,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[3];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x03, 0xE7, 0xCD }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[3];
@@ -2719,14 +2545,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[3];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x52, 0xEF, 0x23 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[3];
@@ -2750,14 +2574,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[3];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x02, 0xCF, 0x21 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[3];
@@ -2781,14 +2603,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[3];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xA5, 0x0F, 0x20 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[3];
@@ -2812,14 +2632,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xBF, 0x4A, 0xC3, 0x04 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
@@ -2843,14 +2661,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x6C, 0xE4, 0xE9, 0x0C }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
@@ -2874,14 +2690,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x7F, 0xBF, 0x10, 0x30 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
@@ -2905,14 +2719,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x6A, 0xD0, 0x97, 0x16 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
@@ -2936,14 +2748,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x76, 0x55, 0x31, 0x87 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
@@ -2967,14 +2777,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x18, 0x19, 0x89, 0xFC }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
@@ -2998,14 +2806,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xC4, 0xED, 0xC2, 0x6E }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
@@ -3029,14 +2835,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x80, 0x76, 0x5E, 0x76 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
@@ -3060,14 +2864,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x83, 0x92, 0x06, 0xE3 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
@@ -3091,14 +2893,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x26, 0x39, 0xF4, 0xCB }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
@@ -3122,14 +2922,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xD9, 0xC6, 0x0B, 0x34 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
@@ -3153,14 +2951,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x51, 0x2F, 0xC2, 0xD2 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
@@ -3184,14 +2980,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xE7, 0xE6, 0x76, 0x03 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
@@ -3215,14 +3009,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x38, 0xE3, 0x0B, 0xBD }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[4];
@@ -3246,14 +3038,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[5];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x46, 0xC6, 0x4F, 0x16, 0xD4 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[5];
@@ -3277,14 +3067,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[8];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x47, 0x73, 0x49, 0x0B, 0x5F, 0xDF, 0x40, 0x6C }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[8];
@@ -3308,14 +3096,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[8];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x01, 0x10, 0xA4, 0x75, 0xC7, 0x56, 0x09, 0xB9 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[8];
@@ -3339,14 +3125,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[8];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xEA, 0xCE, 0x4E, 0x02, 0x4F, 0xB7, 0xD4, 0x75 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[8];
@@ -3370,14 +3154,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[8];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x88, 0x98, 0x79, 0x0A, 0x86, 0x14, 0x8B, 0xAE }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[8];
@@ -3401,14 +3183,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[8];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xCA, 0xD9, 0xB8, 0xC4, 0x14, 0xD9, 0xC6, 0xE9 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[8];
@@ -3432,14 +3212,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[8];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0x0A, 0xF0, 0xA4, 0xF1, 0xE3, 0x59, 0xEC, 0x62 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[8];
@@ -3463,14 +3241,12 @@ namespace UnitTest.ErrorDetection
             byte[] answer;
             int answerLength;
 
-
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[8];
             answerLength = crc.ComputeErrorDetectionCode(input, 0, input.Length, answer, Endianness.LittleEndian);
 
             Assert.AreEqual(answer.Length, answerLength);
             CollectionAssert.AreEqual(new byte[] { 0xFA, 0x39, 0x19, 0xDF, 0xBB, 0xC9, 0x5D, 0x99 }, answer);
-
 
             input = [0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39];
             answer = new byte[8];

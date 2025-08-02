@@ -25,7 +25,7 @@
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Polynomial "/>
+        <TextBlock Grid.Row="0" Text="Polynomial"/>
         <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding PolynomialText}" Width="200"
                  IsReadOnly="{Binding CanEdit, Converter={StaticResource boolInverse}}"/>
 

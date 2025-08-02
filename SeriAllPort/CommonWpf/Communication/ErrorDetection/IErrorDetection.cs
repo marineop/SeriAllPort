@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace CommonWpf.Communication.ErrorDetection
 {
-    public interface IErrorDetection
+    public interface IErrorDetection : INotifyPropertyChanged
     {
-        public string Name { get; }
-        public bool CanEdit { get; }
+        string Name { get; }
+        bool CanEdit { get; }
 
         int ComputeErrorDetectionCode(byte[] input, int startIndex, int length, byte[] errorDetectionCode, Endianness endianness);
     }

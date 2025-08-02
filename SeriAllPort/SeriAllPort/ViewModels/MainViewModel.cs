@@ -14,7 +14,6 @@ using SeriAllPort.ViewModels.Commands;
 using SeriAllPort.ViewModels.Profiles;
 using SeriAllPort.ViewModels.Protocols;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -103,7 +102,6 @@ namespace SeriAllPort.ViewModels
 
                     _currentProtocol.PacketMode.Serial = Serial;
                     _currentProtocol.PacketMode.DataReceived += PacketMode_PacketReceived;
-
 
                     CurrentProfile.ProtocolId = _currentProtocol.Id;
 
@@ -605,7 +603,7 @@ namespace SeriAllPort.ViewModels
 
             bool ok = ShowDialog.ShowDialog(
                 crcCalculator,
-                "CRC Calculator",
+                "Error Detection Code Calculator",
                 ResizeMode.CanResize,
                 SizeToContent.Manual,
                 false);
