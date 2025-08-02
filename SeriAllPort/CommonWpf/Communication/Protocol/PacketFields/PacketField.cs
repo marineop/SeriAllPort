@@ -7,7 +7,7 @@ namespace CommonWpf.Communication.Protocol.PacketFields
     [JsonDerivedType(typeof(EndOfPacketSymbol), typeDiscriminator: "EOP")]
     [JsonDerivedType(typeof(Preamble), typeDiscriminator: "Preamble")]
     [JsonDerivedType(typeof(LengthField), typeDiscriminator: "LengthField")]
-    public class PacketField : ViewModel
+    public class  PacketField : ViewModel
     {
         private string _name = string.Empty;
         public string Name
@@ -74,7 +74,7 @@ namespace CommonWpf.Communication.Protocol.PacketFields
         public virtual bool CanEditLengthMode { get; } = true;
 
         private TextBytes _textBytes = new();
-        public TextBytes TextBytes
+        public virtual TextBytes TextBytes
         {
             get => _textBytes;
             set
