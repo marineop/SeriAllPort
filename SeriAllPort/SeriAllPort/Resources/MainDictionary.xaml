@@ -37,6 +37,10 @@
         <ProtocolEditor:LengthFieldControl/>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type packetField:ErrorDetectionField}">
+        <ProtocolEditor:ErrorDetectionFieldControl/>
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type commands:CommandListEditor}">
         <commonViews:ListEditorControl/>
     </DataTemplate>
@@ -49,7 +53,7 @@
         <toolv:CrcCalculatorControl/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type errorDetection:CRC}">
+    <!--<DataTemplate DataType="{x:Type errorDetection:CRC}">
         <toolv:CrcPropertiesControl/>
     </DataTemplate>
 
@@ -59,6 +63,6 @@
 
     <DataTemplate DataType="{x:Type errorDetection:Xor}">
         <toolv:ChecksumPropertiesControl/>
-    </DataTemplate>
+    </DataTemplate>-->
 
 </ResourceDictionary>

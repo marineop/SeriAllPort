@@ -249,6 +249,14 @@ namespace SeriAllPort.ViewModels.Protocols
                              0);
                         fields.Insert(selectedNextIndex, newPacketField);
                     }
+                    else if (type == typeof(ErrorDetectionField))
+                    {
+                        newPacketField = new ErrorDetectionField(
+                            "Error Detection Field",
+                             0,
+                             Protocol.PacketMode.Fields.Count >= 1 ? Protocol.PacketMode.Fields.Count - 1 : 0);
+                        fields.Insert(selectedNextIndex, newPacketField);
+                    }
 
                     if (newPacketField != null)
                     {

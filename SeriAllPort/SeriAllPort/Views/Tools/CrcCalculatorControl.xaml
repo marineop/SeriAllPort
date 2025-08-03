@@ -7,6 +7,8 @@
              xmlns:cwe="clr-namespace:CommonWpf.Extensions;assembly=CommonWpf"
              xmlns:com="clr-namespace:CommonWpf.Communication;assembly=CommonWpf"
              xmlns:TextBytes="clr-namespace:CommonWpf.ViewModels.TextBytes;assembly=CommonWpf"
+             xmlns:errorDetection="clr-namespace:CommonWpf.Communication.ErrorDetection;assembly=CommonWpf"
+             xmlns:toolv="clr-namespace:SeriAllPort.Views.Tools"
              
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
@@ -67,8 +69,22 @@
                      TextWrapping="Wrap" VerticalContentAlignment="Top"
                      FontFamily="Consolas"/>
 
-            <ContentControl Grid.Row="4" Grid.ColumnSpan="2" Margin="3,0,0,0" Content="{Binding SelectedCrc}"
-                            />
+            <ContentControl Grid.Row="4" Grid.ColumnSpan="2" Margin="3,0,0,0" Content="{Binding SelectedCrc}">
+                <ContentControl.Resources>
+                    <DataTemplate DataType="{x:Type errorDetection:CRC}">
+                        <toolv:CrcPropertiesControl/>
+                    </DataTemplate>
+                    
+                    <DataTemplate DataType="{x:Type errorDetection:Checksum}">
+                        <toolv:ChecksumPropertiesControl/>
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type errorDetection:Xor}">
+                        <toolv:ChecksumPropertiesControl/>
+                    </DataTemplate>
+                </ContentControl.Resources>
+            </ContentControl>
+                
         </Grid>
     </Grid>
 </UserControl>

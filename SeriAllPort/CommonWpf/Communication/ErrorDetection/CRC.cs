@@ -1,8 +1,11 @@
-﻿namespace CommonWpf.Communication.ErrorDetection
+﻿using System.Text.Json.Serialization;
+
+namespace CommonWpf.Communication.ErrorDetection
 {
     public class CRC : ViewModel, IErrorDetection
     {
         private ulong _polynomial;
+        [JsonIgnore]
         public ulong Polynomial
         {
             get => _polynomial;
@@ -19,6 +22,7 @@
         }
 
         private int _polynomialSize;
+        [JsonIgnore]
         public int PolynomialSize
         {
             get => _polynomialSize;
@@ -33,6 +37,7 @@
         }
 
         private ulong _initialValue;
+        [JsonIgnore]
         public ulong InitialValue
         {
             get => _initialValue;
@@ -49,6 +54,7 @@
         }
 
         private bool _reverseIn;
+        [JsonIgnore]
         public bool ReverseIn
         {
             get => _reverseIn;
@@ -63,6 +69,7 @@
         }
 
         private bool _reverseOut;
+        [JsonIgnore]
         public bool ReverseOut
         {
             get => _reverseOut;
@@ -77,6 +84,7 @@
         }
 
         private ulong _xorOut;
+        [JsonIgnore]
         public ulong XorOut
         {
             get => _xorOut;
@@ -108,6 +116,7 @@
         }
 
         private bool _canEdit;
+        [JsonIgnore]
         public bool CanEdit
         {
             get => _canEdit;
@@ -122,6 +131,7 @@
         }
 
         private string _polynomialText = string.Empty;
+        [JsonIgnore]
         public string PolynomialText
         {
             get => _polynomialText;
@@ -136,6 +146,7 @@
         }
 
         private string _initialValueText = string.Empty;
+        [JsonIgnore]
         public string InitialValueText
         {
             get => _initialValueText;
@@ -150,6 +161,7 @@
         }
 
         private string _xorOutText = string.Empty;
+        [JsonIgnore]
         public string XorOutText
         {
             get => _xorOutText;
@@ -162,6 +174,9 @@
                 }
             }
         }
+
+        [JsonIgnore]
+        public int ByteCount => (PolynomialSize + 7) >> 3;
 
         public int ComputeErrorDetectionCode(
             byte[] input,
@@ -248,10 +263,10 @@
             return result;
         }
 
-        private string ToHexString(ulong newVlaue)
+        private string ToHexString(ulong newValue)
         {
             int hexDigits = (PolynomialSize + 3) / 4;
-            return $"0x{newVlaue.ToString($"X{hexDigits}")}";
+            return $"0x{newValue.ToString($"X{hexDigits}")}";
         }
     }
 }

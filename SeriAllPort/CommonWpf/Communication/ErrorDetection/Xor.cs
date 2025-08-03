@@ -1,4 +1,6 @@
-﻿namespace CommonWpf.Communication.ErrorDetection
+﻿using System.Text.Json.Serialization;
+
+namespace CommonWpf.Communication.ErrorDetection
 {
     public class Xor : ViewModel, IErrorDetection
     {
@@ -32,7 +34,11 @@
 
         public string Name => "XOR";
 
+        [JsonIgnore]
         public bool CanEdit => true;
+
+        [JsonIgnore]
+        public int ByteCount => (BitCount + 7) >> 3;
 
         public int ComputeErrorDetectionCode(byte[] input, int startIndex, int length, byte[] errorDetectionCode, Endianness endianness)
         {

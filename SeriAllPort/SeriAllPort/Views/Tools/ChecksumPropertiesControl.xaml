@@ -22,7 +22,7 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Row="0" Text="Bit Count"/>
-        <TextBox Grid.Row="0" Grid.Column="1" Width="200"
+        <TextBox Grid.Row="0" Grid.Column="1" Width="70"
                  Text="{Binding BitCount, UpdateSourceTrigger=PropertyChanged}"
                  IsReadOnly="{Binding CanEdit, Converter={StaticResource boolInverse}}"/>
 

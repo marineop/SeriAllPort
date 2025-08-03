@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="SeriAllPort.Views.ProtocolEditor.ErrorDetectionFieldControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SeriAllPort.Views.ProtocolEditor"
+             xmlns:errorDetection="clr-namespace:CommonWpf.Communication.ErrorDetection;assembly=CommonWpf"
+             xmlns:toolv="clr-namespace:SeriAllPort.Views.Tools"
+             
+             mc:Ignorable="d" 
+             d:DesignHeight="70" d:DesignWidth="700"
+             d:Background="White">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <local:PacketFieldControl />
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Start Index"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Width="35" Text="{Binding StartFieldIndex}"/>
+
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="End Index"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Width="35" Text="{Binding EndFieldIndex}"/>
+
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="Method"/>
+            <ComboBox Grid.Row="1" Grid.Column="2" Width="auto"
+                      ItemsSource="{Binding ErrorDetectionMethods}" DisplayMemberPath="Name"
+                      SelectedItem="{Binding ErrorDetection}"/>
+
+            <ContentControl Grid.Column="3" Grid.RowSpan="2"
+                            Content="{Binding ErrorDetection}">
+                <ContentControl.Resources>
+                    <DataTemplate DataType="{x:Type errorDetection:CRC}">
+                    </DataTemplate>
+                    
+                    <DataTemplate DataType="{x:Type errorDetection:Checksum}">
+                        <toolv:ChecksumPropertiesControl/>
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type errorDetection:Xor}">
+                        <toolv:ChecksumPropertiesControl/>
+                    </DataTemplate>
+                </ContentControl.Resources>
+            </ContentControl>
+        </Grid>
+
+    </Grid>
+</UserControl>
