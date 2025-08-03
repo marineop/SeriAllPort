@@ -67,8 +67,8 @@ namespace CommonWpf.Communication.Protocol.PacketFields
             }
         }
 
-        private IErrorDetection? _errorDetection;
-        public IErrorDetection? ErrorDetection
+        private IErrorDetection _errorDetection;
+        public IErrorDetection ErrorDetection
         {
             get => _errorDetection;
             set
@@ -116,6 +116,11 @@ namespace CommonWpf.Communication.Protocol.PacketFields
             _errorDetectionMethods = new ObservableCollection<IErrorDetection>(list);
 
             _errorDetection = list.Find((x) => x.Name.Contains("CRC-16/MODBUS"));
+
+            if (_errorDetection == null)
+            {
+                _errorDetection = new CRC();
+            }
         }
 
         [JsonConstructor]

@@ -179,7 +179,7 @@ namespace CommonWpf.Communication.ErrorDetection
         public int ByteCount => (PolynomialSize + 7) >> 3;
 
         public int ComputeErrorDetectionCode(
-            byte[] input,
+            ReadOnlySpan<byte> input,
             int index,
             int length,
             byte[] answer,
@@ -249,6 +249,11 @@ namespace CommonWpf.Communication.ErrorDetection
             }
 
             return crcByteCount;
+        }
+
+        public int ComputeErrorDetectionCode(byte[] input, int startIndex, int length, byte[] errorDetectionCode, Endianness endianness)
+        {
+            return ComputeErrorDetectionCode(new ReadOnlySpan<byte>(input), startIndex, length, errorDetectionCode, endianness);
         }
 
         private static ulong ReverseBits(ulong value, int bitCount)

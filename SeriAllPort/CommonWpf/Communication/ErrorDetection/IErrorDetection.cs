@@ -14,6 +14,8 @@ namespace CommonWpf.Communication.ErrorDetection
 
         int ByteCount { get; }
 
+        int ComputeErrorDetectionCode(ReadOnlySpan<byte> input, int startIndex, int length, byte[] errorDetectionCode, Endianness endianness);
+
         int ComputeErrorDetectionCode(byte[] input, int startIndex, int length, byte[] errorDetectionCode, Endianness endianness);
     }
 }

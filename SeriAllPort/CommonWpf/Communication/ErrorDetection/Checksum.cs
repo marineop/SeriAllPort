@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace CommonWpf.Communication.ErrorDetection
 {
@@ -40,7 +41,7 @@ namespace CommonWpf.Communication.ErrorDetection
         [JsonIgnore]
         public int ByteCount => (BitCount + 7) >> 3;
 
-        public int ComputeErrorDetectionCode(byte[] input, int startIndex, int length, byte[] errorDetectionCode, Endianness endianness)
+        public int ComputeErrorDetectionCode(ReadOnlySpan<byte> input, int startIndex, int length, byte[] errorDetectionCode, Endianness endianness)
         {
             uint checksum = 0;
             for (int i = 0; i < length; ++i)
@@ -75,6 +76,11 @@ namespace CommonWpf.Communication.ErrorDetection
 
             return byteCount;
 
+        }
+
+        public int ComputeErrorDetectionCode(byte[] input, int startIndex, int length, byte[] errorDetectionCode, Endianness endianness)
+        {
+            return ComputeErrorDetectionCode(new ReadOnlySpan<byte>(input), startIndex, length, errorDetectionCode, endianness);
         }
     }
 }
