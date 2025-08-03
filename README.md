@@ -83,6 +83,13 @@ Received: 33 34 0D 0A // second packet
 - **Fields**  
   User-defined fields within the packet.
 
+- **Length Fields**  
+
+- **Error Detection Fields**  
+  - CRC
+  - Checksum
+  - XOR
+
 - **End of Packet**  
   Defines a termination symbol for packets.  
   - Required if **Packet Mode** is **End of Packet Symbol**.
