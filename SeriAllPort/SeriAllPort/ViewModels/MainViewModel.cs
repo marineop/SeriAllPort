@@ -525,7 +525,7 @@ namespace SeriAllPort.ViewModels
                 ResizeMode.CanResize,
                 SizeToContent.Manual,
                 false,
-                900, 600);
+                950, 700);
 
             if (ok)
             {

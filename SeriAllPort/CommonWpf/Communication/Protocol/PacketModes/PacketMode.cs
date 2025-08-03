@@ -2,6 +2,7 @@
 using CommonWpf.Communication.Protocol.PacketFields;
 using CommonWpf.Communication.Protocol.ParseData;
 using CommonWpf.Extensions;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
@@ -91,6 +92,8 @@ namespace CommonWpf.Communication.Protocol.PacketModes
         private List<ParsePacketField>? _parsedFields = null;
         private readonly ParseResultData _parseResultData = new();
         private int _parseWindowStart = 0;
+
+        private byte[] _errorDetectionResult = new byte[8];
 
         public PacketMode()
         {
@@ -505,7 +508,10 @@ namespace CommonWpf.Communication.Protocol.PacketModes
 
             if (result != ParseResult.FullPacket)
             {
-                throw new Exception("Invalid Protocol.");
+                if (parseResultData.ParseErrorType != ParseErrorType.ErrorDetection)
+                {
+                    throw new Exception("Invalid Protocol.");
+                }
             }
         }
 
@@ -644,8 +650,19 @@ namespace CommonWpf.Communication.Protocol.PacketModes
                             if ((lengthResolveResult == LengthResolveResult.Advanced || lengthResolveResult == LengthResolveResult.Empty)
                                 && pendingLengthFields.Count <= 0)
                             {
-                                result = ParseResult.FullPacket;
-                                parseResult.PacketLength = bytesIndex;
+                                int packetLength = bytesIndex;
+                                bool validPacket = CheckErrorDetectionFiled(packetBytes.Slice(0, packetLength), fields);
+
+                                if (validPacket)
+                                {
+                                    result = ParseResult.FullPacket;
+                                    parseResult.PacketLength = packetLength;
+                                }
+                                else
+                                {
+                                    result = ParseResult.ErrorPacket;
+                                    parseResult.ParseErrorType = ParseErrorType.ErrorDetection;
+                                }
                                 goto Finish;
                             }
                             else
@@ -676,6 +693,34 @@ namespace CommonWpf.Communication.Protocol.PacketModes
             }
 
             return result;
+        }
+
+        private bool CheckErrorDetectionFiled(ReadOnlySpan<byte> packetBytes, List<ParsePacketField> fields)
+        {
+            bool valid = true;
+            for (int i = 0; i < fields.Count; ++i)
+            {
+                ParsePacketField field = fields[i];
+                if (field.Field is ErrorDetectionField errorDetectionField)
+                {
+                    int byteStartIndex = fields[errorDetectionField.StartFieldIndex].ResolvedStartIndex;
+
+                    ParsePacketField endField = fields[errorDetectionField.EndFieldIndex];
+                    int byteEndIndex = endField.ResolvedStartIndex + endField.ResolvedLength;
+
+                    int crcLength = errorDetectionField.ErrorDetection.ComputeErrorDetectionCode(packetBytes, byteStartIndex, byteEndIndex - byteStartIndex, _errorDetectionResult, Endianness.LittleEndian);
+                    ReadOnlySpan<byte> actualCrc = packetBytes.Slice(field.ResolvedStartIndex, field.ResolvedLength);
+                    for (int crcIndex = 0; crcIndex < crcLength; ++crcIndex)
+                    {
+                        if (_errorDetectionResult[crcIndex] != actualCrc[crcIndex])
+                        {
+                            valid = false;
+                        }
+                    }
+                }
+            }
+
+            return valid;
         }
 
         private static LengthResolveResult ProcessLengthFields(List<LengthInfo> pendingLengthFields, List<ParsePacketField> fields)

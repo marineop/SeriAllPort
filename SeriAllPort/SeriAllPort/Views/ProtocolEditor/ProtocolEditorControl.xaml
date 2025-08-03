@@ -66,10 +66,11 @@
                     </Button>
                     <Menu VerticalAlignment="Center">
                         <MenuItem Header="Add">
-                            <MenuItem Header="Field" Command="{Binding FieldNewCommand}" CommandParameter="{x:Type field:PacketField}"/>
-                            <MenuItem Header="End of Packet" Command="{Binding FieldNewCommand}" CommandParameter="{x:Type field:EndOfPacketSymbol}"/>
                             <MenuItem Header="Preamble" Command="{Binding FieldNewCommand}" CommandParameter="{x:Type field:Preamble}"/>
                             <MenuItem Header="Length Field" Command="{Binding FieldNewCommand}" CommandParameter="{x:Type field:LengthField}"/>
+                            <MenuItem Header="Field" Command="{Binding FieldNewCommand}" CommandParameter="{x:Type field:PacketField}"/>
+                            <MenuItem Header="Error Detection" Command="{Binding FieldNewCommand}" CommandParameter="{x:Type field:ErrorDetectionField}"/>
+                            <MenuItem Header="End of Packet" Command="{Binding FieldNewCommand}" CommandParameter="{x:Type field:EndOfPacketSymbol}"/>
                         </MenuItem>
                     </Menu>
                     <Separator/>

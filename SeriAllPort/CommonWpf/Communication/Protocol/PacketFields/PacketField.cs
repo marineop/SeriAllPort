@@ -7,7 +7,8 @@ namespace CommonWpf.Communication.Protocol.PacketFields
     [JsonDerivedType(typeof(EndOfPacketSymbol), typeDiscriminator: "EOP")]
     [JsonDerivedType(typeof(Preamble), typeDiscriminator: "Preamble")]
     [JsonDerivedType(typeof(LengthField), typeDiscriminator: "LengthField")]
-    public class PacketField : ViewModel
+    [JsonDerivedType(typeof(ErrorDetectionField), typeDiscriminator: "ErrorDetectionField")]
+    public class  PacketField : ViewModel
     {
         private string _name = string.Empty;
         public string Name
@@ -74,7 +75,7 @@ namespace CommonWpf.Communication.Protocol.PacketFields
         public virtual bool CanEditLengthMode { get; } = true;
 
         private TextBytes _textBytes = new();
-        public TextBytes TextBytes
+        public virtual TextBytes TextBytes
         {
             get => _textBytes;
             set
@@ -110,7 +111,7 @@ namespace CommonWpf.Communication.Protocol.PacketFields
         }
 
         private int _fixedLength = 0;
-        public int FixedLength
+        public virtual int FixedLength
         {
             get => _fixedLength;
             set
@@ -138,6 +139,25 @@ namespace CommonWpf.Communication.Protocol.PacketFields
                     _fixedLength = newValue;
                     OnPropertyChanged();
                 }
+            }
+        }
+
+        [JsonIgnore]
+        public virtual bool CanEditFixedLength
+        {
+            get
+            {
+                bool canEditFixedLength;
+                if (LengthMode is LengthMode originalValue)
+                {
+                    canEditFixedLength = originalValue == LengthMode.FixedLength;
+                }
+                else
+                {
+                    canEditFixedLength = false;
+                }
+
+                return canEditFixedLength;
             }
         }
 

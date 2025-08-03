@@ -20,6 +20,9 @@ namespace CommonWpf.Communication.Protocol.PacketFields
         [JsonIgnore]
         public override bool CanEditLengthMode { get; } = false;
 
+        [JsonIgnore]
+        public override TextBytes TextBytes { get => base.TextBytes; set => base.TextBytes = value; }
+
         private int _startFieldIndex = 0;
         public int StartFieldIndex
         {
@@ -62,35 +65,18 @@ namespace CommonWpf.Communication.Protocol.PacketFields
             }
         }
 
-        public LengthField(
-            string name,
-            int byteCount,
-            int startFieldIndex,
-            int endFieldIndex,
-            int valueOffset)
-             : base(
-                   name,
-                   LengthMode.FixedLength,
-                   null,
-                   byteCount)
-        {
-            StartFieldIndex = startFieldIndex;
-            EndFieldIndex = endFieldIndex;
-            ValueOffset = valueOffset;
-        }
-
         [JsonConstructor]
         public LengthField(
             string name,
-            TextBytes textBytes,
+            int fixedLength,
             int startFieldIndex,
             int endFieldIndex,
             int valueOffset)
              : base(
                    name,
                    LengthMode.FixedLength,
-                   textBytes,
-                   textBytes.Bytes.Length)
+                   new TextBytes(TextRepresentation.Bytes, new byte[fixedLength]),
+                   fixedLength)
         {
             StartFieldIndex = startFieldIndex;
             EndFieldIndex = endFieldIndex;
